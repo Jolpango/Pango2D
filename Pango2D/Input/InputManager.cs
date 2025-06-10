@@ -1,7 +1,6 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Pango2D.Input.Contracts;
-using System;
-using System.Numerics;
 
 namespace Pango2D.Input
 {
@@ -20,7 +19,7 @@ namespace Pango2D.Input
             currentMouseState = previousMouseState;
             currentKeyboardState = previousKeyboardState;
         }
-        public Vector2 MousePosition => throw new NotImplementedException();
+        public Vector2 MousePosition => currentMouseState.Position.ToVector2();
 
         public bool IsKeyDown(Keys key)
         {
