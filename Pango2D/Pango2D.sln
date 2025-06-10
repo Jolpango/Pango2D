@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pango2D", "Pango2D.csproj", "{998B4799-47E3-FAD0-EFBD-32E5FBC6597F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{998B4799-47E3-FAD0-EFBD-32E5FBC6597F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{998B4799-47E3-FAD0-EFBD-32E5FBC6597F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{998B4799-47E3-FAD0-EFBD-32E5FBC6597F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{998B4799-47E3-FAD0-EFBD-32E5FBC6597F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37672CAE-0F8F-4ECA-8BF0-EE57328489C2}
+	EndGlobalSection
+EndGlobal

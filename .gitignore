@@ -1,0 +1,44 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+*.exe
+*.dll
+*.pdb
+*.app
+*.lib
+*.so
+*.dylib
+
+# MonoGame cache
+*.mgcb
+*.xnb
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code settings
+.vscode/
+.vs/
+
+# Rider settings
+.idea/
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+.nuget/
+packages/
+
+# Others
+*.tmp
+*.bak
+*.old
