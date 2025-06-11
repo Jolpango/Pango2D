@@ -11,6 +11,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
         {
             RenderPhase = RenderPhase.World;
         }
+        
 
         protected override void Draw(GameTime gameTime, SpriteBatch spriteBatch, Entity entity, SpriteComponent component)
         {

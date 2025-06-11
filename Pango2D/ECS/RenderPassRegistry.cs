@@ -10,6 +10,7 @@ namespace Pango2D.ECS
     {
         World,
         UI,
+        PostProcess,
         Debug
     }
     public class RenderPassRegistry

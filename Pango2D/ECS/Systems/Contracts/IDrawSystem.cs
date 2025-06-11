@@ -7,6 +7,8 @@ namespace Pango2D.ECS.Systems.Contracts
     public interface IDrawSystem : ISystem
     {
         public RenderPhase RenderPhase { get; set; }
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, IEnumerable<Entity> entities);
+        public void BeginDraw(SpriteBatch spriteBatch, Matrix? matrix = null);
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+        public void EndDraw(SpriteBatch spriteBatch);
     }
 }

@@ -18,29 +18,18 @@ namespace Demo
         protected override void PreUpdate(GameTime gameTime, Entity entity, PlayerComponent c1, VelocityComponent c2)
         {
             Vector2 direction = Vector2.Zero;
-            if (input.IsKeyDown(Keys.Right))
-            {
-                direction.X += 100f;
-                entity.AddComponent(new AnimationCommandComponent() { AnimationName = "default", Loop = true });
-            }
-            if (input.IsKeyDown(Keys.Left))
-            {
-                direction.X -= 100f;
-                entity.AddComponent(new AnimationCommandComponent() { AnimationName = "default", Loop = true });
-            }
-            if (input.IsKeyDown(Keys.Up))
-            {
-                direction.Y -= 100f;
-                entity.AddComponent(new AnimationCommandComponent() { AnimationName = "default", Loop = true });
-            }
-            if (input.IsKeyDown(Keys.Down))
-            {
-                direction.Y += 100f;
-                entity.AddComponent(new AnimationCommandComponent() { AnimationName = "default", Loop = true });
-            }
+            if (input.IsKeyDown(Keys.W) || input.IsKeyDown(Keys.Up))
+                direction.Y -= 1;
+            if (input.IsKeyDown(Keys.S) || input.IsKeyDown(Keys.Down))
+                direction.Y += 1;
+            if (input.IsKeyDown(Keys.A) || input.IsKeyDown(Keys.Left))
+                direction.X -= 1;
+            if (input.IsKeyDown(Keys.D) || input.IsKeyDown(Keys.Right))
+                direction.X += 1;
+            c2.Value = direction * 100f; // Speed can be adjusted as needed
             if (direction != Vector2.Zero)
             {
-                c2.Value = Vector2.Normalize(direction) * 100f;
+                World.AddComponent(entity, new AnimationCommandComponent() { AnimationName = "default" });
             }
         }
     }

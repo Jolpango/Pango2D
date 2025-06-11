@@ -10,13 +10,15 @@ namespace Pango2D.ECS
     public class EntityBuilder
     {
         private readonly Entity entity;
-        public EntityBuilder(Entity entity)
+        private readonly World world;
+        public EntityBuilder(World world)
         {
-            this.entity = entity ?? throw new ArgumentNullException(nameof(entity));
+            this.world = world ?? throw new ArgumentNullException(nameof(world));
+            entity = world.CreateEntity();
         }
         public EntityBuilder AddComponent<T>(T component) where T : IComponent
         {
-            entity.AddComponent(component);
+            world.AddComponent(entity, component);
             return this;
         }
         public Entity Build()

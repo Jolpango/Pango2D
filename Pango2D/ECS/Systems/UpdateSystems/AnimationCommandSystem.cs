@@ -8,7 +8,7 @@ namespace Pango2D.ECS.Systems.UpdateSystems
         protected override void Update(GameTime gameTime, Entity entity, AnimationCommandComponent command, AnimationComponent animation)
         {
             animation.Animator.Play(command.AnimationName, command.Loop);
-            entity.RemoveComponent(command);
+            World.RemoveComponent<AnimationCommandComponent>(entity);
         }
     }
 }

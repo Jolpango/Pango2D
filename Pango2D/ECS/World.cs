@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.Contracts;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace Pango2D.ECS
@@ -15,7 +18,9 @@ namespace Pango2D.ECS
     /// methods.</remarks>
     public class World
     {
-        private readonly List<Entity> entities = new List<Entity>();
+        private readonly Dictionary<Type, ComponentStore<IComponent>> componentStores = new ();
+        private readonly HashSet<Entity> entities = new ();
+        private int entityIdCounter = 0;
         private readonly Dictionary<RenderPhase, List<IDrawSystem>> drawSystems = new ();
         private readonly List<IPreUpdateSystem> preUpdateSystems = new ();
         private readonly List<IUpdateSystem> updateSystems = new ();
@@ -29,10 +34,67 @@ namespace Pango2D.ECS
         /// <returns>A new instance of the <see cref="Entity"/> class.</returns>
         public Entity CreateEntity()
         {
-            var entity = new Entity();
+            var entity = new Entity(entityIdCounter++);
             entities.Add(entity);
             return entity;
         }
+
+        /// <summary>
+        /// Adds a component of the specified type to the given entity.
+        /// </summary>
+        /// <remarks>If a component store for the specified type does not already exist, a new store is
+        /// created. This method ensures that the component is properly associated with the entity.</remarks>
+        /// <typeparam name="T">The type of the component to add. Must implement <see cref="IComponent"/>.</typeparam>
+        /// <param name="entity">The entity to which the component will be added.</param>
+        /// <param name="component">The component instance to add to the entity.</param>
+        public void AddComponent<T>(Entity entity, T component) where T : IComponent
+        {
+            if (!componentStores.TryGetValue(typeof(T), out var store))
+            {
+                store = new ComponentStore<IComponent>();
+                componentStores[typeof(T)] = store;
+            }
+            store.Add(entity, component);
+        }
+        /// <summary>
+        /// Removes a component of the specified type from the given entity.
+        /// </summary>
+        /// <remarks>If the specified component type is not present in the entity, no action is
+        /// taken.</remarks>
+        /// <typeparam name="T">The type of the component to remove. Must implement <see cref="IComponent"/>.</typeparam>
+        /// <param name="entity">The entity from which the component will be removed.</param>
+        public void RemoveComponent<T>(Entity entity) where T : IComponent
+        {
+            if (componentStores.TryGetValue(typeof(T), out var store))
+            {
+                store.Remove(entity);
+            }
+        }
+
+        public IEnumerable<(Entity, T1)> Query<T1>() where T1 : IComponent
+        {
+            GetStore<T1>(out var store);
+            foreach (var (entity, component) in store.All())
+            {
+                yield return (entity, (T1)component);
+            }
+        }
+
+        public IEnumerable<(Entity, T1, T2)> Query<T1, T2>()
+            where T1 : IComponent
+            where T2 : IComponent
+        {
+            GetStore<T1>(out var store1);
+            GetStore<T2>(out var store2);
+            foreach (var (entity, c1) in store1.All())
+            {
+                if(store2.Has(entity))
+                {
+                    yield return (entity, (T1)c1, (T2)store2.Get(entity));
+                }
+            }
+        }
+
 
         /// <summary>
         /// Adds a system to the appropriate collection based on its type.
@@ -45,6 +107,7 @@ namespace Pango2D.ECS
         /// cref="IUpdateSystem"/>.</exception>
         public void AddSystem(ISystem system)
         {
+            system.World = this;
             if (system is IDrawSystem drawSystem)
             {
                 if(!drawSystems.ContainsKey(drawSystem.RenderPhase))
@@ -65,44 +128,52 @@ namespace Pango2D.ECS
             }
             else
             {
-                throw new System.ArgumentException("Unsupported system type", nameof(system));
+                throw new ArgumentException("Unsupported system type", nameof(system));
             }
         }
 
         public void Update(GameTime gameTime)
         {
             foreach (var system in preUpdateSystems)
-                system.PreUpdate(gameTime, entities);
+                system.PreUpdate(gameTime);
             foreach (var system in updateSystems)
-                system.Update(gameTime, entities);
+                system.Update(gameTime);
             foreach (var system in postUpdateSystems)
-                system.PostUpdate(gameTime, entities);
+                system.PostUpdate(gameTime);
         }
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, RenderPassRegistry registry)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            foreach(var kvp in drawSystems)
+            DrawPhase(RenderPhase.World, gameTime, spriteBatch);
+            DrawPhase(RenderPhase.UI, gameTime, spriteBatch);
+            DrawPhase(RenderPhase.PostProcess, gameTime, spriteBatch);
+            DrawPhase(RenderPhase.Debug, gameTime, spriteBatch);
+        }
+
+        private void DrawPhase(RenderPhase phase, GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            foreach (var system in GetDrawSystems(phase))
             {
-                var renderPhase = kvp.Key;
-                var systems = kvp.Value;
-                switch(renderPhase)
-                {
-                    case RenderPhase.World:
-                        spriteBatch.Begin(registry[RenderPhase.World]);
-                        break;
-                    case RenderPhase.UI:
-                        spriteBatch.Begin(registry[RenderPhase.UI]);
-                        break;
-                    case RenderPhase.Debug:
-                        spriteBatch.Begin(registry[RenderPhase.Debug]);
-                        break;
-                    default:
-                        throw new System.ArgumentOutOfRangeException(nameof(renderPhase), renderPhase, null);
-                }
-                foreach (var system in systems)
-                {
-                    system.Draw(gameTime, spriteBatch, entities);
-                }
-                spriteBatch.End();
+                system.BeginDraw(spriteBatch);
+                system.Draw(gameTime, spriteBatch);
+                system.EndDraw(spriteBatch);
+            }
+        }
+
+        private IEnumerable<IDrawSystem> GetDrawSystems(RenderPhase phase)
+        {
+            if (drawSystems.TryGetValue(phase, out var systems))
+            {
+                return systems;
+            }
+            return Array.Empty<IDrawSystem>();
+        }
+
+        private void GetStore<T>(out ComponentStore<IComponent> store) where T : IComponent
+        {
+            if (!componentStores.TryGetValue(typeof(T), out store))
+            {
+                store = new ComponentStore<IComponent>();
+                componentStores[typeof(T)] = store;
             }
         }
     }

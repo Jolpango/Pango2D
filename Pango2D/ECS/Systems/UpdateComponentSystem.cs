@@ -1,20 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Pango2D.ECS.Components.Contracts;
 using Pango2D.ECS.Systems.Contracts;
-using System.Collections.Generic;
 
 namespace Pango2D.ECS.Systems
 {
     public abstract class UpdateComponentSystem<T1> : IUpdateSystem where T1 : IComponent
     {
-        public void Update(GameTime gameTime, IEnumerable<Entity> entities)
+        public World World { get; set; }
+        public virtual void Update(GameTime gameTime)
         {
-            foreach(var entity in entities)
+            foreach (var (entity, component) in World.Query<T1>())
             {
-                if (entity.HasComponent<T1>())
-                {
-                    Update(gameTime, entity, entity.GetComponent<T1>());
-                }
+                Update(gameTime, entity, component);
             }
         }
         protected abstract void Update(GameTime gameTime, Entity entity, T1 component);
@@ -24,164 +21,14 @@ namespace Pango2D.ECS.Systems
         where T1 : IComponent
         where T2 : IComponent
     {
-        public void Update(GameTime gameTime, IEnumerable<Entity> entities)
+        public World World { get; set; }
+        public virtual void Update(GameTime gameTime)
         {
-            foreach (var entity in entities)
+            foreach (var (entity, c1, c2) in World.Query<T1, T2>())
             {
-                if (entity.HasComponent<T1>() && entity.HasComponent<T2>())
-                {
-                    Update(gameTime,
-                        entity,
-                        entity.GetComponent<T1>(),
-                        entity.GetComponent<T2>());
-                }
+                Update(gameTime, entity, c1, c2);
             }
         }
         protected abstract void Update(GameTime gameTime, Entity entity, T1 c1, T2 c2);
-    }
-    public abstract class UpdateComponentSystem<T1, T2, T3> : IUpdateSystem
-        where T1 : IComponent
-        where T2 : IComponent
-        where T3 : IComponent
-    {
-        public void Update(GameTime gameTime, IEnumerable<Entity> entities)
-        {
-            foreach (var entity in entities)
-            {
-                if (entity.HasComponent<T1>()
-                    && entity.HasComponent<T2>()
-                    && entity.HasComponent<T3>())
-                {
-                    Update(gameTime,
-                        entity,
-                        entity.GetComponent<T1>(),
-                        entity.GetComponent<T2>(),
-                        entity.GetComponent<T3>());
-                }
-            }
-        }
-        protected abstract void Update(GameTime gameTime, Entity entity, T1 c1, T2 c2, T3 c3);
-    }
-    public abstract class UpdateComponentSystem<T1, T2, T3, T4> : IUpdateSystem
-        where T1 : IComponent
-        where T2 : IComponent
-        where T3 : IComponent
-        where T4 : IComponent
-    {
-        public void Update(GameTime gameTime, IEnumerable<Entity> entities)
-        {
-            foreach (var entity in entities)
-            {
-                if (entity.HasComponent<T1>()
-                    && entity.HasComponent<T2>()
-                    && entity.HasComponent<T3>()
-                    && entity.HasComponent<T4>())
-                {
-                    Update(gameTime,
-                        entity,
-                        entity.GetComponent<T1>(),
-                        entity.GetComponent<T2>(),
-                        entity.GetComponent<T3>(),
-                        entity.GetComponent<T4>());
-                }
-            }
-        }
-        protected abstract void Update(GameTime gameTime, Entity entity, T1 c1, T2 c2, T3 c3, T4 c4);
-    }
-    public abstract class UpdateComponentSystem<T1, T2, T3, T4, T5> : IUpdateSystem
-        where T1 : IComponent
-        where T2 : IComponent
-        where T3 : IComponent
-        where T4 : IComponent
-        where T5 : IComponent
-    {
-        public void Update(GameTime gameTime, IEnumerable<Entity> entities)
-        {
-            foreach (var entity in entities)
-            {
-                if (entity.HasComponent<T1>()
-                    && entity.HasComponent<T2>()
-                    && entity.HasComponent<T3>()
-                    && entity.HasComponent<T4>()
-                    && entity.HasComponent<T5>())
-                {
-                    Update(gameTime,
-                        entity,
-                        entity.GetComponent<T1>(),
-                        entity.GetComponent<T2>(),
-                        entity.GetComponent<T3>(),
-                        entity.GetComponent<T4>(),
-                        entity.GetComponent<T5>());
-                }
-            }
-        }
-        protected abstract void Update(GameTime gameTime, Entity entity, T1 c1, T2 c2, T3 c3, T4 c4, T5 c5);
-    }
-    public abstract class UpdateComponentSystem<T1, T2, T3, T4, T5, T6> : IUpdateSystem
-    where T1 : IComponent
-    where T2 : IComponent
-    where T3 : IComponent
-    where T4 : IComponent
-    where T5 : IComponent
-    where T6 : IComponent
-    {
-        public void Update(GameTime gameTime, IEnumerable<Entity> entities)
-        {
-            foreach (var entity in entities)
-            {
-                if (entity.HasComponent<T1>()
-                    && entity.HasComponent<T2>()
-                    && entity.HasComponent<T3>()
-                    && entity.HasComponent<T4>()
-                    && entity.HasComponent<T5>()
-                    && entity.HasComponent<T6>())
-                {
-                    Update(gameTime,
-                        entity,
-                        entity.GetComponent<T1>(),
-                        entity.GetComponent<T2>(),
-                        entity.GetComponent<T3>(),
-                        entity.GetComponent<T4>(),
-                        entity.GetComponent<T5>(),
-                        entity.GetComponent<T6>());
-                }
-            }
-        }
-        protected abstract void Update(GameTime gameTime, Entity entity, T1 c1, T2 c2, T3 c3, T4 c4, T5 c5, T6 c6);
-    }
-    public abstract class UpdateComponentSystem<T1, T2, T3, T4, T5, T6, T7> : IUpdateSystem
-        where T1 : IComponent
-        where T2 : IComponent
-        where T3 : IComponent
-        where T4 : IComponent
-        where T5 : IComponent
-        where T6 : IComponent
-        where T7 : IComponent
-    {
-        public void Update(GameTime gameTime, IEnumerable<Entity> entities)
-        {
-            foreach (var entity in entities)
-            {
-                if (entity.HasComponent<T1>()
-                    && entity.HasComponent<T2>()
-                    && entity.HasComponent<T3>()
-                    && entity.HasComponent<T4>()
-                    && entity.HasComponent<T5>()
-                    && entity.HasComponent<T6>()
-                    && entity.HasComponent<T7>())
-                {
-                    Update(gameTime,
-                        entity,
-                        entity.GetComponent<T1>(),
-                        entity.GetComponent<T2>(),
-                        entity.GetComponent<T3>(),
-                        entity.GetComponent<T4>(),
-                        entity.GetComponent<T5>(),
-                        entity.GetComponent<T6>(),
-                        entity.GetComponent<T7>());
-                }
-            }
-        }
-        protected abstract void Update(GameTime gameTime, Entity entity, T1 c1, T2 c2, T3 c3, T4 c4, T5 c5, T6 c6, T7 c7);
     }
 }

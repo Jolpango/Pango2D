@@ -48,8 +48,8 @@ namespace Demo
                 .AddSystem(new SpriteRenderingSystem())
                 .Build();
 
-            Entity player = new EntityBuilder(world.CreateEntity())
-                .AddComponent(new TransformComponent())
+            Entity player = new EntityBuilder(world)
+                .AddComponent(new TransformComponent() { Position = new Vector2(300, 300)})
                 .AddComponent(new PlayerComponent())
                 .AddComponent(new VelocityComponent(new Vector2(0, 0)))
                 .AddComponent(new SpriteComponent(new Sprite(Content.Load<Texture2D>("spinning-dagger"))))
@@ -138,7 +138,7 @@ namespace Demo
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            world.Draw(gameTime, spriteBatch, registry);
+            world.Draw(gameTime, spriteBatch);
             uiManager.Draw(spriteBatch, new RenderPassSettings());
             base.Draw(gameTime);
         }

@@ -5,6 +5,6 @@ namespace Pango2D.ECS.Systems.Contracts
 {
     public interface IPreUpdateSystem : ISystem
     {
-        public void PreUpdate(GameTime gameTime, IEnumerable<Entity> entities);
+        public void PreUpdate(GameTime gameTime);
     }
 }

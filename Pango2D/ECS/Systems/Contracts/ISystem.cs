@@ -5,5 +5,6 @@ namespace Pango2D.ECS.Systems.Contracts
 {
     public interface ISystem
     {
+        public World World { get; set; }
     }
 }
