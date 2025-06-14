@@ -1,15 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.Contracts;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Pango2D.Graphics.Sprites
 {
-    public class Sprite
+    public class Sprite : IComponent
     {
         public Texture2D Texture { get; set; }
         public Rectangle SourceRectangle { get; set; }
-        public Vector2 Position { get; set; }
-        public Vector2 Scale { get; set; } = Vector2.One;
-        public float Rotation { get; set; } = 0f;
         public Vector2 Origin { get; set; } = Vector2.Zero;
         public Color Color { get; set; } = Color.White;
         public float Alpha { get; set; } = 1f;
@@ -22,10 +22,17 @@ namespace Pango2D.Graphics.Sprites
             SourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position)
         {
-            spriteBatch.Draw(Texture, Position, SourceRectangle, Color * Alpha, Rotation, Origin, Scale, Effects, LayerDepth);
+            spriteBatch.Draw(Texture, position, SourceRectangle, Color * Alpha, 0, Origin, Vector2.One, Effects, LayerDepth);
         }
-
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Vector2 scale, float rotation)
+        {
+            spriteBatch.Draw(Texture, position, SourceRectangle, Color * Alpha, rotation, Origin, scale, Effects, LayerDepth);
+        }
+        public void Draw(SpriteBatch spriteBatch, Transform transform)
+        {
+            spriteBatch.Draw(Texture, transform.Position, SourceRectangle, Color * Alpha, transform.Rotation, Origin, transform.Scale, Effects, LayerDepth);
+        }
     }
 }

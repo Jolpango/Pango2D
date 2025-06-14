@@ -1,17 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
+using Pango2D.ECS.Components.Contracts;
 using System.Collections.Generic;
 
 namespace Pango2D.Graphics.Sprites
 {
-    public class SpriteAnimator
+    public class SpriteAnimator : IComponent
     {
         private readonly Dictionary<string, SpriteAnimation> animations;
         private SpriteAnimation current;
         private float time;
-
-        public Rectangle CurrentFrame => current?.Frames[currentFrameIndex].SourceRect ?? Rectangle.Empty;
         private int currentFrameIndex;
 
+        public SpriteFrame CurrentFrame => current?.Frames[currentFrameIndex];
+        public Rectangle CurrentFrameRect => current?.Frames[currentFrameIndex].SourceRect ?? Rectangle.Empty;
         public SpriteAnimator(Dictionary<string, SpriteAnimation> animations)
         {
             this.animations = animations;
@@ -47,9 +48,5 @@ namespace Pango2D.Graphics.Sprites
                 }
             }
         }
-
-        public Rectangle GetCurrentFrameRect() =>
-            current?.Frames[currentFrameIndex].SourceRect ?? Rectangle.Empty;
     }
-
 }

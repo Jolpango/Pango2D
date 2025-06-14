@@ -2,11 +2,11 @@
 {
     public class SpriteAnimation
     {
-        public SpriteAnimationFrame[] Frames { get; }
+        public SpriteFrame[] Frames { get; }
         public float DefaultFrameDuration { get; }
         public bool Looping { get; }
 
-        public SpriteAnimation(SpriteAnimationFrame[] frames, float defaultDuration = 0.1f, bool looping = false)
+        public SpriteAnimation(SpriteFrame[] frames, float defaultDuration = 0.1f, bool looping = false)
         {
             Frames = frames;
             DefaultFrameDuration = defaultDuration;
