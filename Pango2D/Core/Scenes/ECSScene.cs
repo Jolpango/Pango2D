@@ -20,10 +20,9 @@ namespace Pango2D.Core.Scenes
         public override void LoadContent()
         {
             base.LoadContent();
-            World = new World();
-            ConfigureWorld(World);
+            World = ConfigureWorld();
         }
-        protected abstract void ConfigureWorld(World world);
+        protected abstract World ConfigureWorld();
         public override void UnloadContent()
         {
             World?.Dispose();

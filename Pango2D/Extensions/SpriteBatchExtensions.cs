@@ -14,7 +14,8 @@ namespace Pango2D.Extensions
                 settings.SamplerState,
                 settings.DepthStencilState,
                 settings.RasterizerState,
-                settings.Effect
+                settings.Effect,
+                settings.TransformMatrix
             );
         }
     }

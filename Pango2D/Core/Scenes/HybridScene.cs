@@ -30,12 +30,11 @@ namespace Pango2D.Core.Scenes
         public override void LoadContent()
         {
             base.LoadContent();
-            World = new World();
-            ConfigureWorld(World);
+            World = ConfigureWorld();
             UIManager = new UIManager();
             ConfigureUI(UIManager);
         }
-        protected abstract void ConfigureWorld(World world);
+        protected abstract World ConfigureWorld();
         protected abstract void ConfigureUI(UIManager uiManager);
         public override void UnloadContent()
         {

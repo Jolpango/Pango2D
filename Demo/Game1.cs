@@ -1,22 +1,9 @@
-﻿using Demo.Content.UI;
-using Demo.Scenes;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Pango2D.Core;
 using Pango2D.Core.Graphics;
-using Pango2D.Core.Input;
-using Pango2D.Core.Input.Contracts;
-using Pango2D.ECS;
-using Pango2D.ECS.Components;
-using Pango2D.ECS.Systems;
-using Pango2D.ECS.Systems.RenderSystems;
-using Pango2D.ECS.Systems.UpdateSystems;
-using Pango2D.Graphics.Sprites;
-using Pango2D.UI;
-using Pango2D.UI.Views;
 using Pango2D.Utilities;
-using System.Collections.Generic;
+using Demo.Scenes ;
 
 namespace Demo
 {
@@ -28,8 +15,8 @@ namespace Demo
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
             AsepriteLoader.RootDirectory = Content.RootDirectory;
             IsMouseVisible = true;
@@ -46,7 +33,7 @@ namespace Demo
             spriteBatch = new SpriteBatch(GraphicsDevice);
             gameHost = new GameHost(this, spriteBatch);
             gameHost.Initialize();
-            gameHost.LoadInitialScene(new MainMenu());
+            gameHost.LoadInitialScene(new WorldScene());
         }
 
         protected override void Update(GameTime gameTime)

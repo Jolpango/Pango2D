@@ -7,6 +7,9 @@ namespace Pango2D.ECS.Systems
     public abstract class UpdateComponentSystem<T1> : IUpdateSystem where T1 : IComponent
     {
         public World World { get; set; }
+
+        public void Initialize() { }
+
         public virtual void Update(GameTime gameTime)
         {
             foreach (var (entity, component) in World.Query<T1>())
@@ -22,6 +25,9 @@ namespace Pango2D.ECS.Systems
         where T2 : IComponent
     {
         public World World { get; set; }
+
+        public void Initialize() { }
+
         public virtual void Update(GameTime gameTime)
         {
             foreach (var (entity, c1, c2) in World.Query<T1, T2>())

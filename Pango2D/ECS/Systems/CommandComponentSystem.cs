@@ -9,6 +9,8 @@ namespace Pango2D.ECS.Systems
     {
         public World World { get; set; }
 
+        public void Initialize() { }
+
         public virtual void PostUpdate(GameTime gameTime)
         {
             foreach (var (entity, command) in World.Query<TCommand>())
@@ -25,6 +27,8 @@ namespace Pango2D.ECS.Systems
         where TTarget : IComponent
     {
         public World World { get; set; }
+
+        public void Initialize() { }
 
         public virtual void PostUpdate(GameTime gameTime)
         {

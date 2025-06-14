@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core;
+using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components.Contracts;
 using Pango2D.ECS.Systems.Contracts;
@@ -13,10 +15,11 @@ namespace Pango2D.ECS.Systems
         public World World { get; set; }
         public RenderPhase RenderPhase { get; set; } = RenderPhase.World;
         protected RenderPassSettings renderPassSettings = new RenderPassSettings();
+        public virtual void Initialize() { }
 
-        public virtual void BeginDraw(SpriteBatch spriteBatch, Matrix? matrìx = null)
+        public virtual void BeginDraw(SpriteBatch spriteBatch)
         {
-            renderPassSettings.TransformMatrix = matrìx;
+            var cameraService = World.Services.Get<ICameraService>();
             spriteBatch.Begin(renderPassSettings);
         }
 
@@ -42,10 +45,9 @@ namespace Pango2D.ECS.Systems
         public World World { get; set; }
         public RenderPhase RenderPhase { get; set; } = RenderPhase.World;
         protected RenderPassSettings renderPassSettings = new RenderPassSettings();
-
-        public virtual void BeginDraw(SpriteBatch spriteBatch, Matrix? matrìx = null)
+        public virtual void Initialize() { }
+        public virtual void BeginDraw(SpriteBatch spriteBatch)
         {
-            renderPassSettings.TransformMatrix = matrìx;
             spriteBatch.Begin(renderPassSettings);
         }
 

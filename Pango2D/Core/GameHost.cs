@@ -5,6 +5,7 @@ using Pango2D.Core.Graphics;
 using Pango2D.Core.Input;
 using Pango2D.Core.Input.Contracts;
 using Pango2D.Core.Scenes;
+using Pango2D.ECS.Components;
 using System;
 
 namespace Pango2D.Core

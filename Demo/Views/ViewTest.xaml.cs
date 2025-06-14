@@ -10,7 +10,7 @@ namespace Demo.Content.UI
     public partial class ViewTest : UIView
     {
         private int counter = 0;
-        public string Title { get; set; } = "Binding test";
+        public string Title { get; set; } = "Tjena";
         public string Counter => $"{counter}";
         public Point Padding { get; set; } = new Point(10, 20);
         public void OnClick()
@@ -19,16 +19,13 @@ namespace Demo.Content.UI
             Padding = new Point(Padding.X + 1, Padding.Y);
             counter++;
         }
+        public void TestMethod()
+        {
+            Title = "Ny titel";
+        }
         public override void OnLoaded()
         {
             base.OnLoaded();
-        }
-        public static ViewTest Load(FontRegistry fonts)
-        {
-            var loader = new UILoader(fonts);
-            var view = loader.LoadWithContext<ViewTest>("Views/ViewTest.xaml");
-            view.OnLoaded();
-            return view;
         }
     }
 }

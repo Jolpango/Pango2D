@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Components.Contracts;
 using Pango2D.ECS.Systems.Contracts;
-using Pango2D.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -26,6 +26,19 @@ namespace Pango2D.ECS
         private readonly List<IPreUpdateSystem> preUpdateSystems = new ();
         private readonly List<IUpdateSystem> updateSystems = new ();
         private readonly List<IPostUpdateSystem> postUpdateSystems = new ();
+
+        public GameServices Services { get; init; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="World"/> class with the specified game services.
+        /// </summary>
+        /// <param name="services">The game services instance used to manage and provide access to game-related functionality. Cannot be <see
+        /// langword="null"/>.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="services"/> is <see langword="null"/>.</exception>
+        public World(GameServices services)
+        {
+            Services = services ?? throw new ArgumentNullException(nameof(services), "GameServices cannot be null.");
+        }
 
         /// <summary>
         /// Creates a new instance of the <see cref="Entity"/> class and adds it to the internal collection.
@@ -72,6 +85,14 @@ namespace Pango2D.ECS
             }
         }
 
+        /// <summary>
+        /// Queries the store for all entities that have a component of the specified type.
+        /// </summary>
+        /// <remarks>This method retrieves all entities and their associated components of the specified
+        /// type from the underlying store. The returned collection is lazily evaluated.</remarks>
+        /// <typeparam name="T1">The type of the component to query for. Must implement <see cref="IComponent"/>.</typeparam>
+        /// <returns>An enumerable collection of tuples, where each tuple contains an <see cref="Entity"/> and the corresponding
+        /// component of type <typeparamref name="T1"/>.</returns>
         public IEnumerable<(Entity, T1)> Query<T1>() where T1 : IComponent
         {
             GetStore<T1>(out var store);
@@ -81,6 +102,16 @@ namespace Pango2D.ECS
             }
         }
 
+        /// <summary>
+        /// Queries and retrieves all entities that have both specified component types.
+        /// </summary>
+        /// <remarks>This method iterates through all entities that have a component of type <typeparamref
+        /// name="T1"/> and checks if they also have a component of type <typeparamref name="T2"/>. If both components
+        /// are present, the entity and its components are included in the result.</remarks>
+        /// <typeparam name="T1">The type of the first component to query. Must implement <see cref="IComponent"/>.</typeparam>
+        /// <typeparam name="T2">The type of the second component to query. Must implement <see cref="IComponent"/>.</typeparam>
+        /// <returns>An enumerable collection of tuples, where each tuple contains an entity and its associated components of
+        /// type <typeparamref name="T1"/> and <typeparamref name="T2"/>.</returns>
         public IEnumerable<(Entity, T1, T2)> Query<T1, T2>()
             where T1 : IComponent
             where T2 : IComponent
@@ -131,8 +162,16 @@ namespace Pango2D.ECS
             {
                 throw new ArgumentException("Unsupported system type", nameof(system));
             }
+            system.Initialize();
         }
 
+        /// <summary>
+        /// Updates the state of the game by executing pre-update, update, and post-update systems in sequence.
+        /// </summary>
+        /// <remarks>This method processes all registered systems in three distinct phases: pre-update,
+        /// update, and post-update. Each phase is executed sequentially, ensuring that systems in each phase are
+        /// processed in the order they were added.</remarks>
+        /// <param name="gameTime">The current game time, providing timing information for the update cycle.</param>
         public void Update(GameTime gameTime)
         {
             foreach (var system in preUpdateSystems)
@@ -145,8 +184,8 @@ namespace Pango2D.ECS
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             DrawPhase(RenderPhase.World, gameTime, spriteBatch);
-            DrawPhase(RenderPhase.UI, gameTime, spriteBatch);
             DrawPhase(RenderPhase.PostProcess, gameTime, spriteBatch);
+            DrawPhase(RenderPhase.UI, gameTime, spriteBatch);
             DrawPhase(RenderPhase.Debug, gameTime, spriteBatch);
         }
 

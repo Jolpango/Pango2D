@@ -8,6 +8,9 @@ namespace Pango2D.ECS.Systems
     public abstract class PreUpdateComponentSystem<T1> : IPreUpdateSystem where T1 : IComponent
     {
         public World World { get; set; }
+
+        public void Initialize() { }
+
         public virtual void PreUpdate(GameTime gameTime)
         {
             foreach (var (entity, component) in World.Query<T1>())
@@ -23,6 +26,9 @@ namespace Pango2D.ECS.Systems
         where T2 : IComponent
     {
         public World World { get; set; }
+
+        public void Initialize() { }
+
         public virtual void PreUpdate(GameTime gameTime)
         {
             foreach (var (entity, c1, c2) in World.Query<T1, T2>())
