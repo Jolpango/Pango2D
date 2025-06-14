@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Pango2D.ECS.Components;
+using Pango2D.Graphics.Sprites;
 
 namespace Pango2D.ECS.Systems.UpdateSystems
 {
-    public class AnimationSystem : PostUpdateComponentSystem<AnimationComponent, SpriteComponent>
+    public class AnimationSystem : PostUpdateComponentSystem<SpriteAnimator, Sprite>
     {
-        protected override void PostUpdate(GameTime gameTime, Entity entity, AnimationComponent animation, SpriteComponent sprite)
+        protected override void PostUpdate(GameTime gameTime, Entity entity, SpriteAnimator animation, Sprite sprite)
         {
-            animation.Animator.Update(gameTime);
+            animation.Update(gameTime);
             
-            sprite.Sprite.SourceRectangle = animation.Animator.CurrentFrame;
+            sprite.SourceRectangle = animation.CurrentFrameRect;
         }
     }
 }

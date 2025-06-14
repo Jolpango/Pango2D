@@ -22,7 +22,7 @@ namespace Pango2D.Utilities
             var tags = meta.GetProperty("frameTags");
 
             // Step 1: Parse frames
-            var allFrames = new List<SpriteAnimationFrame>();
+            var allFrames = new List<SpriteFrame>();
             foreach (var frameEl in frameArray.EnumerateArray())
             {
                 var frameRect = frameEl.GetProperty("frame");
@@ -32,7 +32,7 @@ namespace Pango2D.Utilities
                 var h = frameRect.GetProperty("h").GetInt32();
                 var duration = frameEl.GetProperty("duration").GetInt32() / 1000f;
 
-                allFrames.Add(new SpriteAnimationFrame(new Rectangle(x, y, w, h), duration));
+                allFrames.Add(new SpriteFrame(new Rectangle(x, y, w, h), duration));
             }
 
             // Step 2: Parse animations (by tag)

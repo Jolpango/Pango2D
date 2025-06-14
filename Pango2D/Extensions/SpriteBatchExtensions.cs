@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework.Graphics;
-using Pango2D.ECS;
+using Pango2D.Core.Graphics;
 
 namespace Pango2D.Extensions
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Components.Contracts;
 using Pango2D.ECS.Systems.Contracts;
@@ -16,7 +17,7 @@ namespace Pango2D.ECS
     /// as  add systems for updating and drawing those entities. Systems are categorized into update systems  and draw
     /// systems, which are executed during the respective <see cref="Update(GameTime)"/> and  <see cref="Draw"/>
     /// methods.</remarks>
-    public class World
+    public class World : IDisposable
     {
         private readonly Dictionary<Type, ComponentStore<IComponent>> componentStores = new ();
         private readonly HashSet<Entity> entities = new ();
@@ -175,6 +176,14 @@ namespace Pango2D.ECS
                 store = new ComponentStore<IComponent>();
                 componentStores[typeof(T)] = store;
             }
+        }
+
+        /// <summary>
+        /// Disposes of the <see cref="World"/> instance, releasing any resources it holds.
+        /// </summary>
+        public void Dispose()
+        {
+            //Do any necessary cleanup here, such as disposing of resources or clearing collections.
         }
     }
 }

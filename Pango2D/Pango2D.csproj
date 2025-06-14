@@ -8,7 +8,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
     <Folder Include="Content\" />
     <Folder Include="Particles\" />
     <Folder Include="Tiled\" />

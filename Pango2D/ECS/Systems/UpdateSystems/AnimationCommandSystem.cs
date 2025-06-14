@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Pango2D.ECS.Components;
+using Pango2D.Graphics.Sprites;
 
 namespace Pango2D.ECS.Systems.UpdateSystems
 {
-    public class AnimationCommandSystem : UpdateComponentSystem<AnimationCommandComponent, AnimationComponent>
+    public class AnimationCommandSystem : CommandComponentSystem<AnimationCommand, SpriteAnimator>
     {
-        protected override void Update(GameTime gameTime, Entity entity, AnimationCommandComponent command, AnimationComponent animation)
+        protected override void Execute(GameTime gameTime, Entity entity, AnimationCommand command, SpriteAnimator target)
         {
-            animation.Animator.Play(command.AnimationName, command.Loop);
-            World.RemoveComponent<AnimationCommandComponent>(entity);
+            target.Play(command.AnimationName, command.Loop);
         }
     }
 }
