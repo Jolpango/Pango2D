@@ -10,7 +10,6 @@
 *.dylib
 
 # MonoGame cache
-*.mgcb
 *.xnb
 
 # User-specific files
