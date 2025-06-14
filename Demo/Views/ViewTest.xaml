@@ -1,0 +1,31 @@
+﻿<StackPanel
+	Id="Panel"
+	Gap="10"
+	Orientation="Vertical"
+	Padding="10, 10">
+    <Button
+		Id="BUtton1"
+		Padding="200, 80"
+		BackgroundColor="rgb(100, 100, 100)"
+		HoverColor="rgb(150, 150, 150)"
+		Text="{Bind:Title}"
+		Font="DefaultFont"
+		/>
+    <Button
+		Id="Button2"
+		Padding="200, 80"
+		BackgroundColor="rgb(100, 100, 100)"
+		HoverColor="rgb(150, 150, 150)"
+		Text="Static Text"
+		Font="DefaultFont"
+		/>
+    <Button
+		Id="Button3"
+		Padding="{Bind:Padding}"
+		BackgroundColor="rgb(100, 100, 100)"
+		HoverColor="rgb(150, 150, 150)"
+		Text="{Bind:Counter}"
+		OnClick="OnClick"
+		Font="DefaultFont"
+		/>
+</StackPanel>
