@@ -27,6 +27,7 @@ namespace Pango2D.Core
             {
                 return (T)service;
             }
+            
             throw new Exception($"No service of type {typeof(T)} registered");
         }
 

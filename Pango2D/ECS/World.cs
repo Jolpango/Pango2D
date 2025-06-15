@@ -186,6 +186,7 @@ namespace Pango2D.ECS
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            DrawPhase(RenderPhase.Lighting, gameTime, spriteBatch);
             DrawPhase(RenderPhase.World, gameTime, spriteBatch);
             DrawPhase(RenderPhase.PostProcess, gameTime, spriteBatch);
             DrawPhase(RenderPhase.UI, gameTime, spriteBatch);

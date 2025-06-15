@@ -3,11 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
+using Pango2D.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pango2D.ECS.Systems.RenderSystems
 {
@@ -15,25 +12,45 @@ namespace Pango2D.ECS.Systems.RenderSystems
     {
         public RenderPhase RenderPhase { get; set; } = RenderPhase.PostProcess;
         public World World { get; set; }
-        private LightBufferService lightBuffer;
+        private RenderPassSettings renderPassSettings = new()
+        {
+            SortMode = SpriteSortMode.Immediate,
+            BlendState = new BlendState()
+            {
+                AlphaBlendFunction = BlendFunction.Add,
+                AlphaSourceBlend = Blend.DestinationAlpha,
+                AlphaDestinationBlend = Blend.Zero,
+
+                ColorBlendFunction = BlendFunction.Add,
+                ColorSourceBlend = Blend.DestinationColor,
+                ColorDestinationBlend = Blend.Zero
+            },
+            SamplerState = SamplerState.LinearClamp,
+            DepthStencilState = DepthStencilState.None,
+            RasterizerState = RasterizerState.CullCounterClockwise,
+            Effect = null,
+            TransformMatrix = Matrix.Identity
+        };
+        private LightRendererService lightRenderer;
         public void Initialize()
         {
-            lightBuffer = World.Services.Get<LightBufferService>();
+            lightRenderer = World.Services.Get<LightRendererService>();
         }
 
         public void BeginDraw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin(renderPassSettings);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.Draw(lightRenderer.LightMap, Vector2.Zero, Color.White);
         }
 
         public void EndDraw(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.End();
         }
     }
 }
