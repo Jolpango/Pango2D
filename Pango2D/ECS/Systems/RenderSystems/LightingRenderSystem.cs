@@ -32,25 +32,32 @@ namespace Pango2D.ECS.Systems.RenderSystems
         {
             var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
             spriteBatch.GraphicsDevice.SetRenderTarget(lightRenderer.LightMap);
-            spriteBatch.GraphicsDevice.Clear(ClearOptions.Target, Color.Black, 1, 1);
+            spriteBatch.GraphicsDevice.Clear(ClearOptions.Target, lightRenderer.AmbientColor, 1, 1);
             renderPassSettings.TransformMatrix = viewMatrix;
             spriteBatch.Begin(renderPassSettings);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            foreach(var lightInstance in lightBufferService.ActiveLights)
+
+            foreach (var lightInstance in lightBufferService.ActiveLights)
             {
+                var texture = lightInstance.Texture ?? lightRenderer.RadialTexture;
+                Vector2 scale = new Vector2(
+                    (lightInstance.Radius * 2f) / texture.Width,
+                    (lightInstance.Radius * 2f) / texture.Height
+                );
                 spriteBatch.Draw(
-                    lightRenderer.RadialTexture,
+                    texture,
                     lightInstance.WorldPosition,
                     null,
                     lightInstance.Color * lightInstance.Intensity,
                     0f,
-                    new Vector2(lightRenderer.RadialTexture.Width / 2, lightRenderer.RadialTexture.Height / 2),
-                    Vector2.One * lightInstance.Radius, // TODO: Handle scale properly
+                    new Vector2(texture.Width / 2f, texture.Height / 2f),
+                    scale,
                     SpriteEffects.None,
-                    0f);
+                    0f
+                );
             }
         }
 
