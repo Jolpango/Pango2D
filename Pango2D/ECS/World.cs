@@ -4,6 +4,7 @@ using Pango2D.Core;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Components.Contracts;
+using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,8 @@ namespace Pango2D.ECS
         public World(GameServices services)
         {
             Services = services ?? throw new ArgumentNullException(nameof(services), "GameServices cannot be null.");
+            Services.Register(new LightBufferService());
+            Services.Register(new LightRendererService(Services.Get<GraphicsDevice>()));
         }
 
         /// <summary>
