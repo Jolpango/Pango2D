@@ -8,7 +8,7 @@ namespace Pango2D.ECS.Systems
     {
         public World World { get; set; }
 
-        public void Initialize() { }
+        public virtual void Initialize() { }
 
         public virtual void PostUpdate(GameTime gameTime)
         {
@@ -26,7 +26,7 @@ namespace Pango2D.ECS.Systems
     {
         public World World { get; set; }
 
-        public void Initialize() { }
+        public virtual void Initialize() { }
 
         public virtual void PostUpdate(GameTime gameTime)
         {

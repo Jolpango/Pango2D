@@ -32,7 +32,7 @@ namespace Pango2D.Graphics.Sprites
         }
         public void Draw(SpriteBatch spriteBatch, Transform transform)
         {
-            spriteBatch.Draw(Texture, transform.Position, SourceRectangle, Color * Alpha, transform.Rotation, Origin, transform.Scale, Effects, LayerDepth);
+            spriteBatch.Draw(Texture, transform.Position, SourceRectangle, Color * Alpha, transform.Rotation, new Vector2(SourceRectangle.Width / 2, SourceRectangle.Height / 2), transform.Scale, Effects, LayerDepth);
         }
     }
 }

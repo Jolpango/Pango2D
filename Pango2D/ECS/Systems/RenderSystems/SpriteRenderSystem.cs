@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
+using Pango2D.Extensions;
 using Pango2D.Graphics.Sprites;
 
 namespace Pango2D.ECS.Systems.RenderSystems
@@ -13,16 +14,17 @@ namespace Pango2D.ECS.Systems.RenderSystems
     /// <remarks>This system is designed to render entities that have both a <see cref="Sprite"/> and a <see
     /// cref="Transform"/> component. It operates during the world rendering phase and applies the current camera's view
     /// matrix to the rendering process.</remarks>
-    public class SpriteRenderingSystem : DrawComponentSystem<Sprite, Transform>
+    public class SpriteRenderSystem : DrawComponentSystem<Sprite, Transform>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpriteRenderingSystem"/> class.
+        /// Initializes a new instance of the <see cref="SpriteRenderSystem"/> class.
         /// </summary>
         /// <remarks>This constructor sets the default render phase to <see
         /// cref="RenderPhase.World"/>.</remarks>
-        public SpriteRenderingSystem()
+        public SpriteRenderSystem()
         {
             RenderPhase = RenderPhase.World;
+            renderPassSettings.BlendState = BlendState.AlphaBlend;
         }
 
         /// <summary>
@@ -35,8 +37,10 @@ namespace Pango2D.ECS.Systems.RenderSystems
         public override void BeginDraw(SpriteBatch spriteBatch)
         {
             var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
+            spriteBatch.GraphicsDevice.SetRenderTarget(null); // Ensure rendering is set to the backbuffer
+            spriteBatch.GraphicsDevice.Clear(Color.Black);
             renderPassSettings.TransformMatrix = viewMatrix;
-            base.BeginDraw(spriteBatch);
+            spriteBatch.Begin(renderPassSettings);
         }
 
         /// <summary>

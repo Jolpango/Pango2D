@@ -49,7 +49,7 @@ namespace Pango2D.ECS
             // Add core systems that are always needed in a world
             world.AddSystem(new AnimationSystem());
             world.AddSystem(new AnimationCommandSystem());
-            world.AddSystem(new SpriteRenderingSystem());
+            world.AddSystem(new SpriteRenderSystem());
             world.AddSystem(new MovementSystem());
             return this;
         }

@@ -14,13 +14,13 @@ namespace Pango2D.ECS.Systems
     {
         public World World { get; set; }
         public RenderPhase RenderPhase { get; set; } = RenderPhase.World;
-        protected RenderPassSettings renderPassSettings = new RenderPassSettings();
+        protected RenderPassSettings RenderPassSettings { get; set; } = new RenderPassSettings();
         public virtual void Initialize() { }
 
         public virtual void BeginDraw(SpriteBatch spriteBatch)
         {
             var cameraService = World.Services.Get<ICameraService>();
-            spriteBatch.Begin(renderPassSettings);
+            spriteBatch.Begin(RenderPassSettings);
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)

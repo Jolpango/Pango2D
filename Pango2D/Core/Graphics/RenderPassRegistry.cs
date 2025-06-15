@@ -9,8 +9,9 @@ namespace Pango2D.Core.Graphics
     public enum RenderPhase
     {
         World,
-        UI,
+        Lighting,
         PostProcess,
+        UI,
         Debug
     }
     public class RenderPassRegistry
