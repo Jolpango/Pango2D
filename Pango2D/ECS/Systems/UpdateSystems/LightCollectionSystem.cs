@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pango2D.ECS.Systems.UpdateSystems
 {
@@ -24,7 +19,12 @@ namespace Pango2D.ECS.Systems.UpdateSystems
         }
         protected override void PostUpdate(GameTime gameTime, Entity entity, Light light, Transform transform)
         {
-            lightBuffer.ActiveLights.Add(new LightInstance(transform.Position + light.Offset, light.Color, light.Radius, light.Intensity));
+            lightBuffer.ActiveLights.Add(new LightInstance(
+                transform.Position + light.Offset,
+                light.Color,
+                light.Radius,
+                light.Intensity,
+                light.Texture));
         }
     }
 }

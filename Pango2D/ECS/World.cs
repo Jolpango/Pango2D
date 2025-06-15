@@ -39,8 +39,6 @@ namespace Pango2D.ECS
         public World(GameServices services)
         {
             Services = services ?? throw new ArgumentNullException(nameof(services), "GameServices cannot be null.");
-            Services.Register(new LightBufferService());
-            Services.Register(new LightRendererService(Services.Get<GraphicsDevice>()));
         }
 
         /// <summary>
@@ -73,6 +71,7 @@ namespace Pango2D.ECS
             }
             store.Add(entity, component);
         }
+
         /// <summary>
         /// Removes a component of the specified type from the given entity.
         /// </summary>
@@ -169,6 +168,14 @@ namespace Pango2D.ECS
         }
 
         /// <summary>
+        /// Disposes of the <see cref="World"/> instance, releasing any resources it holds.
+        /// </summary>
+        public void Dispose()
+        {
+            //Do any necessary cleanup here, such as disposing of resources or clearing collections
+        }
+
+        /// <summary>
         /// Updates the state of the game by executing pre-update, update, and post-update systems in sequence.
         /// </summary>
         /// <remarks>This method processes all registered systems in three distinct phases: pre-update,
@@ -219,14 +226,6 @@ namespace Pango2D.ECS
                 store = new ComponentStore<IComponent>();
                 componentStores[typeof(T)] = store;
             }
-        }
-
-        /// <summary>
-        /// Disposes of the <see cref="World"/> instance, releasing any resources it holds.
-        /// </summary>
-        public void Dispose()
-        {
-            //Do any necessary cleanup here, such as disposing of resources or clearing collections.
         }
     }
 }

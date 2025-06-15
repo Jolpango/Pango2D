@@ -28,7 +28,7 @@ namespace Pango2D.Core.Input
 
         public bool IsKeyPressed(Keys key)
         {
-            return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyDown(key);
+            return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
         }
 
         public bool IsKeyReleased(Keys key)

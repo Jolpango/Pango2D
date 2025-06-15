@@ -38,5 +38,10 @@ namespace Pango2D.Core
         {
             camera.Position = position;
         }
+
+        public void SetZoom(float zoom)
+        {
+            camera.Zoom = zoom;
+        }
     }
 }

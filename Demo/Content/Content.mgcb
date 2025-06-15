@@ -32,6 +32,18 @@
 /processorParam:TextureFormat=Compressed
 /build:DefaultFont.spritefont
 
+#begin Sounds/SoundEffects/bottle.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SoundEffects/bottle.wav
+
+#begin Sounds/SoundEffects/swing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SoundEffects/swing.wav
+
 #begin spinning-dagger.json
 /copy:spinning-dagger.json
 

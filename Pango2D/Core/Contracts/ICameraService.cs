@@ -8,5 +8,6 @@ namespace Pango2D.Core.Contracts
         public void SetPosition(Vector2 position);
         public Vector2 GetPosition();
         void Move(Vector2 vector2);
+        void SetZoom(float zoom);
     }
 }

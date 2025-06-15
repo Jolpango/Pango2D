@@ -4,6 +4,7 @@ using Pango2D.Core.Input.Contracts;
 using Pango2D.ECS;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Systems;
+using System;
 
 namespace Demo
 {
@@ -30,6 +31,11 @@ namespace Demo
             if (direction != Vector2.Zero)
             {
                 World.AddComponent(entity, new AnimationCommand() { AnimationName = "default" });
+            }
+            if (input.IsKeyPressed(Keys.Space))
+            {
+                // Handle space key press, e.g., jump or attack
+                World.AddComponent(entity, new SoundEffectCommand() { SoundEffectName = "swing", Pitch = Random.Shared.NextSingle() });
             }
         }
     }

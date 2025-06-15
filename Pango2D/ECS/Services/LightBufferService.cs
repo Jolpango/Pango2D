@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Pango2D.ECS.Services
         Vector2 WorldPosition,
         Color Color,
         float Radius,
-        float Intensity
+        float Intensity,
+        Texture2D Texture
     );
     public class LightBufferService
     {

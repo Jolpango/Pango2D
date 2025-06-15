@@ -78,5 +78,10 @@ namespace Pango2D.Core
             }
             services.Remove(typeof(T));
         }
+
+        public bool Has<T>()
+        {
+            return services.ContainsKey(typeof(T));
+        }
     }
 }

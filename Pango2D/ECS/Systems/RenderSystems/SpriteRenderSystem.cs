@@ -25,6 +25,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
         {
             RenderPhase = RenderPhase.World;
             renderPassSettings.BlendState = BlendState.AlphaBlend;
+            renderPassSettings.SamplerState = SamplerState.PointClamp;
         }
 
         /// <summary>

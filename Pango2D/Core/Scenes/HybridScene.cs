@@ -4,11 +4,6 @@ using Pango2D.Core.Graphics;
 using Pango2D.Core.Input.Contracts;
 using Pango2D.ECS;
 using Pango2D.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pango2D.Core.Scenes
 {

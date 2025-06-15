@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core.Audio;
 using Pango2D.Core.Contracts;
+using Pango2D.Core.Graphics;
+using Pango2D.Core.Input.Contracts;
 using Pango2D.ECS.Components;
 
 namespace Pango2D.Core.Scenes
@@ -12,12 +16,16 @@ namespace Pango2D.Core.Scenes
         public bool IsVisible { get; set; } = true;
         public bool IsEnabled { get; set;} = true;
         public bool IsBlocking { get; set; } = true;
-        /// <summary>
-        /// Gets or sets the service responsible for managing camera operations for this scene.
-        /// </summary>
-        ICameraService cameraService;
-        public ICameraService CameraService => cameraService;
 
+        public ContentManager Content => Services.Get<ContentManager>();
+        public SoundEffectRegistry SoundEffectRegistry => Services.Get<SoundEffectRegistry>();
+        public FontRegistry FontRegistry => Services.Get<FontRegistry>();
+        public Game Game => Services.Get<Game>();
+        public GraphicsDevice GraphicsDevice => Services.Get<GraphicsDevice>();
+        public GameWindow Window => Services.Get<GameWindow>();
+        public IInputProvider InputProvider => Services.Get<IInputProvider>();
+        public SpriteBatch SpriteBatch => Services.Get<SpriteBatch>();
+        public ICameraService CameraService => Services.Get<ICameraService>();
         /// <summary>
         /// Initializes a scene, call base first to ensure services are loaded.
         /// </summary>
@@ -25,8 +33,10 @@ namespace Pango2D.Core.Scenes
         public virtual void Initialize(GameServices services)
         {
             Services = services;
-            cameraService = new CameraService(new Camera(), Services.Get<GraphicsDevice>().Viewport);
-            Services.Register(cameraService);
+            if (!Services.Has<ICameraService>())
+            {
+                Services.Register<ICameraService>(new CameraService(new Camera(), GraphicsDevice.Viewport));
+            }
         }
         /// <summary>
         /// Loads the necessary content for the object.
@@ -44,7 +54,7 @@ namespace Pango2D.Core.Scenes
         /// cleanup logic specific to the subclass.</remarks>
         public virtual void UnloadContent()
         {
-            Services.Unregister(cameraService);
+            Services.Unregister(CameraService);
         }
 
         /// <summary>
