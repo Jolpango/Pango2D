@@ -204,9 +204,7 @@ namespace Pango2D.ECS
         {
             foreach (var system in GetDrawSystems(phase))
             {
-                system.BeginDraw(spriteBatch);
                 system.Draw(gameTime, spriteBatch);
-                system.EndDraw(spriteBatch);
             }
         }
 

@@ -32,24 +32,22 @@ namespace Pango2D.ECS.Systems.RenderSystems
             TransformMatrix = Matrix.Identity
         };
         private LightRendererService lightRenderer;
+        private RenderTargetRegistry renderTargetRegistry;
         public void Initialize()
         {
             lightRenderer = World.Services.Get<LightRendererService>();
-        }
-
-        public void BeginDraw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin(renderPassSettings);
+            renderTargetRegistry = World.Services.Get<RenderTargetRegistry>();
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(lightRenderer.LightMap, Vector2.Zero, Color.White);
-        }
+            spriteBatch.GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin();
+            spriteBatch.Draw(renderTargetRegistry.Get("World"), Vector2.Zero, Color.White);
+            spriteBatch.End();
 
-        public void EndDraw(SpriteBatch spriteBatch)
-        {
+            spriteBatch.Begin(renderPassSettings);
+            spriteBatch.Draw(renderTargetRegistry.Get("LightMap"), Vector2.Zero, Color.White);
             spriteBatch.End();
         }
     }

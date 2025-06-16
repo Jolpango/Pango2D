@@ -20,29 +20,25 @@ namespace Pango2D.ECS.Systems.RenderSystems
             SortMode = SpriteSortMode.Immediate,
             BlendState = BlendState.Additive,
         };
-        private LightRendererService lightRenderer;
+        private RenderTargetRegistry renderTargetRegistry;
         private LightBufferService lightBufferService;
+        private const string LightMapName = "LightMap";
         public void Initialize()
         {
-            lightRenderer = World.Services.Get<LightRendererService>();
+            renderTargetRegistry = World.Services.Get<RenderTargetRegistry>();
             lightBufferService = World.Services.Get<LightBufferService>();
-        }
-
-        public void BeginDraw(SpriteBatch spriteBatch)
-        {
-            var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
-            spriteBatch.GraphicsDevice.SetRenderTarget(lightRenderer.LightMap);
-            spriteBatch.GraphicsDevice.Clear(ClearOptions.Target, lightRenderer.AmbientColor, 1, 1);
-            renderPassSettings.TransformMatrix = viewMatrix;
-            spriteBatch.Begin(renderPassSettings);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
+            spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetRegistry.GetOrCreate(LightMapName));
+            renderPassSettings.TransformMatrix = viewMatrix;
+            spriteBatch.Begin(renderPassSettings);
 
             foreach (var lightInstance in lightBufferService.ActiveLights)
             {
-                var texture = lightInstance.Texture ?? lightRenderer.RadialTexture;
+                var texture = lightInstance.Texture ?? TextureCache.RadialLight;
                 Vector2 scale = new Vector2(
                     (lightInstance.Radius * 2f) / texture.Width,
                     (lightInstance.Radius * 2f) / texture.Height
@@ -59,13 +55,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
                     0f
                 );
             }
-        }
-
-        public void EndDraw(SpriteBatch spriteBatch)
-        {
             spriteBatch.End();
-            spriteBatch.GraphicsDevice.SetRenderTarget(null);
         }
-
     }
 }
