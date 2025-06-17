@@ -30,6 +30,7 @@ namespace Pango2D.Core
             gameServices.Register(new FontRegistry(game.Content, "DefaultFont"));
             gameServices.Register(new SoundEffectRegistry(game.Content));
             gameServices.Register<IInputProvider>(new InputManager());
+            gameServices.Register(new RenderTargetRegistry(game.GraphicsDevice));
         }
         public virtual void Initialize()
         {

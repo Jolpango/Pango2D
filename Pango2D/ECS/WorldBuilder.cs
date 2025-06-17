@@ -2,6 +2,7 @@
 
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core;
+using Pango2D.Core.Graphics;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.ECS.Systems.RenderSystems;
@@ -61,14 +62,14 @@ namespace Pango2D.ECS
         /// <returns>The current <see cref="WorldBuilder"/> instance, allowing for method chaining.</returns>
         public WorldBuilder AddLightingSystems()
         {
-            if (!world.Services.Has<LightRendererService>())
-                world.Services.Register(new LightRendererService(world.Services.Get<GraphicsDevice>()));
+            if (!world.Services.Has<RenderTargetRegistry>())
+                world.Services.Register(new RenderTargetRegistry(world.Services.Get<GraphicsDevice>()));
             if (!world.Services.Has<LightBufferService>())
                 world.Services.Register(new LightBufferService());
 
             world.AddSystem(new LightCollectionSystem());
-            world.AddSystem(new LightingCompositeSystem());
             world.AddSystem(new LightingRenderSystem());
+            world.AddSystem(new CompositeRenderSystem());
 
             return this;
         }

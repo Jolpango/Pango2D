@@ -1,0 +1,83 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Tilemaps/demo.tmj",
+    "expandedProjectPaths": [
+        "Tilemaps",
+        "Tilesets",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "Tilemaps/TilesetNature.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1.5
+        },
+        "Tilemaps/TilesetVillageAbandoned.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tilemaps/demo.tmj": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 427.5,
+                "y": 518
+            }
+        },
+        "Tilesets/TilesetDesert.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 3
+        },
+        "Tilesets/TilesetElement.tsj": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Tilesets/TilesetFloor.tsj": {
+            "scaleInDock": 3,
+            "scaleInEditor": 3
+        },
+        "Tilesets/TilesetNature.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Tilesets/TilesetVillageAbandoned.tsj": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Tilesets/TilesetWater.tsj": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/joelf/dev/Pango2D/Demo/Content/Tiled/Tilesets",
+    "map.height": 50,
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 50,
+    "openFiles": [
+        "Tilemaps/demo.tmj",
+        "Tilesets/TilesetFloor.tsj",
+        "Tilesets/TilesetVillageAbandoned.tsj"
+    ],
+    "project": "demo.tiled-project",
+    "recentFiles": [
+        "Tilesets/TilesetVillageAbandoned.tsj",
+        "Tilesets/TilesetFloor.tsj",
+        "Tilemaps/demo.tmj",
+        "Tilesets/TilesetNature.tsj",
+        "Tilesets/TilesetDesert.tsj",
+        "Tilesets/TilesetElement.tsj",
+        "Tilesets/TilesetWater.tsj",
+        "Tilemaps/TilesetVillageAbandoned.tsj",
+        "Tilemaps/TilesetNature.tsj"
+    ],
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

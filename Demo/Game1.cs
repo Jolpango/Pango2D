@@ -4,6 +4,7 @@ using Pango2D.Core;
 using Pango2D.Core.Graphics;
 using Pango2D.Utilities;
 using Demo.Scenes ;
+using Pango2D.Tiled;
 
 namespace Demo
 {
@@ -12,7 +13,6 @@ namespace Demo
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private GameHost gameHost;
-        private Texture2D test;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -35,7 +35,7 @@ namespace Demo
             gameHost = new GameHost(this, spriteBatch);
             gameHost.Initialize();
             gameHost.LoadInitialScene(new WorldScene());
-            test = Content.Load<Texture2D>("background");
+
         }
 
         protected override void Update(GameTime gameTime)

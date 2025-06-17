@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core;
+using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Components.Contracts;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
+using Pango2D.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -144,8 +146,12 @@ namespace Pango2D.ECS
             system.World = this;
             if (system is IDrawSystem drawSystem)
             {
-                if(!drawSystems.ContainsKey(drawSystem.RenderPhase))
+                if(!Services.Has<RenderPipeline>())
+                    Services.Register(new RenderPipeline(this));
+
+                if (!drawSystems.ContainsKey(drawSystem.RenderPhase))
                     drawSystems[drawSystem.RenderPhase] = new List<IDrawSystem>();
+
                 drawSystems[drawSystem.RenderPhase].Add(drawSystem);
             }
             else if (system is IUpdateSystem updateSystem)
@@ -191,26 +197,13 @@ namespace Pango2D.ECS
             foreach (var system in postUpdateSystems)
                 system.PostUpdate(gameTime);
         }
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DrawPhase(RenderPhase.Lighting, gameTime, spriteBatch);
-            DrawPhase(RenderPhase.World, gameTime, spriteBatch);
-            DrawPhase(RenderPhase.PostProcess, gameTime, spriteBatch);
-            DrawPhase(RenderPhase.UI, gameTime, spriteBatch);
-            DrawPhase(RenderPhase.Debug, gameTime, spriteBatch);
+            Services.Get<RenderPipeline>().Draw(gameTime, spriteBatch);
         }
 
-        private void DrawPhase(RenderPhase phase, GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            foreach (var system in GetDrawSystems(phase))
-            {
-                system.BeginDraw(spriteBatch);
-                system.Draw(gameTime, spriteBatch);
-                system.EndDraw(spriteBatch);
-            }
-        }
-
-        private IEnumerable<IDrawSystem> GetDrawSystems(RenderPhase phase)
+        public IEnumerable<IDrawSystem> GetDrawSystems(RenderPhase phase)
         {
             if (drawSystems.TryGetValue(phase, out var systems))
             {
