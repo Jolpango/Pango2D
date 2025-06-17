@@ -17,12 +17,9 @@ namespace Pango2D.ECS.Systems.RenderSystems
     /// matrix to the rendering process.</remarks>
     public class SpriteRenderSystem : IDrawSystem
     {
-        private const string RenderTargetName = "World";
-        private RenderPassSettings renderPassSettings = new();
         public RenderPhase RenderPhase { get; set; } = RenderPhase.World;
         public World World { get; set; }
 
-        private RenderTargetRegistry renderTargetRegistry;
         /// <summary>
         /// Initializes a new instance of the <see cref="SpriteRenderSystem"/> class.
         /// </summary>
@@ -31,27 +28,20 @@ namespace Pango2D.ECS.Systems.RenderSystems
         public SpriteRenderSystem()
         {
             RenderPhase = RenderPhase.World;
-            renderPassSettings.BlendState = BlendState.AlphaBlend;
-            renderPassSettings.SamplerState = SamplerState.PointClamp;
         }
 
         public void Initialize()
         {
-            renderTargetRegistry = World.Services.Get<RenderTargetRegistry>();
-            renderTargetRegistry.GetOrCreate(RenderTargetName);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
-            spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetRegistry.Get(RenderTargetName));
-            renderPassSettings.TransformMatrix = viewMatrix;
-            spriteBatch.Begin(renderPassSettings);
             foreach (var (entity, transform, sprite) in World.Query<Transform, Sprite>())
             {
+                sprite.LayerDepth = 0.4f;
                 sprite.Draw(spriteBatch, transform);
             }
-            spriteBatch.End();
         }
     }
 }

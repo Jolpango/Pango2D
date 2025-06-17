@@ -43,20 +43,24 @@ namespace Pango2D.Tiled
                 map.TileSets.Add(tileset);
             }
 
-            foreach (var layer in rawData.Layers.Where(l => l.Type == "tilelayer"))
+            foreach (var layerData in rawData.Layers.Where(l => l.Type == "tilelayer"))
             {
-                var width = layer.Width.Value;
-                var height = layer.Height.Value;
+                var width = layerData.Width.Value;
+                var height = layerData.Height.Value;
 
                 var tiles = new int[height, width];
                 for (int y = 0; y < height; y++)
                     for (int x = 0; x < width; x++)
                     {
                         int flatIndex = y * width + x;
-                        tiles[y, x] = layer.Data[flatIndex]; // handle flipping flags if needed
+                        tiles[y, x] = layerData.Data[flatIndex]; // handle flipping flags if needed
                     }
-
-                map.Layers.Add(new TileLayer(layer.Name, width, height, tiles));
+                var layer = new TileLayer(layerData.Name, width, height, tiles)
+                {
+                    Opacity = layerData.Opacity,
+                    IsVisible = layerData.Visible
+                };
+                map.Layers.Add(layer);
             }
 
             return map;

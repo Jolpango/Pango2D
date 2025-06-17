@@ -23,7 +23,6 @@ namespace Demo.Scenes
 {
     public class WorldScene : HybridScene
     {
-        private TileMap tileMap;
         protected override void ConfigureUI(UIManager uiManager)
         {
             var view = UIView.Create<ViewTest>(Services);
@@ -32,9 +31,12 @@ namespace Demo.Scenes
 
         protected override World ConfigureWorld()
         {
+            var loader = new TileMapLoader();
+
             var world = new WorldBuilder(Services)
                 .AddCoreSystems()
                 .AddLightingSystems()
+                .AddSystem(new TileMapRenderer())
                 .AddSystem(new SoundEffectCommandSystem(SoundEffectRegistry))
                 .AddSystem(new MainCameraSystem())
                 .AddSystem(new PlayerInputSystem(InputProvider))
@@ -46,7 +48,7 @@ namespace Demo.Scenes
                 .AddComponent(new Velocity(Vector2.One * 100))
                 .AddComponent(new Sprite(Content.Load<Texture2D>("spinning-dagger")))
                 .AddComponent(new SpriteAnimator(AsepriteLoader.Load("spinning-dagger.json")))
-                .AddComponent(new Light() { Color = Color.White, Radius = 100, Intensity = 1f })
+                .AddComponent(new Light() { Color = Color.White, Radius = 500, Intensity = 0.7f })
                 .AddComponent(new MainCameraTarget())
                 .Build();
 
@@ -60,11 +62,13 @@ namespace Demo.Scenes
                 .AddComponent(new Light() { Color = Color.Orange, Radius = 100f, Intensity = 0.5f })
                 .Build();
 
-            CameraService.SetZoom(1.5f);
+            Entity map = new EntityBuilder(world)
+                .AddComponent(loader.LoadTileMap("Content/Tiled/Tilemaps/demo.tmj", Content))
+                .Build();
+
+            CameraService.SetZoom(2f);
             SoundEffectRegistry.Add("bottle", Content.Load<SoundEffect>("Sounds/SoundEffects/bottle"));
             SoundEffectRegistry.Add("swing", Content.Load<SoundEffect>("Sounds/SoundEffects/swing"));
-            var loader = new TileMapLoader();
-            tileMap = loader.LoadTileMap("Content/Tiled/Tilemaps/demo.tmj", Content);
 
             return world;
         }
@@ -72,10 +76,7 @@ namespace Demo.Scenes
         public override void Draw(GameTime gameTime)
         {
             var spriteBatch = Services.Get<SpriteBatch>();
-            spriteBatch.GraphicsDevice.SetRenderTarget(Services.Get<RenderTargetRegistry>().GetOrCreate("World"));
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullNone, null, CameraService.GetViewMatrix());
-            tileMap?.Draw(spriteBatch);
-            spriteBatch.End();
+            Services.Get<RenderTargetRegistry>().ClearRenderTargets();
             World?.Draw(gameTime, spriteBatch);
             UIManager?.Draw(spriteBatch, UIRenderPassSettings);
         }

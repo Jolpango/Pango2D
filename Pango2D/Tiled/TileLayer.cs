@@ -11,6 +11,8 @@ namespace Pango2D.Tiled
         public string Name { get; }
         public int Width { get; }
         public int Height { get; }
+        public bool IsVisible { get; set; } = true;
+        public float Opacity { get; set; } = 1.0f;
         public int[,] TileIds { get; }
 
         public TileLayer(string name, int width, int height, int[,] tileIds)

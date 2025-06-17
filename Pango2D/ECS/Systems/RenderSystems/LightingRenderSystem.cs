@@ -22,7 +22,6 @@ namespace Pango2D.ECS.Systems.RenderSystems
         };
         private RenderTargetRegistry renderTargetRegistry;
         private LightBufferService lightBufferService;
-        private const string LightMapName = "LightMap";
         public void Initialize()
         {
             renderTargetRegistry = World.Services.Get<RenderTargetRegistry>();
@@ -32,7 +31,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
-            spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetRegistry.GetOrCreate(LightMapName));
+            spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetRegistry[RenderTargetId.Lightmap]);
             renderPassSettings.TransformMatrix = viewMatrix;
             spriteBatch.Begin(renderPassSettings);
 

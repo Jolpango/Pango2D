@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.ECS.Components.Contracts;
 using System.Collections.Generic;
 
 namespace Pango2D.Tiled
 {
-    public class TileMap
+    public class TileMap : IComponent
     {
         public int Width { get; init; }
         public int Height { get; init; }

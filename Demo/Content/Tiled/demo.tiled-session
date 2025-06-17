@@ -5,7 +5,9 @@
     },
     "activeFile": "Tilemaps/demo.tmj",
     "expandedProjectPaths": [
-        "Tilesets"
+        "Tilemaps",
+        "Tilesets",
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -21,8 +23,8 @@
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 274.5,
-                "y": 621
+                "x": 427.5,
+                "y": 518
             }
         },
         "Tilesets/TilesetDesert.tsj": {
