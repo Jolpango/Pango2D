@@ -38,7 +38,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
             foreach (var lightInstance in lightBufferService.ActiveLights)
             {
                 var texture = lightInstance.Texture ?? TextureCache.RadialLight;
-                Vector2 scale = new Vector2(
+                Vector2 scale = new(
                     (lightInstance.Radius * 2f) / texture.Width,
                     (lightInstance.Radius * 2f) / texture.Height
                 );
@@ -48,7 +48,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
                     null,
                     lightInstance.Color * lightInstance.Intensity,
                     0f,
-                    new Vector2(texture.Width / 2f, texture.Height / 2f),
+                    new(texture.Width / 2f, texture.Height / 2f),
                     scale,
                     SpriteEffects.None,
                     0f

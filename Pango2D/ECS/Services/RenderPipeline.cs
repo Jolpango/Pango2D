@@ -9,27 +9,24 @@ using System.Collections.Generic;
 
 namespace Pango2D.ECS.Services
 {
-    public class RenderPipeline
+    public class RenderPipeline(World world)
     {
-        public World World { get; set; }
+        public World World { get; set; } = world ?? throw new ArgumentNullException(nameof(world), "World cannot be null.");
         private RenderTargetRegistry RenderTargets => World.Services.Get<RenderTargetRegistry>();
-        private RenderPassSettings worldSettings = new RenderPassSettings
+        private RenderPassSettings worldSettings = new()
         {
             SortMode = SpriteSortMode.FrontToBack,
             BlendState = BlendState.AlphaBlend,
             SamplerState = SamplerState.PointClamp,
             TransformMatrix = Matrix.Identity
         };
-        public RenderPipeline(World world)
-        {
-            World = world ?? throw new ArgumentNullException(nameof(world), "World cannot be null.");
-        }
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            var worldSystems = World.GetDrawSystems(Core.Graphics.RenderPhase.World);
-            var lightingSystems = World.GetDrawSystems(Core.Graphics.RenderPhase.Lighting);
-            var uiSystems = World.GetDrawSystems(Core.Graphics.RenderPhase.UI);
-            var compositeSystems = World.GetDrawSystems(Core.Graphics.RenderPhase.PostProcess);
+            var worldSystems = World.GetDrawSystems(RenderPhase.World);
+            var lightingSystems = World.GetDrawSystems(RenderPhase.Lighting);
+            var uiSystems = World.GetDrawSystems(RenderPhase.UI);
+            var compositeSystems = World.GetDrawSystems(RenderPhase.PostProcess);
 
             DrawWorldSystems(gameTime, spriteBatch, worldSystems);
             DrawLightingSystems(gameTime, spriteBatch, lightingSystems);

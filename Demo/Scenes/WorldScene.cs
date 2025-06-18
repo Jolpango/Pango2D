@@ -1,16 +1,12 @@
-﻿using Demo.Content.UI;
+﻿using Demo.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Audio;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
-using Pango2D.Core.Input.Contracts;
 using Pango2D.Core.Scenes;
 using Pango2D.ECS;
 using Pango2D.ECS.Components;
-using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.RenderSystems;
 using Pango2D.ECS.Systems.UpdateSystems;
 using Pango2D.Graphics.Sprites;
@@ -25,14 +21,13 @@ namespace Demo.Scenes
     {
         protected override void ConfigureUI(UIManager uiManager)
         {
-            var view = UIView.Create<ViewTest>(Services);
+            var view = UIView.Create<WorldView>(Services);
+            view.SetWorld(World);
             uiManager.AddView(view);
         }
 
         protected override World ConfigureWorld()
         {
-            var loader = new TileMapLoader();
-
             var world = new WorldBuilder(Services)
                 .AddCoreSystems()
                 .AddLightingSystems()
@@ -63,7 +58,7 @@ namespace Demo.Scenes
                 .Build();
 
             Entity map = new EntityBuilder(world)
-                .AddComponent(loader.LoadTileMap("Content/Tiled/Tilemaps/demo.tmj", Content))
+                .AddComponent(TileMapLoader.LoadTileMap("Content/Tiled/Tilemaps/demo.tmj", Content))
                 .Build();
 
             CameraService.SetZoom(2f);

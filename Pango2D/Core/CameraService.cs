@@ -5,16 +5,10 @@ using Pango2D.ECS.Components;
 
 namespace Pango2D.Core
 {
-    public class CameraService : ICameraService
+    public class CameraService(Camera camera, Viewport viewport) : ICameraService
     {
-        private readonly Camera camera;
-        private Viewport viewport;
-
-        public CameraService(Camera camera, Viewport viewport)
-        {
-            this.camera = camera;
-            this.viewport = viewport;
-        }
+        private readonly Camera camera = camera;
+        private Viewport viewport = viewport;
 
         public Vector2 GetPosition()
         {

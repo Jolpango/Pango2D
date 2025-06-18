@@ -13,7 +13,7 @@ namespace Pango2D.UI
 {
     public class UILoader
     {
-        private Dictionary<string, Func<XElement, object, UIElement>> builders = new();
+        private readonly Dictionary<string, Func<XElement, object, UIElement>> builders = [];
         private readonly FontRegistry fontRegistry;
 
         public UILoader(FontRegistry fontRegistry)
@@ -48,6 +48,7 @@ namespace Pango2D.UI
 
             return uiElement;
         }
+
         private void ApplyAttributes(UIElement uiElement, XElement xElement, object bindingContext)
         {
             foreach (var attr in xElement.Attributes())
@@ -89,14 +90,14 @@ namespace Pango2D.UI
 
         private UIButton BuildButton(XElement xButton, object context)
         {
-            UIButton button = new UIButton();
+            UIButton button = new();
             ApplyAttributes(button, xButton, context);
             return button;
         }
 
         private UIStackPanel BuildStackPanel(XElement xPanel, object context)
         {
-            UIStackPanel panel = new UIStackPanel();
+            UIStackPanel panel = new();
             ApplyAttributes(panel, xPanel, context);
             return panel;
         }
@@ -130,11 +131,12 @@ namespace Pango2D.UI
             prop.SetValue(obj, parsed);
         }
 
-        private Color ParseColor(string str)
+        private static Color ParseColor(string str)
         {
             return StringTranslator.ColorFromRGB(str);
         }
-        private Point ParsePoint(string str)
+        
+        private static Point ParsePoint(string str)
         {
             return StringTranslator.PointFromString(str);
         }

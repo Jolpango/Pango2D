@@ -16,19 +16,15 @@ namespace Pango2D.ECS
     /// <remarks>The <see cref="WorldBuilder"/> class allows for the step-by-step creation and configuration
     /// of a  <see cref="World"/> object by adding systems and other components. It supports chaining methods for a
     /// fluent API design, enabling concise and readable world setup code.</remarks>
-    public class WorldBuilder
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="WorldBuilder"/> class.
+    /// </remarks>
+    /// <remarks>This constructor creates a new <see cref="WorldBuilder"/> instance and initializes an
+    /// internal <see cref="World"/> object. Use this class to configure and build a <see cref="World"/>
+    /// instance.</remarks>
+    public class WorldBuilder(GameServices services)
     {
-        private readonly World world;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WorldBuilder"/> class.
-        /// </summary>
-        /// <remarks>This constructor creates a new <see cref="WorldBuilder"/> instance and initializes an
-        /// internal <see cref="World"/> object. Use this class to configure and build a <see cref="World"/>
-        /// instance.</remarks>
-        public WorldBuilder(GameServices services)
-        {
-            world = new World(services);
-        }
+        private readonly World world = new(services);
 
         /// <summary>
         /// Adds the specified system to the world being built.
