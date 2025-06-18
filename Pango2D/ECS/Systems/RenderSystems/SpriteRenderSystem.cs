@@ -36,8 +36,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
-            foreach (var (entity, transform, sprite) in World.Query<Transform, Sprite>())
+            foreach (var (_, transform, sprite) in World.Query<Transform, Sprite>())
             {
                 sprite.LayerDepth = 0.4f;
                 sprite.Draw(spriteBatch, transform);

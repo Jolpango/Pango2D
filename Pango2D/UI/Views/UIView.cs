@@ -17,6 +17,7 @@ namespace Pango2D.UI.Views
         /// The root element of the view.
         /// </summary>
         public UIElement RootElement { get; set; }
+        public GameServices Services { get; set; }
 
         /// <summary>
         /// Gets or sets the visibility of the view's root element.
@@ -128,6 +129,7 @@ namespace Pango2D.UI.Views
         {
             var loader = new UILoader(services.Get<FontRegistry>());
             var view = loader.LoadWithContext<T>(GetViewPath<T>());
+            view.Services = services;
             view.OnLoaded();
             return view;
         }
@@ -135,12 +137,10 @@ namespace Pango2D.UI.Views
         {
             var type = typeof(T);
 
-            // 1. Attribute override
             var attr = type.GetCustomAttribute<ViewPathAttribute>();
             if (attr != null)
                 return attr.Path;
 
-            // 2. Default convention
             return $"Content/UI/Views/{type.Name}.xaml";
         }
     }

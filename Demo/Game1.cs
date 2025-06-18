@@ -15,9 +15,11 @@ namespace Demo
         private GameHost gameHost;
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics = new(this)
+            {
+                PreferredBackBufferWidth = 1280,
+                PreferredBackBufferHeight = 720
+            };
             Content.RootDirectory = "Content";
             AsepriteLoader.RootDirectory = Content.RootDirectory;
             IsMouseVisible = true;
@@ -31,10 +33,10 @@ namespace Demo
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            gameHost = new GameHost(this, spriteBatch);
+            spriteBatch = new(GraphicsDevice);
+            gameHost = new(this, spriteBatch);
             gameHost.Initialize();
-            gameHost.LoadInitialScene(new WorldScene());
+            gameHost.LoadInitialScene(new MainMenu());
 
         }
 

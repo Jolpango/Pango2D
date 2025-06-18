@@ -12,7 +12,7 @@ namespace Pango2D.Tiled
 {
     public class TileMapLoader
     {
-        public TileMap LoadTileMap(string tileMapPath, ContentManager content)
+        public static TileMap LoadTileMap(string tileMapPath, ContentManager content)
         {
             var rawData = TiledData.FromJson(System.IO.File.ReadAllText(tileMapPath));
             var map = new TileMap()
@@ -66,11 +66,7 @@ namespace Pango2D.Tiled
             return map;
         }
 
-        public void AddTileMapToEcs(World world, TileMap tileMap)
-        {
-        }
-
-        private string ResolveTilesetSource(string tileSetPath, string tileMapPath)
+        private static string ResolveTilesetSource(string tileSetPath, string tileMapPath)
         {
             // Assuming the source is relative to the tile map path
             var directory = System.IO.Path.GetDirectoryName(tileMapPath);
@@ -78,13 +74,13 @@ namespace Pango2D.Tiled
             return path;
         }
 
-        private string ResolveTilesetTexturePath(string tilesetPath, string texture)
+        private static string ResolveTilesetTexturePath(string tilesetPath, string texture)
         {
             var directory = System.IO.Path.GetDirectoryName(tilesetPath);
             // remove the root "Contnet" directory from the path
             if (directory.StartsWith("Content", StringComparison.OrdinalIgnoreCase))
             {
-                directory = directory.Substring("Content/".Length).TrimStart(System.IO.Path.DirectorySeparatorChar);
+                directory = directory["Content/".Length..].TrimStart(System.IO.Path.DirectorySeparatorChar);
             }
             var path = System.IO.Path.Combine(directory, texture);
             var pathWithoutExtension = System.IO.Path.ChangeExtension(path, null);

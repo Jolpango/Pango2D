@@ -60,12 +60,12 @@ namespace Pango2D.ECS.Systems.RenderSystems
                                 int localTileId = tileId - tileSet.FirstGid;
                                 int tileX = localTileId % (tileSet.Texture.Width / (tileSet.TileWidth + tileSet.Spacing));
                                 int tileY = localTileId / (tileSet.Texture.Width / (tileSet.TileWidth + tileSet.Spacing));
-                                Rectangle sourceRectangle = new Rectangle(
+                                Rectangle sourceRectangle = new(
                                     tileX * (tileSet.TileWidth + tileSet.Spacing) + tileSet.Margin,
                                     tileY * (tileSet.TileHeight + tileSet.Spacing) + tileSet.Margin,
                                     tileSet.TileWidth,
                                     tileSet.TileHeight);
-                                Vector2 position = new Vector2(j * tileMap.TileWidth, i * tileMap.TileHeight);
+                                Vector2 position = new(j * tileMap.TileWidth, i * tileMap.TileHeight);
                                 spriteBatch.Draw(
                                     tileSet.Texture,
                                     position,

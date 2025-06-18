@@ -20,28 +20,23 @@ namespace Pango2D.ECS
     /// as  add systems for updating and drawing those entities. Systems are categorized into update systems  and draw
     /// systems, which are executed during the respective <see cref="Update(GameTime)"/> and  <see cref="Draw"/>
     /// methods.</remarks>
-    public class World : IDisposable
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="World"/> class with the specified game services.
+    /// </remarks>
+    /// <param name="services">The game services instance used to manage and provide access to game-related functionality. Cannot be <see
+    /// langword="null"/>.</param>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="services"/> is <see langword="null"/>.</exception>
+    public class World(GameServices services) : IDisposable
     {
-        private readonly Dictionary<Type, ComponentStore<IComponent>> componentStores = new ();
-        private readonly HashSet<Entity> entities = new ();
+        private readonly Dictionary<Type, ComponentStore<IComponent>> componentStores = [];
+        private readonly HashSet<Entity> entities = [];
         private int entityIdCounter = 0;
-        private readonly Dictionary<RenderPhase, List<IDrawSystem>> drawSystems = new ();
-        private readonly List<IPreUpdateSystem> preUpdateSystems = new ();
-        private readonly List<IUpdateSystem> updateSystems = new ();
-        private readonly List<IPostUpdateSystem> postUpdateSystems = new ();
+        private readonly Dictionary<RenderPhase, List<IDrawSystem>> drawSystems = [];
+        private readonly List<IPreUpdateSystem> preUpdateSystems = [];
+        private readonly List<IUpdateSystem> updateSystems = [];
+        private readonly List<IPostUpdateSystem> postUpdateSystems = [];
 
-        public GameServices Services { get; init; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="World"/> class with the specified game services.
-        /// </summary>
-        /// <param name="services">The game services instance used to manage and provide access to game-related functionality. Cannot be <see
-        /// langword="null"/>.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="services"/> is <see langword="null"/>.</exception>
-        public World(GameServices services)
-        {
-            Services = services ?? throw new ArgumentNullException(nameof(services), "GameServices cannot be null.");
-        }
+        public GameServices Services { get; init; } = services ?? throw new ArgumentNullException(nameof(services), "GameServices cannot be null.");
 
         /// <summary>
         /// Creates a new instance of the <see cref="Entity"/> class and adds it to the internal collection.
@@ -150,7 +145,7 @@ namespace Pango2D.ECS
                     Services.Register(new RenderPipeline(this));
 
                 if (!drawSystems.ContainsKey(drawSystem.RenderPhase))
-                    drawSystems[drawSystem.RenderPhase] = new List<IDrawSystem>();
+                    drawSystems[drawSystem.RenderPhase] = [];
 
                 drawSystems[drawSystem.RenderPhase].Add(drawSystem);
             }
@@ -209,7 +204,7 @@ namespace Pango2D.ECS
             {
                 return systems;
             }
-            return Array.Empty<IDrawSystem>();
+            return [];
         }
 
         private void GetStore<T>(out ComponentStore<IComponent> store) where T : IComponent

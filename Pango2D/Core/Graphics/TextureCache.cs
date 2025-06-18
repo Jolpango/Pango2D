@@ -14,7 +14,7 @@ namespace Pango2D.Core.Graphics
             {
                 // Create a 1x1 white texture
                 White = new Texture2D(graphicsDevice, 1, 1);
-                Color[] colorData = { Color.White };
+                Color[] colorData = [Color.White];
                 White.SetData(colorData);
             }
             if (RadialLight is null)
@@ -29,7 +29,7 @@ namespace Pango2D.Core.Graphics
             var tex = new Texture2D(graphics, size, size);
             Color[] data = new Color[size * size];
 
-            Vector2 center = new Vector2(size / 2f);
+            Vector2 center = new(size / 2f);
             float radius = size / 2f;
 
             for (int y = 0; y < size; y++)

@@ -6,21 +6,13 @@ using System.Threading.Tasks;
 
 namespace Pango2D.Tiled
 {
-    public class TileLayer
+    public class TileLayer(string name, int width, int height, int[,] tileIds)
     {
-        public string Name { get; }
-        public int Width { get; }
-        public int Height { get; }
+        public string Name { get; } = name;
+        public int Width { get; } = width;
+        public int Height { get; } = height;
         public bool IsVisible { get; set; } = true;
         public float Opacity { get; set; } = 1.0f;
-        public int[,] TileIds { get; }
-
-        public TileLayer(string name, int width, int height, int[,] tileIds)
-        {
-            Name = name;
-            Width = width;
-            Height = height;
-            TileIds = tileIds;
-        }
+        public int[,] TileIds { get; } = tileIds;
     }
 }

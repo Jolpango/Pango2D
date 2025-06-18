@@ -17,7 +17,7 @@ namespace Pango2D.Core.Graphics
     }
     public class RenderTargetRegistry
     {
-        private readonly Dictionary<RenderTargetId, RenderTarget2D> renderTargets = new();
+        private readonly Dictionary<RenderTargetId, RenderTarget2D> renderTargets = [];
         private readonly GraphicsDevice graphics;
         public RenderTargetRegistry(GraphicsDevice graphics)
         {
@@ -94,7 +94,7 @@ namespace Pango2D.Core.Graphics
 
         public List<RenderTarget2D> GetAll()
         {
-            return renderTargets.Values.ToList();
+            return [.. renderTargets.Values];
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Pango2D.Core
     /// result in an exception. Services must be reference types.</remarks>
     public class GameServices
     {
-        private readonly Dictionary<Type, object> services = new();
+        private readonly Dictionary<Type, object> services = [];
 
         /// <summary>
         /// Retrieves a registered service of the specified type.

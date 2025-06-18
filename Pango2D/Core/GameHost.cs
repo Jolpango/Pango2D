@@ -36,10 +36,11 @@ namespace Pango2D.Core
         {
             // Initialization logic for the game host
             sceneManager = new SceneManager(gameServices);
+            gameServices.Register(sceneManager);
         }
         public virtual void LoadInitialScene(SceneBase initialScene)
         {
-            if (initialScene is null) throw new ArgumentNullException(nameof(initialScene));
+            ArgumentNullException.ThrowIfNull(initialScene);
             sceneManager.ChangeScene(initialScene);
         }
         public virtual void Update(GameTime gameTime)
