@@ -1,8 +1,6 @@
-﻿
-
-using Microsoft.Xna.Framework.Graphics;
-using Pango2D.Core;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
+using Pango2D.Core.Services;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.ECS.Systems.RenderSystems;
@@ -49,6 +47,7 @@ namespace Pango2D.ECS
             world.AddSystem(new AnimationCommandSystem());
             world.AddSystem(new SpriteRenderSystem());
             world.AddSystem(new MovementSystem());
+            world.AddSystem(new CollisionSystem());
             return this;
         }
 
@@ -58,8 +57,6 @@ namespace Pango2D.ECS
         /// <returns>The current <see cref="WorldBuilder"/> instance, allowing for method chaining.</returns>
         public WorldBuilder AddLightingSystems()
         {
-            if (!world.Services.Has<RenderTargetRegistry>())
-                world.Services.Register(new RenderTargetRegistry(world.Services.Get<GraphicsDevice>()));
             if (!world.Services.Has<LightBufferService>())
                 world.Services.Register(new LightBufferService());
 

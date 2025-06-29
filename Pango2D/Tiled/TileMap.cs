@@ -12,6 +12,7 @@ namespace Pango2D.Tiled
         public int TileWidth { get; init; }
         public int TileHeight { get; init; }
         public List<TileLayer> Layers { get; } = [];
+        public List<ObjectLayer> ObjectLayers { get; } = [];
         public List<TileSet> TileSets { get; } = [];
 
         public void Draw(SpriteBatch spriteBatch)
@@ -36,7 +37,8 @@ namespace Pango2D.Tiled
                                 tileSet.TileWidth,
                                 tileSet.TileHeight);
                             Vector2 position = new(j * TileWidth, i * TileHeight);
-                            spriteBatch.Draw(tileSet.Texture, position, sourceRectangle, Color.White);
+                            Vector2 origin = new Vector2(tileSet.TileWidth / 2f, tileSet.TileHeight / 2f);
+                            spriteBatch.Draw(tileSet.Texture, position, sourceRectangle, Color.White, 0f, origin, 1f, SpriteEffects.None, 1f);
                         }
                     }
                 }

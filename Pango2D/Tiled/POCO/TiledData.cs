@@ -88,10 +88,10 @@ namespace Pango2D.Tiled
         public string Draworder { get; set; }
 
         [JsonProperty("objects", NullValueHandling = NullValueHandling.Ignore)]
-        public Object[] Objects { get; set; }
+        public TiledObject[] Objects { get; set; }
     }
 
-    public partial class Object
+    public partial class TiledObject
     {
         [JsonProperty("height")]
         public float Height { get; set; }

@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Pango2D.Core;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
+using Pango2D.Core.Services;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Components.Contracts;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
-using Pango2D.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -92,12 +90,14 @@ namespace Pango2D.ECS
         /// <typeparam name="T1">The type of the component to query for. Must implement <see cref="IComponent"/>.</typeparam>
         /// <returns>An enumerable collection of tuples, where each tuple contains an <see cref="Entity"/> and the corresponding
         /// component of type <typeparamref name="T1"/>.</returns>
-        public IEnumerable<(Entity, T1)> Query<T1>() where T1 : IComponent
+        public IEnumerable<(Entity, T1)> Query<T1>(Func<Entity, T1, bool> predicate = null) where T1 : IComponent
         {
             GetStore<T1>(out var store);
             foreach (var (entity, component) in store.All())
             {
-                yield return (entity, (T1)component);
+                var c1Cast = (T1)component;
+                if(predicate is null || predicate(entity, c1Cast))
+                    yield return (entity, c1Cast);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Pango2D.ECS
         /// <typeparam name="T2">The type of the second component to query. Must implement <see cref="IComponent"/>.</typeparam>
         /// <returns>An enumerable collection of tuples, where each tuple contains an entity and its associated components of
         /// type <typeparamref name="T1"/> and <typeparamref name="T2"/>.</returns>
-        public IEnumerable<(Entity, T1, T2)> Query<T1, T2>()
+        public IEnumerable<(Entity, T1, T2)> Query<T1, T2>(Func<Entity, T1, T2, bool> predicate = null)
             where T1 : IComponent
             where T2 : IComponent
         {
@@ -119,9 +119,36 @@ namespace Pango2D.ECS
             GetStore<T2>(out var store2);
             foreach (var (entity, c1) in store1.All())
             {
+                var c1Cast = (T1)c1;
                 if(store2.Has(entity))
                 {
-                    yield return (entity, (T1)c1, (T2)store2.Get(entity));
+                    var c2Cast = (T2)store2.Get(entity);
+                    if (predicate is null || predicate(entity, c1Cast, c2Cast))
+                        yield return (entity, c1Cast, c2Cast);
+                }
+            }
+        }
+
+        public IEnumerable<(Entity, T1, T2, T3)> Query<T1, T2, T3>(Func<Entity, T1, T2, T3, bool> predicate = null)
+            where T1 : IComponent
+            where T2 : IComponent
+            where T3 : IComponent
+        {
+            GetStore<T1>(out var store1);
+            GetStore<T2>(out var store2);
+            GetStore<T3>(out var store3);
+            foreach (var (entity, c1) in store1.All())
+            {
+                var c1Cast = (T1)c1;
+                if (store2.Has(entity))
+                {
+                    var c2Cast = (T2)store2.Get(entity);
+                    if (store3.Has(entity))
+                    {
+                        var c3Cast = (T3)store3.Get(entity);
+                        if (predicate is null || predicate(entity, c1Cast, c2Cast, c3Cast))
+                            yield return (entity, c1Cast, c2Cast, c3Cast);
+                    }
                 }
             }
         }

@@ -1,13 +1,8 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Pango2D.ECS;
-using Pango2D.ECS.Components;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Pango2D.Tiled
 {
     public class TileMapLoader
@@ -53,7 +48,7 @@ namespace Pango2D.Tiled
                     for (int x = 0; x < width; x++)
                     {
                         int flatIndex = y * width + x;
-                        tiles[y, x] = layerData.Data[flatIndex]; // handle flipping flags if needed
+                        tiles[y, x] = layerData.Data[flatIndex];
                     }
                 var layer = new TileLayer(layerData.Name, width, height, tiles)
                 {
@@ -61,6 +56,13 @@ namespace Pango2D.Tiled
                     IsVisible = layerData.Visible
                 };
                 map.Layers.Add(layer);
+            }
+
+            foreach(var objectGroup in rawData.Layers.Where(l => l.Type == "objectgroup"))
+            {
+                var objectLayer = new ObjectLayer();
+                objectLayer.Objects = objectGroup.Objects.ToList();
+                map.ObjectLayers.Add(objectLayer);
             }
 
             return map;
@@ -77,7 +79,7 @@ namespace Pango2D.Tiled
         private static string ResolveTilesetTexturePath(string tilesetPath, string texture)
         {
             var directory = System.IO.Path.GetDirectoryName(tilesetPath);
-            // remove the root "Contnet" directory from the path
+            // remove the root "Content" directory from the path
             if (directory.StartsWith("Content", StringComparison.OrdinalIgnoreCase))
             {
                 directory = directory["Content/".Length..].TrimStart(System.IO.Path.DirectorySeparatorChar);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pango2D.Tiled
+﻿namespace Pango2D.Tiled
 {
     public class TileLayer(string name, int width, int height, int[,] tileIds)
     {
