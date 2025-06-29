@@ -10,7 +10,7 @@ namespace Pango2D.Graphics.Sprites
     {
         public Texture2D Texture { get; set; } = texture;
         public Rectangle SourceRectangle { get; set; } = new Rectangle(0, 0, texture.Width, texture.Height);
-        public Vector2 Origin { get; set; } = Vector2.Zero;
+        public Vector2 Origin { get => new Vector2(SourceRectangle.Width / 2, SourceRectangle.Height / 2); }
         public Color Color { get; set; } = Color.White;
         public float Alpha { get; set; } = 1f;
         public float LayerDepth { get; set; } = 0f;
@@ -26,7 +26,7 @@ namespace Pango2D.Graphics.Sprites
         }
         public void Draw(SpriteBatch spriteBatch, Transform transform)
         {
-            spriteBatch.Draw(Texture, transform.Position, SourceRectangle, Color * Alpha, transform.Rotation, new Vector2(SourceRectangle.Width / 2, SourceRectangle.Height / 2), transform.Scale, Effects, LayerDepth);
+            spriteBatch.Draw(Texture, transform.Position + Origin, SourceRectangle, Color * Alpha, transform.Rotation, Origin, transform.Scale, Effects, LayerDepth);
         }
     }
 }
