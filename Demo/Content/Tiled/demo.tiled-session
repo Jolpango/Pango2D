@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Tilemaps/demo.tmj",
+    "activeFile": "Tilesets/TilesetVillageAbandoned.tsj",
     "expandedProjectPaths": [
         "Tilemaps",
         "Tilesets",
@@ -23,8 +23,16 @@
             "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 427.5,
-                "y": 518
+                "x": 439.5,
+                "y": 516.5
+            }
+        },
+        "Tilemaps/demo.tmx": {
+            "scale": 0.6923125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 399.38611537419877,
+                "y": 399.38611537419877
             }
         },
         "Tilesets/TilesetDesert.tsj": {
@@ -59,14 +67,14 @@
     "map.tileWidth": 16,
     "map.width": 50,
     "openFiles": [
-        "Tilemaps/demo.tmj",
         "Tilesets/TilesetFloor.tsj",
         "Tilesets/TilesetVillageAbandoned.tsj"
     ],
     "project": "demo.tiled-project",
     "recentFiles": [
-        "Tilesets/TilesetVillageAbandoned.tsj",
         "Tilesets/TilesetFloor.tsj",
+        "Tilesets/TilesetVillageAbandoned.tsj",
+        "Tilemaps/demo.tmx",
         "Tilemaps/demo.tmj",
         "Tilesets/TilesetNature.tsj",
         "Tilesets/TilesetDesert.tsj",

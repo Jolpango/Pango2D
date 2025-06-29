@@ -13,7 +13,108 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin background.jpeg
+#begin Fonts/Default/Bold/Default-Bold-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-12.spritefont
+
+#begin Fonts/Default/Bold/Default-Bold-16.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-16.spritefont
+
+#begin Fonts/Default/Bold/Default-Bold-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-24.spritefont
+
+#begin Fonts/Default/Bold/Default-Bold-36.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-36.spritefont
+
+#begin Fonts/Default/Bold/Default-Bold-48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-48.spritefont
+
+#begin Fonts/Default/Bold/Default-Bold-72.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-72.spritefont
+
+#begin Fonts/Default/Bold/Default-Bold-8.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-8.spritefont
+
+#begin Fonts/Default/Regular/Default-Regular-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-12.spritefont
+
+#begin Fonts/Default/Regular/Default-Regular-16.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-16.spritefont
+
+#begin Fonts/Default/Regular/Default-Regular-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-24.spritefont
+
+#begin Fonts/Default/Regular/Default-Regular-36.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-36.spritefont
+
+#begin Fonts/Default/Regular/Default-Regular-48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-48.spritefont
+
+#begin Fonts/Default/Regular/Default-Regular-72.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-72.spritefont
+
+#begin Fonts/Default/Regular/Default-Regular-8.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-8.spritefont
+
+#begin Ninja.json
+/copy:Ninja.json
+
+#begin Ninja.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,14 +124,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:background.jpeg
-
-#begin DefaultFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:DefaultFont.spritefont
+/build:Ninja.png
 
 #begin Sounds/SoundEffects/bottle.wav
 /importer:WavImporter

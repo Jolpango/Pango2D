@@ -1,7 +1,6 @@
 ﻿using Demo.Views;
-using Pango2D.Core;
 using Pango2D.Core.Scenes;
-using Pango2D.ECS;
+using Pango2D.Core.Services;
 using Pango2D.UI;
 using Pango2D.UI.Views;
 

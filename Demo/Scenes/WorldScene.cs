@@ -22,7 +22,6 @@ namespace Demo.Scenes
         protected override void ConfigureUI(UIManager uiManager)
         {
             var view = UIView.Create<WorldView>(Services);
-            view.SetWorld(World);
             uiManager.AddView(view);
         }
 
@@ -35,32 +34,11 @@ namespace Demo.Scenes
                 .AddSystem(new SoundEffectCommandSystem(SoundEffectRegistry))
                 .AddSystem(new MainCameraSystem())
                 .AddSystem(new PlayerInputSystem(InputProvider))
+                .AddSystem(new DebugColliderRenderSystem())
                 .Build();
+            var prefabFactory = new PrefabFactory(world);
 
-            Entity player = new EntityBuilder(world)
-                .AddComponent(new PlayerComponent())
-                .AddComponent(new Transform())
-                .AddComponent(new Velocity(Vector2.One * 100))
-                .AddComponent(new Sprite(Content.Load<Texture2D>("spinning-dagger")))
-                .AddComponent(new SpriteAnimator(AsepriteLoader.Load("spinning-dagger.json")))
-                .AddComponent(new Light() { Color = Color.White, Radius = 500, Intensity = 0.7f })
-                .AddComponent(new MainCameraTarget())
-                .Build();
-
-            Entity light = new EntityBuilder(world)
-                .AddComponent(new Transform() { Position = new Vector2(100, 200)})
-                .AddComponent(new Light() { Color = Color.Orange, Radius = 100f, Intensity = 1f })
-                .Build();
-
-            Entity light2 = new EntityBuilder(world)
-                .AddComponent(new Transform() { Position = new Vector2(100, 0) })
-                .AddComponent(new Light() { Color = Color.Orange, Radius = 100f, Intensity = 0.5f })
-                .Build();
-
-            Entity map = new EntityBuilder(world)
-                .AddComponent(TileMapLoader.LoadTileMap("Content/Tiled/Tilemaps/demo.tmj", Content))
-                .Build();
-
+            Entity map = TiledWorldLoader.LoadMap("Content/Tiled/Tilemaps/demo.tmj", world, prefabFactory.TiledFactory);
             CameraService.SetZoom(2f);
             SoundEffectRegistry.Add("bottle", Content.Load<SoundEffect>("Sounds/SoundEffects/bottle"));
             SoundEffectRegistry.Add("swing", Content.Load<SoundEffect>("Sounds/SoundEffects/swing"));
