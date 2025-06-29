@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
 using Pango2D.Core.Input.Contracts;
+using Pango2D.Core.Services;
 using Pango2D.ECS;
 using Pango2D.UI;
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core.Services;
 using Pango2D.ECS;
 using System;
 using System.Collections.Generic;

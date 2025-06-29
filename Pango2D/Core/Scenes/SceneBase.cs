@@ -5,6 +5,7 @@ using Pango2D.Core.Audio;
 using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.Core.Input.Contracts;
+using Pango2D.Core.Services;
 using Pango2D.ECS.Components;
 
 namespace Pango2D.Core.Scenes
@@ -35,7 +36,7 @@ namespace Pango2D.Core.Scenes
             Services = services;
             if (!Services.Has<ICameraService>())
             {
-                Services.Register<ICameraService>(new CameraService(new Camera(), GraphicsDevice.Viewport));
+                Services.Register<ICameraService>(new CameraService(new Camera(), new Viewport(new Rectangle(0, 0, 640, 360))));
             }
         }
         /// <summary>
