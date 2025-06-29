@@ -18,9 +18,17 @@ namespace Pango2D.UI
 
         public UILoader(FontRegistry fontRegistry)
         {
-            builders.Add("Button", BuildButton);
-            builders.Add("StackPanel", BuildStackPanel);
             this.fontRegistry = fontRegistry ?? throw new ArgumentNullException(nameof(fontRegistry));
+            builders.Add("Label", GenericBuilder<UILabel>);
+            builders.Add("StackPanel", GenericBuilder<UIStackPanel>);
+            builders.Add("P", GenericBuilder<UIParagraph>);
+            builders.Add("Text", GenericBuilder<UIParagraph>);
+            builders.Add("Paragraph", GenericBuilder<UIParagraph>);
+            builders.Add("H1", GenericBuilder<UIHeader1>);
+            builders.Add("H2", GenericBuilder<UIHeader2>);
+            builders.Add("H3", GenericBuilder<UIHeader3>);
+            builders.Add("Button", GenericBuilder<UIButton>);
+            // Add more as needed
         }
         public T LoadWithContext<T>(string filePath) where T : UIView, new()
         {
@@ -51,6 +59,14 @@ namespace Pango2D.UI
 
         private void ApplyAttributes(UIElement uiElement, XElement xElement, object bindingContext)
         {
+            // 1. Set Text from child text content (if any)
+            var textProp = uiElement.GetType().GetProperty("Text");
+            if (textProp != null && textProp.CanWrite && !string.IsNullOrWhiteSpace(xElement.Value) && !xElement.HasElements)
+            {
+                textProp.SetValue(uiElement, xElement.Value.Trim());
+            }
+
+            // 2. Process attributes (attribute assignment will overwrite child text if present)
             foreach (var attr in xElement.Attributes())
             {
                 var value = attr.Value;
@@ -74,32 +90,30 @@ namespace Pango2D.UI
                         SetValue(uiElement, attr.Name.LocalName, getter());
                     }
                 }
-                else if (attr.Name == "OnClick" && uiElement is UIButton btn)
+                else if (attr.Name == "OnClick")
                 {
                     var method = bindingContext.GetType().GetMethod(attr.Value);
                     if (method != null)
-                        btn.OnClick += () => method.Invoke(bindingContext, null);
+                        uiElement.OnClick += (sender) => method.Invoke(bindingContext, [sender]);
+                }
+                else if (attr.Name == "OnMouseEnter")
+                {
+                    var method = bindingContext.GetType().GetMethod(attr.Value);
+                    if (method != null)
+                        uiElement.OnMouseEnter += (sender) => method.Invoke(bindingContext, [sender]);
+                }
+                else if (attr.Name == "OnMouseLeave")
+                {
+                    var method = bindingContext.GetType().GetMethod(attr.Value);
+                    if (method != null)
+                        uiElement.OnMouseLeave += (sender) => method.Invoke(bindingContext, [sender]);
                 }
                 else
                 {
-                    // Static property assignment
+                    // Static property assignment (overwrites child text if "Text" attribute is present)
                     SetValue(uiElement, attr.Name.LocalName, value);
                 }
             }
-        }
-
-        private UIButton BuildButton(XElement xButton, object context)
-        {
-            UIButton button = new();
-            ApplyAttributes(button, xButton, context);
-            return button;
-        }
-
-        private UIStackPanel BuildStackPanel(XElement xPanel, object context)
-        {
-            UIStackPanel panel = new();
-            ApplyAttributes(panel, xPanel, context);
-            return panel;
         }
 
         private void SetValue(object obj, string propertyName, object rawValue)
@@ -113,7 +127,9 @@ namespace Pango2D.UI
             // Handle common types
             if (rawValue is string str)
             {
-                if (prop.PropertyType == typeof(Color))
+                if (prop.PropertyType == typeof(bool))
+                    parsed = ParseBool(str);
+                else if (prop.PropertyType == typeof(Color))
                     parsed = ParseColor(str);
                 else if (prop.PropertyType == typeof(Point))
                     parsed = ParsePoint(str);
@@ -131,6 +147,11 @@ namespace Pango2D.UI
             prop.SetValue(obj, parsed);
         }
 
+        private static bool ParseBool(string str)
+        {
+            return bool.Parse(str);
+        }
+
         private static Color ParseColor(string str)
         {
             return StringTranslator.ColorFromRGB(str);
@@ -139,6 +160,12 @@ namespace Pango2D.UI
         private static Point ParsePoint(string str)
         {
             return StringTranslator.PointFromString(str);
+        }
+        private UIElement GenericBuilder<T>(XElement xElement, object context) where T : UIElement
+        {
+            var element = (T)Activator.CreateInstance(typeof(T), fontRegistry)!;
+            ApplyAttributes(element, xElement, context);
+            return element;
         }
     }
 }

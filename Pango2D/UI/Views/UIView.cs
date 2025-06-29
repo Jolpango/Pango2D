@@ -1,5 +1,5 @@
-﻿using Pango2D.Core;
-using Pango2D.Core.Graphics;
+﻿using Pango2D.Core.Graphics;
+using Pango2D.Core.Services;
 using Pango2D.UI.Elements;
 using System.Reflection;
 

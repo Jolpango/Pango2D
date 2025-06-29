@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core.Graphics;
+using Pango2D.UI.Elements.Contracts;
 using System;
 
 namespace Pango2D.UI.Elements
@@ -8,7 +11,7 @@ namespace Pango2D.UI.Elements
         Horizontal,
         Vertical
     }
-    public class UIStackPanel : UIElement
+    public class UIStackPanel(FontRegistry fontRegistry) : UIElement(fontRegistry), ILayoutContainer
     {
         private Orientation orientation = Orientation.Vertical;
         private int gap = 0;
@@ -46,31 +49,32 @@ namespace Pango2D.UI.Elements
                 child.Measure();
                 if (orientation == Orientation.Horizontal)
                 {
-                    width += child.DesiredSize.X + gap;
-                    height = Math.Max(height, child.DesiredSize.Y);
+                    width += child.Size.X + gap;
+                    height = Math.Max(height, child.Size.Y);
                 }
                 else
                 {
-                    height += child.DesiredSize.Y + gap;
-                    width = Math.Max(width, child.DesiredSize.X);
+                    height += child.Size.Y + gap;
+                    width = Math.Max(width, child.Size.X);
                 }
             }
-            DesiredSize = new Point(width + Padding.X * 2, height + Padding.Y * 2);
+            Size = new Point(width + Padding.X * 2, height + Padding.Y * 2);
         }
 
         public override void Arrange(Point offset)
         {
-            Point currentPosition = new Point(offset.X + Padding.X, offset.Y + Padding.Y);
+            Position = CalculateAnchoredPosition(offset, Size, Anchor, new Point(1920, 1080));
+            Point currentPosition = Position + Padding + offset;
             foreach (var child in Children)
             {
                 child.Arrange(currentPosition);
                 if (orientation == Orientation.Horizontal)
                 {
-                    currentPosition.X += child.DesiredSize.X + gap;
+                    currentPosition.X += child.Size.X + gap;
                 }
                 else
                 {
-                    currentPosition.Y += child.DesiredSize.Y + gap;
+                    currentPosition.Y += child.Size.Y + gap;
                 }
             }
             isLayoutDirty = false;

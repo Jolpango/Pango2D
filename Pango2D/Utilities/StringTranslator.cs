@@ -24,22 +24,23 @@ namespace Pango2D.Utilities
 
             rgb = rgb.Trim().ToLowerInvariant();
 
-            if (!rgb.StartsWith("rgb(") || !rgb.EndsWith(")"))
+            if (!rgb.StartsWith("rgb(") && !rgb.StartsWith("rgba(") || !rgb.EndsWith(")"))
             {
-                throw new FormatException("RGB string must be in the format 'rgb(r, g, b)' or 'rgb(r%, g%, b%)'.");
+                throw new FormatException("RGB(A) string must be in the format 'rgb(r, g, b)' or 'rgba(r, g, b, a)' or with percentages.");
             }
 
-            string content = rgb.Substring(4, rgb.Length - 5);
+            string content = rgb.Substring(rgb.IndexOf('(') + 1, rgb.Length - rgb.IndexOf('(') - 2);
             string[] parts = content.Split(',');
 
-            if (parts.Length != 3)
+            if (parts.Length < 3 || parts.Length > 4)
             {
-                throw new FormatException("RGB string must contain exactly three components.");
+                throw new FormatException("RGB(A) string must contain three or four components.");
             }
 
-            int[] values = new int[3];
+            int[] values = new int[4];
+            values[3] = 255; // Default alpha value  
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < parts.Length; i++)
             {
                 string part = parts[i].Trim();
 
@@ -62,7 +63,7 @@ namespace Pango2D.Utilities
                 }
             }
 
-            return new Color(values[0], values[1], values[2]);
+            return new Color(values[0], values[1], values[2], values[3]);
         }
 
         /// <summary>
