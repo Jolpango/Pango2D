@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
+using Pango2D.Core.Services;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.Extensions;
@@ -54,10 +55,19 @@ namespace Pango2D.ECS.Systems.RenderSystems
             Effect = null,
             TransformMatrix = Matrix.Identity
         };
+
+        private RenderPassSettings backBufferPas = new()
+        {
+            SortMode = SpriteSortMode.Immediate,
+            BlendState = BlendState.AlphaBlend,
+            SamplerState = SamplerState.PointClamp
+        };
         private RenderTargetRegistry renderTargetRegistry;
+        private ViewportService viewportService;
         public void Initialize()
         {
             renderTargetRegistry = World.Services.Get<RenderTargetRegistry>();
+            viewportService = World.Services.Get<ViewportService>();
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -73,12 +83,15 @@ namespace Pango2D.ECS.Systems.RenderSystems
 
             spriteBatch.Begin(uiPass);
             spriteBatch.Draw(renderTargetRegistry[RenderTargetId.UI], Vector2.Zero, Color.White);
+#if DEBUG
+            spriteBatch.Draw(renderTargetRegistry[RenderTargetId.Debug], Vector2.Zero, Color.White);
+#endif
             spriteBatch.End();
 
             // Draw the final composition to the backbuffer
             spriteBatch.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin();
-            spriteBatch.Draw(renderTargetRegistry[RenderTargetId.Composition], Vector2.Zero, Color.White);
+            spriteBatch.Begin(backBufferPas);
+            spriteBatch.Draw(renderTargetRegistry[RenderTargetId.Composition], viewportService.DestinationRectangle, Color.White);
             spriteBatch.End();
         }
     }

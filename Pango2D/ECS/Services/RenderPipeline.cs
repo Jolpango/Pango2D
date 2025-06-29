@@ -29,6 +29,9 @@ namespace Pango2D.ECS.Services
             var compositeSystems = World.GetDrawSystems(RenderPhase.PostProcess);
 
             DrawWorldSystems(gameTime, spriteBatch, worldSystems);
+#if DEBUG
+            DrawDebugSystems(gameTime, spriteBatch, World.GetDrawSystems(RenderPhase.Debug));
+#endif
             DrawLightingSystems(gameTime, spriteBatch, lightingSystems);
             DrawUI(gameTime, spriteBatch, uiSystems);
             DrawComposition(gameTime, spriteBatch, compositeSystems);
@@ -72,6 +75,21 @@ namespace Pango2D.ECS.Services
             var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
             worldSettings.TransformMatrix = viewMatrix;
             spriteBatch.GraphicsDevice.SetRenderTarget(RenderTargets[RenderTargetId.World]);
+            spriteBatch.Begin(worldSettings);
+            foreach (var system in worldSystems)
+            {
+                if (system is IDrawSystem drawSystem)
+                {
+                    drawSystem.Draw(gameTime, spriteBatch);
+                }
+            }
+            spriteBatch.End();
+        }
+        private void DrawDebugSystems(GameTime gameTime, SpriteBatch spriteBatch, IEnumerable<IDrawSystem> worldSystems)
+        {
+            var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
+            worldSettings.TransformMatrix = viewMatrix;
+            spriteBatch.GraphicsDevice.SetRenderTarget(RenderTargets[RenderTargetId.Debug]);
             spriteBatch.Begin(worldSettings);
             foreach (var system in worldSystems)
             {

@@ -66,13 +66,14 @@ namespace Pango2D.ECS.Systems.RenderSystems
                                     tileSet.TileWidth,
                                     tileSet.TileHeight);
                                 Vector2 position = new(j * tileMap.TileWidth, i * tileMap.TileHeight);
+                                Vector2 origin = new Vector2(tileSet.TileWidth / 2f, tileSet.TileHeight / 2f);
                                 spriteBatch.Draw(
                                     tileSet.Texture,
-                                    position,
+                                    position + origin,
                                     sourceRectangle,
                                     Color.White * layer.Opacity,
                                     0f,
-                                    Vector2.Zero,// maybe center the tile?
+                                    origin,
                                     Vector2.One,
                                     SpriteEffects.None,
                                     layerDepth);

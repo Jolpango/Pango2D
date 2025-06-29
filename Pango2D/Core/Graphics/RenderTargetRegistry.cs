@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,11 @@ namespace Pango2D.Core.Graphics
     {
         private readonly Dictionary<RenderTargetId, RenderTarget2D> renderTargets = [];
         private readonly GraphicsDevice graphics;
-        public RenderTargetRegistry(GraphicsDevice graphics)
+        private readonly ViewportService viewportService;
+        public RenderTargetRegistry(GraphicsDevice graphics, ViewportService viewportService)
         {
             this.graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
+            this.viewportService = viewportService;
             // Initialize default render targets
             renderTargets[RenderTargetId.World] = CreateRenderTarget();
             renderTargets[RenderTargetId.Lightmap] = CreateRenderTarget();
@@ -82,8 +85,8 @@ namespace Pango2D.Core.Graphics
         {
             var renderTarget = new RenderTarget2D(
                 graphics,
-                graphics.Viewport.Width,
-                graphics.Viewport.Height,
+                viewportService.VirtualWidth,
+                viewportService.VirtualHeight,
                 false, // mipMap: usually false unless needed
                 SurfaceFormat.Color, // or whatever format you need
                 DepthFormat.Depth24Stencil8, // or DepthFormat.Depth24Stencil8 if using depth

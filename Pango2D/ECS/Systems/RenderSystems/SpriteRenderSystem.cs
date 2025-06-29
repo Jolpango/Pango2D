@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Systems.Contracts;
-using Pango2D.Extensions;
 using Pango2D.Graphics.Sprites;
 
 namespace Pango2D.ECS.Systems.RenderSystems
@@ -30,10 +28,16 @@ namespace Pango2D.ECS.Systems.RenderSystems
             RenderPhase = RenderPhase.World;
         }
 
-        public void Initialize()
-        {
-        }
+        /// <summary>
+        /// Initializes the sprite render system.
+        /// </summary>
+        public void Initialize() { }
 
+        /// <summary>
+        /// Draws all sprites in the world using the provided <see cref="SpriteBatch"/>.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="spriteBatch"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             foreach (var (_, transform, sprite) in World.Query<Transform, Sprite>())

@@ -8,7 +8,17 @@ namespace Pango2D.ECS.Systems.UpdateSystems
     {
         protected override void Execute(GameTime gameTime, Entity entity, AnimationCommand command, SpriteAnimator target)
         {
-            target.Play(command.AnimationName, command.Loop);
+            if (command.Stop) { target.Stop(); return; }
+            if (command.Pause) { target.Pause(); return; }
+            if (command.Resume) { target.Resume(); return; }
+            if (command.Queue) { target.Queue(command.AnimationName, loop: command.Loop, onEnd: command.OnEnd); return; }
+
+            if (command.SetAsDefault)
+                target.DefaultAnimation = command.AnimationName;
+            target.Play(command.AnimationName,
+                loop: command.Loop,
+                forceRestart: command.ForceRestart,
+                onEnd: command.OnEnd);
         }
     }
 }

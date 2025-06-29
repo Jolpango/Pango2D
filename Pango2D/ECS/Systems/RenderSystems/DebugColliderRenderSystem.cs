@@ -1,0 +1,46 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core.Graphics;
+using Pango2D.ECS.Components;
+using Pango2D.ECS.Systems.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Pango2D.ECS.Systems.RenderSystems
+{
+    public class DebugColliderRenderSystem : IDrawSystem
+    {
+        public RenderPhase RenderPhase { get => RenderPhase.Debug; }
+        public World World { get; set; }
+
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            foreach (var (_, collider, transform) in World.Query<BoxCollider, Transform>())
+            {
+                spriteBatch.Draw(TextureCache.White,
+                    new Rectangle((int)transform.Position.X + collider.Bounds.X,
+                                  (int)transform.Position.Y + collider.Bounds.Y,
+                                  collider.Bounds.Width,
+                                  collider.Bounds.Height),
+                    new Rectangle(0,
+                                  0,
+                                  collider.Bounds.Width,
+                                  collider.Bounds.Height),
+                    (collider.IsStatic ? Color.Blue : Color.Red) * 0.2f,
+                    0f,
+                    //new Vector2(collider.Bounds.Width / 2, collider.Bounds.Height / 2),
+                    Vector2.Zero,
+                    SpriteEffects.None,
+                    1f);
+            }
+        }
+
+        public void Initialize()
+        {
+
+        }
+    }
+}
