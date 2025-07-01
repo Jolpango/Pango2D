@@ -2,11 +2,9 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Audio;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.Core.Input.Contracts;
 using Pango2D.Core.Services;
-using Pango2D.ECS.Components;
 
 namespace Pango2D.Core.Scenes
 {
@@ -26,7 +24,6 @@ namespace Pango2D.Core.Scenes
         public GameWindow Window => Services.Get<GameWindow>();
         public IInputProvider InputProvider => Services.Get<IInputProvider>();
         public SpriteBatch SpriteBatch => Services.Get<SpriteBatch>();
-        public ICameraService CameraService => Services.Get<ICameraService>();
         /// <summary>
         /// Initializes a scene, call base first to ensure services are loaded.
         /// </summary>
@@ -34,10 +31,6 @@ namespace Pango2D.Core.Scenes
         public virtual void Initialize(GameServices services)
         {
             Services = services;
-            if (!Services.Has<ICameraService>())
-            {
-                Services.Register<ICameraService>(new CameraService(new Camera(), new Viewport(new Rectangle(0, 0, 640, 360))));
-            }
         }
         /// <summary>
         /// Loads the necessary content for the object.
@@ -50,12 +43,10 @@ namespace Pango2D.Core.Scenes
         /// <summary>
         /// Unloads and cleans up resources associated with the content.
         /// </summary>
-        /// <remarks>This method unregisters the camera service from the service collection,  ensuring
-        /// that it is no longer available for use. Override this method  in a derived class to include additional
+        /// <remarks> Override this method  in a derived class to include additional
         /// cleanup logic specific to the subclass.</remarks>
         public virtual void UnloadContent()
         {
-            Services.Unregister(CameraService);
         }
 
         /// <summary>

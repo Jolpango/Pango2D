@@ -6,6 +6,11 @@ namespace Pango2D.Core.Graphics
     public static class TextureCache
     {
         public static Texture2D White { get; private set; }
+        public static Texture2D White2 { get; private set; }
+        public static Texture2D White4 { get; private set; }
+        public static Texture2D White8 { get; private set; }
+        public static Texture2D White16 { get; private set; }
+
         public static Texture2D RadialLight { get; private set; }
 
         public static void Initialize(GraphicsDevice graphicsDevice)
@@ -13,9 +18,11 @@ namespace Pango2D.Core.Graphics
             if (White is null)
             {
                 // Create a 1x1 white texture
-                White = new Texture2D(graphicsDevice, 1, 1);
-                Color[] colorData = [Color.White];
-                White.SetData(colorData);
+                White = CreateTexture(graphicsDevice, 1);
+                White2 = CreateTexture(graphicsDevice, 2);
+                White4 = CreateTexture(graphicsDevice, 4);
+                White8 = CreateTexture(graphicsDevice, 8);
+                White16 = CreateTexture(graphicsDevice, 16);
             }
             if (RadialLight is null)
             {
@@ -42,6 +49,18 @@ namespace Pango2D.Core.Graphics
 
             tex.SetData(data);
             RadialLight = tex;
+        }
+
+        private static Texture2D CreateTexture(GraphicsDevice graphics, int size)
+        {
+            var texture = new Texture2D(graphics, size, size);
+            Color[] colorData = new Color[size * size];
+            for (int i = 0; i < colorData.Length; i++)
+            {
+                colorData[i] = Color.White;
+            }
+            texture.SetData(colorData);
+            return texture;
         }
     }
 }

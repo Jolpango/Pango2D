@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Audio;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.Core.Input.Contracts;
 using System;

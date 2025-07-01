@@ -11,7 +11,7 @@ namespace Pango2D.Core.Scenes
     public abstract class HybridScene : SceneBase
     {
         protected World World { get; private set; }
-        protected UIManager UIManager { get; private set; }
+        protected UIManager UIManager { get; private set; } = new();
         protected RenderPassSettings UIRenderPassSettings { get; private set; } = new RenderPassSettings
         {
             TransformMatrix = Matrix.Identity,
@@ -26,12 +26,9 @@ namespace Pango2D.Core.Scenes
         public override void LoadContent()
         {
             base.LoadContent();
-            World = ConfigureWorld();
-            UIManager = new UIManager();
-            ConfigureUI(UIManager);
+            World = ConfigureScene(UIManager);
         }
-        protected abstract World ConfigureWorld();
-        protected abstract void ConfigureUI(UIManager uiManager);
+        protected abstract World ConfigureScene(UIManager uiManager);
         public override void UnloadContent()
         {
             base.UnloadContent();

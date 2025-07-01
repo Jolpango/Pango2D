@@ -5,8 +5,8 @@ namespace Pango2D.Core.Services
 {
     public class ViewportService
     {
-        public int VirtualWidth { get; private set; } = 640;
-        public int VirtualHeight { get; private set; } = 360;
+        public int VirtualWidth { get; private set; } = 1920;
+        public int VirtualHeight { get; private set; } = 1080;
 
         public int WindowWidth { get; private set; }
         public int WindowHeight { get; private set; }

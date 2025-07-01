@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Pango2D.Core.Graphics
 {
@@ -43,11 +42,14 @@ namespace Pango2D.Core.Graphics
         public void ClearRenderTargets()
         {
             graphics.SetRenderTarget(renderTargets[RenderTargetId.World]);
-            graphics.Clear(Color.White);
+            graphics.Clear(Color.Magenta);
+
             graphics.SetRenderTarget(renderTargets[RenderTargetId.Lightmap]);
             graphics.Clear(new Color(50, 50, 50, 255));
+
             graphics.SetRenderTarget(renderTargets[RenderTargetId.Composition]);
             graphics.Clear(Color.Transparent);
+
             graphics.SetRenderTarget(renderTargets[RenderTargetId.UI]);
             graphics.Clear(Color.Transparent);
 #if DEBUG
