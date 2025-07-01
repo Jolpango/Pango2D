@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Demo.Content;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.ECS;
@@ -18,61 +19,39 @@ namespace Demo
     public class PrefabFactory(World world)
     {
         public World World { get; set; } = world;
-        /*
-         *             Entity player = new EntityBuilder(world)
-                .AddComponent(new PlayerComponent())
-                .AddComponent(new Transform())
-                .AddComponent(new Velocity(Vector2.One * 100))
-                .AddComponent(new Sprite(Content.Load<Texture2D>("spinning-dagger")))
-                .AddComponent(new SpriteAnimator(AsepriteLoader.Load("spinning-dagger.json")))
-                .AddComponent(new BoxCollider() { Bounds = new Rectangle(0, 0, 32, 32) })
-                .AddComponent(new Light() { Color = Color.White, Radius = 200, Intensity = 0.7f, Offset = new Vector2(16, 16) })
-                .AddComponent(new MainCameraTarget())
-                .Build();
-
-            Entity enemy = new EntityBuilder(world)
-                .AddComponent(new Transform() { Position = new Vector2(200, 200)})
-                .AddComponent(new BoxCollider() { Bounds = new Rectangle(0, 0, 32, 32), IsStatic = true })
-                .AddComponent(new Sprite(Content.Load<Texture2D>("spinning-dagger")))
-                .AddComponent(new SpriteAnimator(AsepriteLoader.Load("spinning-dagger.json")))
-                .AddComponent(new Light() { Color = Color.Red, Radius = 50, Intensity = 0.7f, Offset = new Vector2(16, 16) })
-                .Build();
-            world.AddComponent(enemy, new AnimationCommand() { AnimationName = "default", Loop = true });
-
-            Entity light = new EntityBuilder(world)
-                .AddComponent(new Transform() { Position = new Vector2(100, 200)})
-                .AddComponent(new Light() { Color = Color.Orange, Radius = 100f, Intensity = 1f })
-                .Build();
-
-            Entity light2 = new EntityBuilder(world)
-                .AddComponent(new Transform() { Position = new Vector2(100, 0) })
-                .AddComponent(new Light() { Color = Color.Orange, Radius = 100f, Intensity = 0.5f })
-                .Build();
-         */
         public Entity? TiledFactory(TiledObject tiledObject)
         {
             return tiledObject.Name switch
             {
                 "Player" => new EntityBuilder(World)
                     .AddComponent(new PlayerComponent())
-                    .AddComponent(new Transform() { Position = new Vector2(tiledObject.X, tiledObject.Y) })
+                    .AddComponent(new Transform() { Position = new Vector2(tiledObject.X, tiledObject.Y), Scale = Vector2.One * 4 })
                     .AddComponent(new Velocity(Vector2.One * 100))
-                    .AddComponent(new Sprite(World.Services.Get<ContentManager>().Load<Texture2D>("Ninja")))
-                    .AddComponent(new SpriteAnimator(AsepriteLoader.Load("Ninja.json")))
-                    .AddComponent(new BoxCollider() { Bounds = new Rectangle(0, 0, 16, 16) })
-                    .AddComponent(new Light() { Color = Color.White, Radius = 200, Intensity = 0.7f, Offset = new Vector2(16, 16) })
+                    .AddComponent(new Sprite(World.Services.Content.Load<Texture2D>("Soldier")))
+                    .AddComponent(new SpriteAnimator(AsepriteLoader.Load("Soldier.json")))
+                    .AddComponent(new Collider() { Bounds = new Rectangle(25, 20, 50, 70) })
+                    .AddComponent(new Light() { Color = Color.White, Radius = 2000, Intensity = 0.7f, Offset = new Vector2(32, 32) })
                     .AddComponent(new MainCameraTarget())
+                    .AddComponent(new AnimationCommand() { SetAsDefault=true, AnimationName="Idle", Loop=true })
                     .Build(),
-                "Light" => new EntityBuilder(World)
-                    .AddComponent(new Transform() { Position = new Vector2(tiledObject.X, tiledObject.Y) })
-                    .AddComponent(new Light() { Color = Color.Orange, Radius = 100f, Intensity = 0.5f })
+                "Enemy" => new EntityBuilder(World)
+                    .AddComponent(new Transform() { Position = new Vector2(tiledObject.X, tiledObject.Y), Scale = Vector2.One * 4 })
+                    .AddComponent(new Velocity(Vector2.Zero))
+                    .AddComponent(new Sprite(World.Services.Content.Load<Texture2D>("Orc")))
+                    .AddComponent(new SpriteAnimator(AsepriteLoader.Load("Orc.json")))
+                    .AddComponent(new Collider() { Bounds = new Rectangle(25, 20, 50, 70) })
+                    .AddComponent(new EnemyComponent())
+                    .AddComponent(new Light() { Color = Color.White, Radius = 2000, Intensity = 0.7f, Offset = new Vector2(32, 32) })
+                    .AddComponent(new AnimationCommand() { SetAsDefault = true, AnimationName = "idle", Loop = true })
                     .Build(),
-                 "Enemy" => new EntityBuilder(World)
+                "Coin" => new EntityBuilder(World)
                     .AddComponent(new Transform() { Position = new Vector2(tiledObject.X, tiledObject.Y) })
-                    .AddComponent(new BoxCollider() { Bounds = new Rectangle(0, 0, 16, 16), IsStatic = true })
-                    .AddComponent(new Sprite(World.Services.Get<ContentManager>().Load<Texture2D>("Ninja")))
-                    .AddComponent(new SpriteAnimator(AsepriteLoader.Load("Ninja.json")))
-                    .AddComponent(new Light() { Color = Color.Red, Radius = 50, Intensity = 0.7f, Offset = new Vector2(16, 16) })
+                    .AddComponent(new Sprite(World.Services.Content.Load<Texture2D>("coin")))
+                    .AddComponent(new SpriteAnimator(AsepriteLoader.Load("coin.json")))
+                    .AddComponent(new Collider() { Bounds = new Rectangle(0, 0, 16, 16), IsStatic = true })
+                    .AddComponent(new Light() { Color = Color.Yellow, Radius = 100f, Intensity = 0.5f })
+                    .AddComponent(new AnimationCommand() { AnimationName = "spin", Loop = true })
+                    .AddComponent(new CoinComponent())
                     .Build(),
                 _ => null
             };

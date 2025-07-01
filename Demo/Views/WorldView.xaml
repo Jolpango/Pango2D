@@ -2,6 +2,7 @@
 	Id="Panel"
 	Gap="10"
 	Orientation="Vertical"
-	Padding="10, 10">
+	Padding="10, 10"
+	Anchor="TopLeft">
 	<H2 Text="{Bind:FPSText}" FontColor="rgb(255, 255, 255)" Padding="10, 10"></H2>
 </StackPanel>

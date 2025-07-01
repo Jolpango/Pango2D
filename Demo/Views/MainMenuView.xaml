@@ -5,7 +5,7 @@
 	Padding="10, 10"
 	BackgroundImage="{Bind:BackgroundImage}"
 	ImageOptions="Center"
-	Anchor="TopRight"
+	Anchor="MiddleCenter"
 	BackgroundColor="rgb(255, 0, 0)">
 	<Label Text="Hello from property" OnClick="OnClick"/>
 	<Label OnClick="OnClick">Hello from inside</Label>

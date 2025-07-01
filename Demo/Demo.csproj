@@ -30,7 +30,19 @@
     <ProjectReference Include="..\Pango2D\Pango2D.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Views\HealthView.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\GoldView.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\MainMenuView.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\EntityPos.xaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Generator>MSBuild:Compile</Generator>
     </None>

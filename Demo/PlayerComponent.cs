@@ -1,14 +1,10 @@
 ﻿using Pango2D.ECS.Components.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Demo
 {
     public class PlayerComponent : IComponent
     {
-        public int Health { get; set; }
+        public int Health { get; set; } = 100;
+        public int Gold { get; set; } = 0;
     }
 }

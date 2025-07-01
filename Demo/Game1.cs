@@ -17,20 +17,23 @@ namespace Demo
         {
             graphics = new(this)
             {
-                PreferredBackBufferWidth = 1920,
-                PreferredBackBufferHeight = 1080,
-                //SynchronizeWithVerticalRetrace = false
+                PreferredBackBufferWidth = 1280,
+                PreferredBackBufferHeight = 720,
+                SynchronizeWithVerticalRetrace = false
             };
-            //IsFixedTimeStep = false;
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
+            IsFixedTimeStep = false;
             AsepriteLoader.RootDirectory = Content.RootDirectory;
             IsMouseVisible = true;
+            graphics.GraphicsProfile =  GraphicsProfile.HiDef;
         }
 
         protected override void Initialize()
         {
             TextureCache.Initialize(GraphicsDevice);
+            graphics.GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
