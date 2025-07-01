@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pango2D.Graphics.Particles
 {
-    internal class ParticleEffect
+    public class ParticleEffect
     {
     }
 }

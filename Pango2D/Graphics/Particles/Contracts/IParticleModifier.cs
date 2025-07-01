@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Pango2D.Graphics.Particles.Contracts
 {
-    internal interface IParticleModifier
+    public interface IParticleModifier
     {
+        public void Apply(Particle particle, float deltaTime);
     }
 }

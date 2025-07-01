@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Pango2D.Graphics.Particles.Contracts
 {
-    internal interface IParticleDispersion
+    public interface IParticleDispersion
     {
+        void Apply(Particle particle, ParticleEmitter emitter);
     }
 }
