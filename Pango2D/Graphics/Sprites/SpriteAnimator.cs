@@ -14,10 +14,11 @@ namespace Pango2D.Graphics.Sprites
         private int currentFrameIndex;
         private bool paused;
         private readonly Queue<AnimationInstance> animationQueue = new();
+        private bool animationEnded;
 
         public string CurrentAnimationName => currentInstance?.Name;
         public string DefaultAnimation { get; set; }
-        public bool IsPlaying => currentAnimation != null && !paused;
+        public bool IsPlaying => currentAnimation != null && !paused && !animationEnded;
         public int CurrentFrameIndex => currentFrameIndex;
         public SpriteFrame CurrentFrame => currentAnimation?.Frames[currentFrameIndex];
         public Rectangle CurrentFrameRect => currentAnimation?.Frames[currentFrameIndex].SourceRect ?? Rectangle.Empty;
@@ -32,17 +33,19 @@ namespace Pango2D.Graphics.Sprites
                 Play(defaultAnimation, true);
         }
 
-        public void Play(string name, bool loop = false, bool forceRestart = false, Action onEnd = null)
+        public void Play(string name, bool loop = false, bool forceRestart = false, Action onEnd = null, Action<int> onFrameChanged = null)
         {
             if (!forceRestart && currentInstance != null && currentInstance.Name == name && IsPlaying)
                 return;
             if (!animations.TryGetValue(name, out var anim)) return;
-            currentInstance = new AnimationInstance(name, loop, onEnd);
+            currentInstance = new AnimationInstance(name, loop, onEnd, onFrameChanged);
             currentAnimation = anim;
             time = 0f;
             currentFrameIndex = 0;
             currentAnimation.Looping = loop;
             paused = false;
+            animationEnded = false; // Reset flag
+
         }
 
         public void Queue(string name, bool loop = false, Action onEnd = null)
@@ -68,6 +71,8 @@ namespace Pango2D.Graphics.Sprites
 
         public void Stop(bool resetToDefault = true)
         {
+            if(currentInstance is null || currentInstance.Name == DefaultAnimation && resetToDefault)
+                return;
             currentInstance = null;
             currentAnimation = null;
             currentFrameIndex = 0;
@@ -90,6 +95,8 @@ namespace Pango2D.Graphics.Sprites
         {
             if (paused || currentAnimation == null || currentAnimation.Frames.Length == 0) return;
 
+            if (animationEnded) return; // Don't process further if ended
+
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             float currentDuration = currentAnimation.Frames[currentFrameIndex].Duration > 0
                 ? currentAnimation.Frames[currentFrameIndex].Duration
@@ -99,6 +106,7 @@ namespace Pango2D.Graphics.Sprites
             {
                 time = 0f;
                 currentFrameIndex++;
+                currentInstance.OnFrameChanged?.Invoke(currentFrameIndex);
                 if (currentFrameIndex >= currentAnimation.Frames.Length)
                 {
                     if (currentAnimation.Looping)
@@ -108,8 +116,12 @@ namespace Pango2D.Graphics.Sprites
                     else
                     {
                         currentFrameIndex = currentAnimation.Frames.Length - 1;
-                        AnimationEnded?.Invoke(currentInstance?.Name);
-                        currentInstance?.OnEnd?.Invoke();
+                        if (!animationEnded)
+                        {
+                            animationEnded = true;
+                            AnimationEnded?.Invoke(currentInstance?.Name);
+                            currentInstance?.OnEnd?.Invoke();
+                        }
 
                         // Play next in queue if available
                         if (animationQueue.Count > 0)
