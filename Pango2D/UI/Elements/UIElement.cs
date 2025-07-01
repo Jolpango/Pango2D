@@ -56,8 +56,7 @@ namespace Pango2D.UI.Elements
     /// <summary>
     /// Base class for all UI elements in the Pango2D framework.
     /// </summary>
-    /// <param name="fontRegistry"></param>
-    public class UIElement(FontRegistry fontRegistry)
+    public class UIElement
     {
         private Point position;
         private Point size;
@@ -66,12 +65,28 @@ namespace Pango2D.UI.Elements
         private AnchorPoint anchor = AnchorPoint.None;
         private string text = string.Empty;
         private string font = "Default";
+        private float opacity = 1.0f;
         private List<UIBinding> bindings = new();
+
+        public UIElement(GameWindow gameWindow, FontRegistry fontRegistry)
+        {
+            this.gameWindow = gameWindow ?? throw new ArgumentNullException(nameof(gameWindow));
+            this.fontRegistry = fontRegistry ?? throw new ArgumentNullException(nameof(fontRegistry));
+            this.gameWindow.ClientSizeChanged += (sender, args) =>
+            {
+                InvalidateLayout();
+            };
+        }
 
         /// <summary>
         /// Registry for managing fonts used in the UI elements.
         /// </summary>
-        protected readonly FontRegistry fontRegistry = fontRegistry;
+        protected readonly FontRegistry fontRegistry;
+
+        /// <summary>
+        /// Game window reference for accessing game-related properties and methods.
+        /// </summary>
+        protected readonly GameWindow gameWindow;
 
         /// <summary>
         /// Indicates whether the mouse was previously over this UI element last frame.
@@ -171,6 +186,18 @@ namespace Pango2D.UI.Elements
                 {
                     text = value;
                     InvalidateLayout();
+                }
+            }
+        }
+
+        public float Opacity
+        {
+            get => opacity;
+            set
+            {
+                if (opacity != value)
+                {
+                    opacity = Math.Clamp(value, 0f, 1f);
                 }
             }
         }
@@ -305,7 +332,8 @@ namespace Pango2D.UI.Elements
                 if (property != null)
                 {
                     var newValue = binding.ValueGetter();
-                    property.SetValue(this, newValue);
+                    var parsed = newValue;
+                    property.SetValue(this, parsed);
                 }
             }
 
@@ -374,7 +402,7 @@ namespace Pango2D.UI.Elements
         {
             if(Parent is null || Parent is not ILayoutContainer)
             {
-                Position = CalculateAnchoredPosition(offset, Size, Anchor, Parent?.Size ?? new Point(1920, 1080));
+                Position = CalculateAnchoredPosition(offset, Size, Anchor, Parent?.Size ?? new Point(gameWindow.ClientBounds.Width, gameWindow.ClientBounds.Height));
             }
             Position = offset;
 
@@ -395,7 +423,7 @@ namespace Pango2D.UI.Elements
             if (isLayoutDirty)
             {
                 Measure();
-                Arrange(Position);
+                Arrange(Point.Zero);
             }
         }
 
@@ -440,7 +468,7 @@ namespace Pango2D.UI.Elements
         {
             if(BackgroundColor != Color.Transparent)
             {
-                spriteBatch.Draw(TextureCache.White, new Rectangle(Position, Size), BackgroundColor);
+                spriteBatch.Draw(TextureCache.White, new Rectangle(Position, Size), BackgroundColor * Opacity);
             }
         }
 

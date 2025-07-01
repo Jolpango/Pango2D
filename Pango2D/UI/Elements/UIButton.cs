@@ -10,7 +10,7 @@ namespace Pango2D.UI.Elements
         private Color currentColor;
         public Color HoverColor { get; set; }
         public Color PressColor { get; set; }
-        public UIButton(FontRegistry fontRegistry) : base(fontRegistry)
+        public UIButton(GameWindow gameWindow, FontRegistry fontRegistry) : base(gameWindow, fontRegistry)
         {
             FontSize = 24; // Default font size
             FontColor = Color.Black;

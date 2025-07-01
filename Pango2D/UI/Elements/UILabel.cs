@@ -5,7 +5,7 @@ namespace Pango2D.UI.Elements
 {
     public class UILabel : UIElement
     {
-        public UILabel(FontRegistry fontRegistry) : base(fontRegistry)
+        public UILabel(GameWindow gameWindow, FontRegistry fontRegistry) : base(gameWindow, fontRegistry)
         {
             FontSize = 12; // Default font size
             BackgroundColor = Color.White;

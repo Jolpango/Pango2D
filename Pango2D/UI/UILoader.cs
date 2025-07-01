@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
 using Pango2D.UI.Elements;
 using Pango2D.UI.Views;
 using Pango2D.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Pango2D.UI
 {
@@ -15,10 +16,12 @@ namespace Pango2D.UI
     {
         private readonly Dictionary<string, Func<XElement, object, UIElement>> builders = [];
         private readonly FontRegistry fontRegistry;
+        private readonly GameWindow gameWindow;
 
-        public UILoader(FontRegistry fontRegistry)
+        public UILoader(GameWindow gameWindow, FontRegistry fontRegistry)
         {
             this.fontRegistry = fontRegistry ?? throw new ArgumentNullException(nameof(fontRegistry));
+            this.gameWindow = gameWindow ?? throw new ArgumentNullException(nameof(gameWindow));
             builders.Add("Label", GenericBuilder<UILabel>);
             builders.Add("StackPanel", GenericBuilder<UIStackPanel>);
             builders.Add("P", GenericBuilder<UIParagraph>);
@@ -39,6 +42,15 @@ namespace Pango2D.UI
             var rootElement = BuildRecursiveWithContext(rootNode, view);
             view.RootElement = rootElement;
             return view;
+        }
+
+        public UIElement LoadWithContext(string filePath, object context)
+        {
+            var xmlContent = XDocument.Load(filePath);
+            var rootNode = xmlContent.Root;
+
+            var rootElement = BuildRecursiveWithContext(rootNode, context);
+            return rootElement;
         }
 
         private UIElement BuildRecursiveWithContext(XElement element, object context)
@@ -71,9 +83,41 @@ namespace Pango2D.UI
             {
                 var value = attr.Value;
 
-                if (value.StartsWith("{Bind:"))
+                var formatMatch = Regex.Match(value, @"^\{Bind:(\w+)\}, *format=(.+)$");
+                if (formatMatch.Success)
                 {
-                    string propName = value[6..^1]; // strip {Bind:...}
+                    string propName = formatMatch.Groups[1].Value;
+                    string format = formatMatch.Groups[2].Value;
+
+                    var member = bindingContext.GetType().GetField(propName)
+                                 ?? (MemberInfo)bindingContext.GetType().GetProperty(propName);
+
+                    if (member != null)
+                    {
+                        Func<object> getter = member switch
+                        {
+                            FieldInfo fi => () => fi.GetValue(bindingContext),
+                            PropertyInfo pi => () => pi.GetValue(bindingContext),
+                            _ => () => null
+                        };
+
+                        uiElement.AddBinding(attr.Name.LocalName, () =>
+                        {
+                            var val = getter();
+                            return string.Format(format, val);
+                        });
+                        SetValue(uiElement, attr.Name.LocalName, string.Format(format, member switch
+                        {
+                            FieldInfo fi => fi.GetValue(bindingContext),
+                            PropertyInfo pi => pi.GetValue(bindingContext),
+                            _ => null
+                        }));
+                    }
+                }
+                else if (value.StartsWith("{Bind:") && value.EndsWith("}") && value.Length > 7)
+                {
+                    // Pure binding
+                    string propName = value[6..^1];
                     var member = bindingContext.GetType().GetField(propName)
                                  ?? (MemberInfo)bindingContext.GetType().GetProperty(propName);
 
@@ -88,6 +132,40 @@ namespace Pango2D.UI
 
                         uiElement.AddBinding(attr.Name.LocalName, getter);
                         SetValue(uiElement, attr.Name.LocalName, getter());
+                    }
+                }
+                else if (value.Contains("{Bind:"))
+                {
+                    // Interpolated binding (e.g., "Player position: {Bind:Position}")
+                    var match = Regex.Match(value, @"\{Bind:(\w+)\}");
+                    if (match.Success)
+                    {
+                        string propName = match.Groups[1].Value;
+
+                        var member = bindingContext.GetType().GetField(propName)
+                                     ?? (MemberInfo)bindingContext.GetType().GetProperty(propName);
+
+                        if (member != null)
+                        {
+                            Func<object> getter = member switch
+                            {
+                                FieldInfo fi => () => fi.GetValue(bindingContext),
+                                PropertyInfo pi => () => pi.GetValue(bindingContext),
+                                _ => () => null
+                            };
+
+                            uiElement.AddBinding(attr.Name.LocalName, () =>
+                            {
+                                var val = getter();
+                                return value.Replace(match.Value, val?.ToString() ?? "");
+                            });
+                            SetValue(uiElement, attr.Name.LocalName, value.Replace(match.Value, member switch
+                            {
+                                FieldInfo fi => fi.GetValue(bindingContext)?.ToString() ?? "",
+                                PropertyInfo pi => pi.GetValue(bindingContext)?.ToString() ?? "",
+                                _ => ""
+                            }));
+                        }
                     }
                 }
                 else if (attr.Name == "OnClick")
@@ -110,7 +188,6 @@ namespace Pango2D.UI
                 }
                 else
                 {
-                    // Static property assignment (overwrites child text if "Text" attribute is present)
                     SetValue(uiElement, attr.Name.LocalName, value);
                 }
             }
@@ -143,7 +220,10 @@ namespace Pango2D.UI
                     parsed = fontRegistry.Get(str) ?? fontRegistry.Get("DefaultFont");
                 // Add more types as needed
             }
-
+            else if(prop.PropertyType == typeof(string))
+            {
+                parsed = rawValue.ToString();
+            }
             prop.SetValue(obj, parsed);
         }
 
@@ -163,7 +243,7 @@ namespace Pango2D.UI
         }
         private UIElement GenericBuilder<T>(XElement xElement, object context) where T : UIElement
         {
-            var element = (T)Activator.CreateInstance(typeof(T), fontRegistry)!;
+            var element = (T)Activator.CreateInstance(typeof(T), gameWindow, fontRegistry)!;
             ApplyAttributes(element, xElement, context);
             return element;
         }

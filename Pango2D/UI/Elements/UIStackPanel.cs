@@ -11,7 +11,7 @@ namespace Pango2D.UI.Elements
         Horizontal,
         Vertical
     }
-    public class UIStackPanel(FontRegistry fontRegistry) : UIElement(fontRegistry), ILayoutContainer
+    public class UIStackPanel(GameWindow gameWindow, FontRegistry fontRegistry) : UIElement(gameWindow, fontRegistry), ILayoutContainer
     {
         private Orientation orientation = Orientation.Vertical;
         private int gap = 0;
@@ -63,7 +63,7 @@ namespace Pango2D.UI.Elements
 
         public override void Arrange(Point offset)
         {
-            Position = CalculateAnchoredPosition(offset, Size, Anchor, new Point(1920, 1080));
+            Position = CalculateAnchoredPosition(offset, Size, Anchor, new Point(gameWindow.ClientBounds.Width, gameWindow.ClientBounds.Height));
             Point currentPosition = Position + Padding + offset;
             foreach (var child in Children)
             {

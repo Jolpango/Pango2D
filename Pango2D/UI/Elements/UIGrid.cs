@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Pango2D.UI.Elements
 {
-    public class UIGrid(FontRegistry fontRegistry) : UIElement(fontRegistry), ILayoutContainer
+    public class UIGrid(GameWindow gameWindow, FontRegistry fontRegistry) : UIElement(gameWindow, fontRegistry), ILayoutContainer
     {
         public int Rows { get; set; }
         public int Columns { get; set; }
