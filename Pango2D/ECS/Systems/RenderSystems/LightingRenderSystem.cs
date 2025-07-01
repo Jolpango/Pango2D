@@ -1,13 +1,12 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Pango2D.Core;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.Extensions;
+using System.Linq;
 
 namespace Pango2D.ECS.Systems.RenderSystems
 {
@@ -30,7 +29,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
+            var viewMatrix = World.Query<Camera>().FirstOrDefault().Item2?.GetViewMatrix() ?? Matrix.Identity;
             spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetRegistry[RenderTargetId.Lightmap]);
             renderPassSettings.TransformMatrix = viewMatrix;
             spriteBatch.Begin(renderPassSettings);

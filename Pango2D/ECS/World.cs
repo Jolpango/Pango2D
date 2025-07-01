@@ -28,6 +28,7 @@ namespace Pango2D.ECS
     {
         private readonly Dictionary<Type, ComponentStore<IComponent>> componentStores = [];
         private readonly HashSet<Entity> entities = [];
+        private readonly HashSet<Entity> destroyBuffer = [];
         private int entityIdCounter = 0;
         private readonly Dictionary<RenderPhase, List<IDrawSystem>> drawSystems = [];
         private readonly List<IPreUpdateSystem> preUpdateSystems = [];
@@ -153,6 +154,80 @@ namespace Pango2D.ECS
             }
         }
 
+        public IEnumerable<(Entity, T1, T2, T3, T4)> Query<T1, T2, T3, T4>(Func<Entity, T1, T2, T3, T4, bool> predicate = null)
+            where T1 : IComponent
+            where T2 : IComponent
+            where T3 : IComponent
+            where T4 : IComponent
+        {
+            GetStore<T1>(out var store1);
+            GetStore<T2>(out var store2);
+            GetStore<T3>(out var store3);
+            GetStore<T4>(out var store4);
+            foreach (var (entity, c1) in store1.All())
+            {
+                var c1Cast = (T1)c1;
+                if (store2.Has(entity))
+                {
+                    var c2Cast = (T2)store2.Get(entity);
+                    if (store3.Has(entity))
+                    {
+                        var c3Cast = (T3)store3.Get(entity);
+                        if (store3.Has(entity))
+                        {
+                            var c4Cast = (T4)store4.Get(entity);
+                            if (predicate is null || predicate(entity, c1Cast, c2Cast, c3Cast, c4Cast))
+                                yield return (entity, c1Cast, c2Cast, c3Cast, c4Cast);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes all components of the specified type from the store.
+        /// </summary>
+        /// <remarks>This method clears all instances of the specified component type from the underlying
+        /// store. Use this method when you need to reset or remove all components of a particular type.</remarks>
+        /// <typeparam name="T">The type of components to remove.</typeparam>
+        public void RemoveComponents<T1>(Func<Entity, T1, bool> predicate = null)
+            where T1 : IComponent
+        {
+            GetStore<T1>(out var store);
+            if(predicate is null)
+            {
+                store.RemoveAll();
+                return;
+            }
+            foreach (var (entity, component) in store.All())
+            {
+                var c1Cast = (T1)component;
+                if (predicate(entity, c1Cast))
+                {
+                    store.Remove(entity);
+                }
+            }
+        }
+
+        public void DestroyEntity(Entity entity)
+        {
+            destroyBuffer.Add(entity);
+        }
+
+        public bool TryGetComponent<T>(Entity entity, out T component)
+            where T : class, IComponent
+        {
+            component = null;
+            if (componentStores.TryGetValue(typeof(T), out var store))
+            {
+                if (store.Has(entity))
+                {
+                    component = store.Get(entity) as T;
+                    return component != null;
+                }
+            }
+            return false;
+        }
 
         /// <summary>
         /// Adds a system to the appropriate collection based on its type.
@@ -218,6 +293,16 @@ namespace Pango2D.ECS
                 system.Update(gameTime);
             foreach (var system in postUpdateSystems)
                 system.PostUpdate(gameTime);
+            // Process entity destruction
+            foreach (var entity in destroyBuffer)
+            {
+                entities.Remove(entity);
+                foreach (var store in componentStores.Values)
+                {
+                    store.Remove(entity);
+                }
+            }
+            destroyBuffer.Clear();
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)

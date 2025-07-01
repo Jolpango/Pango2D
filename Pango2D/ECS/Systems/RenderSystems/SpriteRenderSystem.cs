@@ -40,9 +40,15 @@ namespace Pango2D.ECS.Systems.RenderSystems
         /// <param name="spriteBatch"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            const float minY = -10000f;
+            const float maxY = 10000f;
+
             foreach (var (_, transform, sprite) in World.Query<Transform, Sprite>())
             {
-                sprite.LayerDepth = 0.4f;
+                float bottomY = transform.Position.Y + sprite.SourceRectangle.Height;
+                // Clamp t between 0 and 1 to avoid out-of-bounds values
+                float t = MathHelper.Clamp((bottomY - minY) / (maxY - minY), 0f, 1f);
+                sprite.LayerDepth = MathHelper.Lerp(LayerDepths.EntityBase, LayerDepths.EntityMax, t);
                 sprite.Draw(spriteBatch, transform);
             }
         }

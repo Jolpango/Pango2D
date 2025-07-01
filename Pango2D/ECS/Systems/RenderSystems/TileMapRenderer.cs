@@ -1,15 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Systems.Contracts;
-using Pango2D.Extensions;
 using Pango2D.Tiled;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Pango2D.ECS.Systems.RenderSystems
 {
@@ -17,10 +11,8 @@ namespace Pango2D.ECS.Systems.RenderSystems
     {
         public RenderPhase RenderPhase { get; set; } = RenderPhase.World;
         public World World { get; set; }
-        private ICameraService cameraService;
         public void Initialize()
         {
-            cameraService = World.Services.Get<ICameraService>();
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -29,7 +21,6 @@ namespace Pango2D.ECS.Systems.RenderSystems
             if (tileMaps.Count == 0)
                 return;
 
-            var viewMatrix = cameraService.GetViewMatrix();
             foreach(var (entity, tileMap) in tileMaps)
             {
                 foreach (var layer in tileMap.Layers)

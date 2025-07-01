@@ -21,7 +21,7 @@ namespace Pango2D.ECS
                     {
                         new EntityBuilder(world)
                             .AddComponent(new Transform { Position = new Vector2(obj.X, obj.Y) })
-                            .AddComponent(new BoxCollider
+                            .AddComponent(new Collider
                             {
                                 Bounds = new Rectangle(0, 0, (int)obj.Width, (int)obj.Height),
                                 IsStatic = true

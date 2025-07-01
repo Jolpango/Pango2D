@@ -18,7 +18,8 @@ namespace Pango2D.ECS.Systems.UpdateSystems
             target.Play(command.AnimationName,
                 loop: command.Loop,
                 forceRestart: command.ForceRestart,
-                onEnd: command.OnEnd);
+                onEnd: command.OnEnd,
+                onFrameChanged: command.OnFrameChanged);
         }
     }
 }

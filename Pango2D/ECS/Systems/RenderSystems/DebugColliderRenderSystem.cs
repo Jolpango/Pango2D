@@ -18,7 +18,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            foreach (var (_, collider, transform) in World.Query<BoxCollider, Transform>())
+            foreach (var (_, collider, transform) in World.Query<Collider, Transform>())
             {
                 spriteBatch.Draw(TextureCache.White,
                     new Rectangle((int)transform.Position.X + collider.Bounds.X,

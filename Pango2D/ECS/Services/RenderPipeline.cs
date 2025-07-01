@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Pango2D.Core.Contracts;
 using Pango2D.Core.Graphics;
+using Pango2D.ECS.Components;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pango2D.ECS.Services
 {
@@ -18,7 +19,8 @@ namespace Pango2D.ECS.Services
             SortMode = SpriteSortMode.FrontToBack,
             BlendState = BlendState.AlphaBlend,
             SamplerState = SamplerState.PointClamp,
-            TransformMatrix = Matrix.Identity
+            TransformMatrix = Matrix.Identity,
+            RasterizerState = RasterizerState.CullNone
         };
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -72,7 +74,7 @@ namespace Pango2D.ECS.Services
 
         private void DrawWorldSystems(GameTime gameTime, SpriteBatch spriteBatch, IEnumerable<IDrawSystem> worldSystems)
         {
-            var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
+            var viewMatrix = World.Query<Camera>().FirstOrDefault().Item2?.GetViewMatrix() ?? Matrix.Identity;
             worldSettings.TransformMatrix = viewMatrix;
             spriteBatch.GraphicsDevice.SetRenderTarget(RenderTargets[RenderTargetId.World]);
             spriteBatch.Begin(worldSettings);
@@ -87,7 +89,7 @@ namespace Pango2D.ECS.Services
         }
         private void DrawDebugSystems(GameTime gameTime, SpriteBatch spriteBatch, IEnumerable<IDrawSystem> worldSystems)
         {
-            var viewMatrix = World.Services.TryGet<ICameraService>()?.GetViewMatrix() ?? Matrix.Identity;
+            var viewMatrix = World.Query<Camera>().FirstOrDefault().Item2?.GetViewMatrix() ?? Matrix.Identity;
             worldSettings.TransformMatrix = viewMatrix;
             spriteBatch.GraphicsDevice.SetRenderTarget(RenderTargets[RenderTargetId.Debug]);
             spriteBatch.Begin(worldSettings);

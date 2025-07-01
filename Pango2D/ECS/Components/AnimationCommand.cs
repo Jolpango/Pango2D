@@ -14,5 +14,6 @@ namespace Pango2D.ECS.Components
         public bool Queue { get; set; } = false;
         public bool SetAsDefault { get; set; } = false;
         public Action OnEnd { get; set; } = null;
+        public Action<int> OnFrameChanged { get; set; } = null;
     }
 }

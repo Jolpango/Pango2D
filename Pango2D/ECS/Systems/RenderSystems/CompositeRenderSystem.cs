@@ -26,10 +26,9 @@ namespace Pango2D.ECS.Systems.RenderSystems
                 ColorSourceBlend = Blend.DestinationColor,
                 ColorDestinationBlend = Blend.Zero
             },
-            //BlendState = BlendState.AlphaBlend,
             SamplerState = SamplerState.LinearClamp,
             DepthStencilState = DepthStencilState.None,
-            RasterizerState = RasterizerState.CullCounterClockwise,
+            RasterizerState = RasterizerState.CullNone,
             Effect = null,
             TransformMatrix = Matrix.Identity
         };
