@@ -191,6 +191,11 @@ namespace Editor
             {
                 newTab.Text = name;
             };
+            emitterControl.OnDelete += () =>
+            {
+                ParticleEffect.Emitters.Remove(emitterControl.ParticleEmitter);
+                EmitterTabs.TabPages.Remove(newTab);
+            };
             emitterControl.MonoGameEditor = MonoGameEditor;
             newTab.Controls.Add(emitterControl);
             EmitterTabs.TabPages.Add(newTab);

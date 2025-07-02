@@ -40,6 +40,14 @@
             label3 = new Label();
             OffsetX = new NumericUpDown();
             OffsetY = new NumericUpDown();
+            AddModifierButton = new Button();
+            label4 = new Label();
+            label5 = new Label();
+            DispersionPanel = new Panel();
+            DeleteButton = new Button();
+            ModifierTabs = new TabControl();
+            NewModifierDropDown = new ComboBox();
+            DispersionMethodDropDown = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)MaxParticlesControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EmissionRateControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OffsetX).BeginInit();
@@ -50,7 +58,7 @@
             // 
             TextBoxName.Location = new Point(3, 3);
             TextBoxName.Name = "TextBoxName";
-            TextBoxName.Size = new Size(286, 23);
+            TextBoxName.Size = new Size(185, 23);
             TextBoxName.TabIndex = 0;
             TextBoxName.TextChanged += TextboxName_TextChanged;
             // 
@@ -111,7 +119,7 @@
             // 
             // ButtonChangeTexture
             // 
-            ButtonChangeTexture.Location = new Point(191, 450);
+            ButtonChangeTexture.Location = new Point(3, 453);
             ButtonChangeTexture.Name = "ButtonChangeTexture";
             ButtonChangeTexture.Size = new Size(98, 23);
             ButtonChangeTexture.TabIndex = 7;
@@ -122,7 +130,7 @@
             // TextureNameLabel
             // 
             TextureNameLabel.AutoSize = true;
-            TextureNameLabel.Location = new Point(3, 454);
+            TextureNameLabel.Location = new Point(109, 457);
             TextureNameLabel.Name = "TextureNameLabel";
             TextureNameLabel.Size = new Size(38, 15);
             TextureNameLabel.TabIndex = 8;
@@ -158,10 +166,89 @@
             OffsetY.TabIndex = 11;
             OffsetY.ValueChanged += OffsetY_ValueChanged;
             // 
+            // AddModifierButton
+            // 
+            AddModifierButton.Location = new Point(173, 283);
+            AddModifierButton.Name = "AddModifierButton";
+            AddModifierButton.Size = new Size(98, 23);
+            AddModifierButton.TabIndex = 12;
+            AddModifierButton.Text = "Add modifier";
+            AddModifierButton.UseVisualStyleBackColor = true;
+            AddModifierButton.Click += AddModifierButton_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(8, 288);
+            label4.Name = "label4";
+            label4.Size = new Size(60, 15);
+            label4.TabIndex = 13;
+            label4.Text = "Modifiers:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(11, 153);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 15);
+            label5.TabIndex = 14;
+            label5.Text = "Dispersion:";
+            // 
+            // DispersionPanel
+            // 
+            DispersionPanel.Location = new Point(6, 175);
+            DispersionPanel.Name = "DispersionPanel";
+            DispersionPanel.Size = new Size(283, 82);
+            DispersionPanel.TabIndex = 15;
+            // 
+            // DeleteButton
+            // 
+            DeleteButton.Location = new Point(194, 3);
+            DeleteButton.Name = "DeleteButton";
+            DeleteButton.Size = new Size(98, 23);
+            DeleteButton.TabIndex = 16;
+            DeleteButton.Text = "Delete emitter";
+            DeleteButton.UseVisualStyleBackColor = true;
+            DeleteButton.Click += DeleteButton_Click;
+            // 
+            // ModifierTabs
+            // 
+            ModifierTabs.Location = new Point(5, 310);
+            ModifierTabs.Name = "ModifierTabs";
+            ModifierTabs.SelectedIndex = 0;
+            ModifierTabs.Size = new Size(283, 137);
+            ModifierTabs.TabIndex = 17;
+            // 
+            // NewModifierDropDown
+            // 
+            NewModifierDropDown.FormattingEnabled = true;
+            NewModifierDropDown.Location = new Point(71, 284);
+            NewModifierDropDown.Name = "NewModifierDropDown";
+            NewModifierDropDown.Size = new Size(97, 23);
+            NewModifierDropDown.TabIndex = 18;
+            NewModifierDropDown.SelectedIndexChanged += NewModifierDropDown_SelectedIndexChanged;
+            // 
+            // DispersionMethodDropDown
+            // 
+            DispersionMethodDropDown.FormattingEnabled = true;
+            DispersionMethodDropDown.Location = new Point(82, 149);
+            DispersionMethodDropDown.Name = "DispersionMethodDropDown";
+            DispersionMethodDropDown.Size = new Size(206, 23);
+            DispersionMethodDropDown.TabIndex = 19;
+            DispersionMethodDropDown.SelectedIndexChanged += DispersionMethodDropDown_SelectedIndexChanged;
+            // 
             // EmitterSettingsControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(DispersionMethodDropDown);
+            Controls.Add(NewModifierDropDown);
+            Controls.Add(ModifierTabs);
+            Controls.Add(DeleteButton);
+            Controls.Add(DispersionPanel);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(AddModifierButton);
             Controls.Add(OffsetY);
             Controls.Add(OffsetX);
             Controls.Add(label3);
@@ -198,5 +285,13 @@
         private Label label3;
         private NumericUpDown OffsetX;
         private NumericUpDown OffsetY;
+        private Button AddModifierButton;
+        private Label label4;
+        private Label label5;
+        private Panel DispersionPanel;
+        private Button DeleteButton;
+        private TabControl ModifierTabs;
+        private ComboBox NewModifierDropDown;
+        private ComboBox DispersionMethodDropDown;
     }
 }

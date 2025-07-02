@@ -12,6 +12,7 @@ namespace Editor
         public MonoGame.Forms.NET.Services.EditorService? MonoGameEditor { get; set; }
 
         public event Action<string>? NameChanged;
+        public event Action OnDelete;
         public EmitterSettingsControl()
         {
             InitializeComponent();
@@ -28,6 +29,16 @@ namespace Editor
             MaxParticlesControl.Value = ParticleEmitter.MaxParticles;
             EmissionRateControl.Value = (decimal)ParticleEmitter.EmissionRate;
             TextureNameLabel.Text = "White4x4";
+
+            DispersionMethodDropDown.Items.Add("Random Dispersion");
+            DispersionMethodDropDown.Items.Add("Cone Dispersion");
+            DispersionMethodDropDown.SelectedIndex = 0; // Default to Random Dispersion
+
+            NewModifierDropDown.Items.Add("Color");
+            NewModifierDropDown.Items.Add("Scale");
+            NewModifierDropDown.Items.Add("Rotation");
+            NewModifierDropDown.Items.Add("Gravity");
+            NewModifierDropDown.SelectedIndex = 0; // Default to Color Modifier
         }
 
         private void EmitterSettingsControl_Load(object sender, EventArgs e)
@@ -83,6 +94,29 @@ namespace Editor
         private void OffsetY_ValueChanged(object sender, EventArgs e)
         {
             ParticleEmitter.Position = new Vector2((float)OffsetX.Value, (float)OffsetY.Value);
+        }
+
+        private void DeleteButton_Click(object sender, EventArgs e)
+        {
+            OnDelete?.Invoke();
+        }
+
+        private void AddModifierButton_Click(object sender, EventArgs e)
+        {
+            var tabPage = new TabPage(NewModifierDropDown.Text);
+            //Create a new modifier control and instance based on the selected type and add it to the tab page and emitter
+            ModifierTabs.Controls.Add(tabPage);
+        }
+
+        private void NewModifierDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DispersionMethodDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Update the dispersion method of the ParticleEmitter based on the selected item
+            // Update the dispersion panel
         }
     }
 }
