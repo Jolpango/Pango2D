@@ -17,11 +17,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            var tileMaps = World.Query<TileMap>().ToList();
-            if (tileMaps.Count == 0)
-                return;
-
-            foreach(var (entity, tileMap) in tileMaps)
+            foreach(var (entity, tileMap) in World.Query<TileMap>())
             {
                 foreach (var layer in tileMap.Layers)
                 {
