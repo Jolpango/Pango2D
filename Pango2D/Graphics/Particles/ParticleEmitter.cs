@@ -72,11 +72,11 @@ namespace Pango2D.Graphics.Particles
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch) {
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset) {
             if (!IsActive) return;
             foreach (var particle in Particles.Where(p => p.IsActive))
             {
-                particle.Draw(spriteBatch);
+                particle.Draw(spriteBatch, offset);
             }
         }
 
