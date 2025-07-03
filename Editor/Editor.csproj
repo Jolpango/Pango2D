@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Pango2D\Pango2D.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+
 </Project>

@@ -23,6 +23,7 @@ namespace Pango2D.Graphics.Particles
         public float AngularVelocity { get; set; }
         public float Scale { get; set; }
         public Color Color { get; set; }
+        public float Opacity { get; set; } = 1f;
         public float Lifetime { get; set; }
         public float MaxLifetime { get; set; }
         public bool IsActive { get; set; }
@@ -35,7 +36,7 @@ namespace Pango2D.Graphics.Particles
                     Texture,
                     Position + Origin + offset,
                     null,
-                    Color * (Lifetime / MaxLifetime),
+                    Color * Opacity,
                     Rotation,
                     Origin,
                     Scale,

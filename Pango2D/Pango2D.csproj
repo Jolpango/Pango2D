@@ -13,4 +13,7 @@
     <Folder Include="Core\Contracts\" />
     <Folder Include="Particles\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\Particles\Interpolations\LinearInterpelator.cs" />
+  </ItemGroup>
 </Project>

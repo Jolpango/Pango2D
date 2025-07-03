@@ -67,7 +67,7 @@
             IsActive.AutoSize = true;
             IsActive.Checked = true;
             IsActive.CheckState = CheckState.Checked;
-            IsActive.Location = new Point(5, 30);
+            IsActive.Location = new Point(203, 61);
             IsActive.Name = "IsActive";
             IsActive.Size = new Size(68, 19);
             IsActive.TabIndex = 1;
@@ -78,7 +78,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 60);
+            label1.Location = new Point(3, 33);
             label1.Name = "label1";
             label1.Size = new Size(77, 15);
             label1.TabIndex = 3;
@@ -86,17 +86,17 @@
             // 
             // MaxParticlesControl
             // 
-            MaxParticlesControl.Location = new Point(92, 54);
+            MaxParticlesControl.Location = new Point(82, 30);
             MaxParticlesControl.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
             MaxParticlesControl.Name = "MaxParticlesControl";
-            MaxParticlesControl.Size = new Size(75, 23);
+            MaxParticlesControl.Size = new Size(65, 23);
             MaxParticlesControl.TabIndex = 4;
             MaxParticlesControl.ValueChanged += MaxParticlesControl_ValueChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(5, 87);
+            label2.Location = new Point(153, 34);
             label2.Name = "label2";
             label2.Size = new Size(77, 15);
             label2.TabIndex = 5;
@@ -106,10 +106,10 @@
             // 
             EmissionRateControl.DecimalPlaces = 2;
             EmissionRateControl.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            EmissionRateControl.Location = new Point(92, 84);
+            EmissionRateControl.Location = new Point(236, 30);
             EmissionRateControl.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             EmissionRateControl.Name = "EmissionRateControl";
-            EmissionRateControl.Size = new Size(75, 23);
+            EmissionRateControl.Size = new Size(53, 23);
             EmissionRateControl.TabIndex = 6;
             EmissionRateControl.ValueChanged += EmissionRateControl_ValueChanged;
             // 
@@ -119,7 +119,7 @@
             // 
             // ButtonChangeTexture
             // 
-            ButtonChangeTexture.Location = new Point(3, 453);
+            ButtonChangeTexture.Location = new Point(5, 560);
             ButtonChangeTexture.Name = "ButtonChangeTexture";
             ButtonChangeTexture.Size = new Size(98, 23);
             ButtonChangeTexture.TabIndex = 7;
@@ -130,7 +130,7 @@
             // TextureNameLabel
             // 
             TextureNameLabel.AutoSize = true;
-            TextureNameLabel.Location = new Point(109, 457);
+            TextureNameLabel.Location = new Point(111, 564);
             TextureNameLabel.Name = "TextureNameLabel";
             TextureNameLabel.Size = new Size(38, 15);
             TextureNameLabel.TabIndex = 8;
@@ -140,7 +140,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(5, 118);
+            label3.Location = new Point(5, 62);
             label3.Name = "label3";
             label3.Size = new Size(67, 15);
             label3.TabIndex = 9;
@@ -148,7 +148,7 @@
             // 
             // OffsetX
             // 
-            OffsetX.Location = new Point(77, 114);
+            OffsetX.Location = new Point(77, 58);
             OffsetX.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             OffsetX.Minimum = new decimal(new int[] { 10000, 0, 0, int.MinValue });
             OffsetX.Name = "OffsetX";
@@ -158,7 +158,7 @@
             // 
             // OffsetY
             // 
-            OffsetY.Location = new Point(136, 114);
+            OffsetY.Location = new Point(136, 58);
             OffsetY.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
             OffsetY.Minimum = new decimal(new int[] { 10000, 0, 0, int.MinValue });
             OffsetY.Name = "OffsetY";
@@ -188,7 +188,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(11, 153);
+            label5.Location = new Point(11, 91);
             label5.Name = "label5";
             label5.Size = new Size(65, 15);
             label5.TabIndex = 14;
@@ -196,9 +196,9 @@
             // 
             // DispersionPanel
             // 
-            DispersionPanel.Location = new Point(6, 175);
+            DispersionPanel.Location = new Point(6, 116);
             DispersionPanel.Name = "DispersionPanel";
-            DispersionPanel.Size = new Size(283, 82);
+            DispersionPanel.Size = new Size(676, 141);
             DispersionPanel.TabIndex = 15;
             // 
             // DeleteButton
@@ -216,7 +216,7 @@
             ModifierTabs.Location = new Point(5, 310);
             ModifierTabs.Name = "ModifierTabs";
             ModifierTabs.SelectedIndex = 0;
-            ModifierTabs.Size = new Size(283, 137);
+            ModifierTabs.Size = new Size(677, 251);
             ModifierTabs.TabIndex = 17;
             // 
             // NewModifierDropDown
@@ -231,7 +231,7 @@
             // DispersionMethodDropDown
             // 
             DispersionMethodDropDown.FormattingEnabled = true;
-            DispersionMethodDropDown.Location = new Point(82, 149);
+            DispersionMethodDropDown.Location = new Point(82, 87);
             DispersionMethodDropDown.Name = "DispersionMethodDropDown";
             DispersionMethodDropDown.Size = new Size(206, 23);
             DispersionMethodDropDown.TabIndex = 19;
@@ -261,7 +261,7 @@
             Controls.Add(IsActive);
             Controls.Add(TextBoxName);
             Name = "EmitterSettingsControl";
-            Size = new Size(292, 479);
+            Size = new Size(685, 586);
             Load += EmitterSettingsControl_Load;
             ((System.ComponentModel.ISupportInitialize)MaxParticlesControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)EmissionRateControl).EndInit();

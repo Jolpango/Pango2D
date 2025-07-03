@@ -159,6 +159,8 @@ namespace Editor
         {
             InitializeComponent();
             ParticleDraw.ParticleEffect = ParticleEffect;
+            ParticleEffect.Name = "New Particle Effect";
+            ParticleEffectNameTextBox.Text = ParticleEffect.Name;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -170,7 +172,7 @@ namespace Editor
 
         private void ParticleDraw_Click(object sender, EventArgs e)
         {
-
+            ParticleDraw.Emit();
         }
 
         private void EmitterTabs_Click(object sender, EventArgs e)
@@ -206,10 +208,39 @@ namespace Editor
             var selectedColor = BColorDropDown.SelectedItem.ToString();
             if (selectedColor != null)
             {
-                BackgroundColor = ColorMap.TryGetValue(selectedColor, out var color) 
-                    ? color 
+                BackgroundColor = ColorMap.TryGetValue(selectedColor, out var color)
+                    ? color
                     : Microsoft.Xna.Framework.Color.CornflowerBlue;
             }
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SaveEffectDialog.FileName = $"{ParticleEffect.Name}.pef";
+            var dialogResult = SaveEffectDialog.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                if (string.IsNullOrEmpty(SaveEffectDialog.FileName))
+                {
+                    MessageBox.Show("Please provide a valid file name.");
+                    return;
+                }
+                try
+                {
+                    var json = ParticleEffect.ToJson(ParticleEffect);
+                    File.WriteAllText(SaveEffectDialog.FileName, json);
+                     MessageBox.Show("Particle effect saved successfully.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error saving particle effect: {ex.Message}");
+                }
+            }
+        }
+
+        private void ParticleEffectNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            ParticleEffect.Name = ParticleEffectNameTextBox.Text;
         }
     }
 }

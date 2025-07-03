@@ -16,6 +16,15 @@ namespace Editor
         {
             ParticleEffect?.Update(gameTime);
         }
+        public void Emit()
+        {
+            if (ParticleEffect == null) return;
+            ParticleEffect.Emit(new Vector2(Editor.GetAbsoluteMousePosition.Y, Editor.GetRelativeMousePosition.Y));
+        }
+        public void Emit(Vector2 position)
+        {
+
+        }
         protected override void Draw()
         {
             Editor.GraphicsDevice.Clear(BackgroundColor);

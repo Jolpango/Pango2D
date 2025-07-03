@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pango2D.Graphics.Particles
+namespace Editor
 {
-    internal class ScaleModifier
+    public class FloatKeyFrameData
     {
+        public float Time { get; set; }
+        public float Value { get; set; }
     }
 }

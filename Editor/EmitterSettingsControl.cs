@@ -1,7 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Editor.Controls.Dispersion;
+using Editor.Controls.Modifiers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
 using Pango2D.Graphics.Particles;
+using Pango2D.Graphics.Particles.Dispersion;
 using System.Drawing.Imaging;
 
 namespace Editor
@@ -34,10 +37,8 @@ namespace Editor
             DispersionMethodDropDown.Items.Add("Cone Dispersion");
             DispersionMethodDropDown.SelectedIndex = 0; // Default to Random Dispersion
 
-            NewModifierDropDown.Items.Add("Color");
+            NewModifierDropDown.Items.Add("Opacity");
             NewModifierDropDown.Items.Add("Scale");
-            NewModifierDropDown.Items.Add("Rotation");
-            NewModifierDropDown.Items.Add("Gravity");
             NewModifierDropDown.SelectedIndex = 0; // Default to Color Modifier
         }
 
@@ -45,6 +46,26 @@ namespace Editor
         {
             TextBoxName.Text = ParticleEmitter.Name;
             NameChanged?.Invoke(ParticleEmitter.Name);
+            SetupDispersionPanel();
+        }
+
+        private void SetupDispersionPanel()
+        {
+            // Clear existing controls
+            DispersionPanel.Controls.Clear();
+            // Create and add the appropriate dispersion control based on the selected method
+            if (DispersionMethodDropDown.SelectedItem.ToString() == "Random Dispersion")
+            {
+                var randomDispersionControl = new RandomDispersionControl
+                {
+                    Dispersion = ParticleEmitter.Dispersion as RandomDispersion
+                };
+                DispersionPanel.Controls.Add(randomDispersionControl);
+            }
+            else if (DispersionMethodDropDown.SelectedItem.ToString() == "Cone Dispersion")
+            {
+                // Add Cone Dispersion control here when implemented
+            }
         }
 
         private void TextboxName_TextChanged(object sender, EventArgs e)
@@ -104,7 +125,21 @@ namespace Editor
         private void AddModifierButton_Click(object sender, EventArgs e)
         {
             var tabPage = new TabPage(NewModifierDropDown.Text);
-            //Create a new modifier control and instance based on the selected type and add it to the tab page and emitter
+            switch (NewModifierDropDown.SelectedItem.ToString())
+            {
+                case "Opacity":
+                    var colorModifierControl = new OpacityModifierControl();
+                    ParticleEmitter.Modifiers.Add(colorModifierControl.OpacityModifier);
+                    tabPage.Controls.Add(colorModifierControl);
+                    break;
+                case "Scale":
+                    var scaleModifierControl = new ScaleModifierControl();
+                    ParticleEmitter.Modifiers.Add(scaleModifierControl.ScaleModifier);
+                    tabPage.Controls.Add(scaleModifierControl);
+                    break;
+                default:
+                    throw new NotSupportedException("Unsupported modifier type selected.");
+            }
             ModifierTabs.Controls.Add(tabPage);
         }
 
@@ -115,8 +150,7 @@ namespace Editor
 
         private void DispersionMethodDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Update the dispersion method of the ParticleEmitter based on the selected item
-            // Update the dispersion panel
+            SetupDispersionPanel();
         }
     }
 }

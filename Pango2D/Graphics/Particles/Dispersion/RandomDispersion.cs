@@ -2,7 +2,7 @@
 using Pango2D.Graphics.Particles.Contracts;
 using System;
 
-namespace Pango2D.Graphics.Particles
+namespace Pango2D.Graphics.Particles.Dispersion
 {
     public class RandomDispersion : IParticleDispersion
     {
@@ -11,7 +11,6 @@ namespace Pango2D.Graphics.Particles
         public float MaxSpeed { get; set; }
         public float MinAngle { get; set; } // In radians
         public float MaxAngle { get; set; } // In radians
-
         public RandomDispersion(float minSpeed, float maxSpeed, float minAngle = 0f, float maxAngle = MathF.Tau)
         {
             MinSpeed = minSpeed;

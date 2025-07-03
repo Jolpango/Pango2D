@@ -8,6 +8,7 @@ namespace Pango2D.Graphics.Particles.Contracts
 {
     public interface IParticleModifier
     {
+        public IInterpelator Interpelator { get; set; }
         public void Apply(Particle particle, float deltaTime);
     }
 }
