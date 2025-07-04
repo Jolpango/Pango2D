@@ -8,15 +8,19 @@ namespace Pango2D.ECS
 {
     public static class TiledWorldLoader
     {
-        public static Entity LoadMap(string path, World world, Func<TiledObject, Entity?> prefabFactory = null)
+        public static Entity LoadMap(string path, World world, int scale = 1, Func<TiledObject, Entity?> prefabFactory = null)
         {
 
-            var map = TileMapLoader.LoadTileMap(path, world.Services.Get<ContentManager>());
+            var map = TileMapLoader.LoadTileMap(path, world.Services.Get<ContentManager>(), scale);
 
             foreach (var layer in map.ObjectLayers)
             {
                 foreach (var obj in layer.Objects)
                 {
+                    obj.X *= scale;
+                    obj.Y *= scale;
+                    obj.Width *= scale;
+                    obj.Height *= scale;
                     if (obj.Type == "collision")
                     {
                         new EntityBuilder(world)

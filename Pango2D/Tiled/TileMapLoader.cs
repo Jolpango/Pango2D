@@ -7,15 +7,18 @@ namespace Pango2D.Tiled
 {
     public class TileMapLoader
     {
-        public static TileMap LoadTileMap(string tileMapPath, ContentManager content)
+        public static TileMap LoadTileMap(string tileMapPath, ContentManager content, int scale = 1)
         {
             var rawData = TiledData.FromJson(System.IO.File.ReadAllText(tileMapPath));
             var map = new TileMap()
             {
                 Width = rawData.Width,
                 Height = rawData.Height,
+                Scale = scale,
                 TileWidth = rawData.Tilewidth,
                 TileHeight = rawData.Tileheight,
+                TileWidthScaled = rawData.Tilewidth * scale,
+                TileHeightScaled = rawData.Tileheight * scale,
             };
 
             foreach (var tilesetRef in rawData.Tilesets)

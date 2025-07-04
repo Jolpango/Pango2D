@@ -14,6 +14,9 @@ namespace Pango2D.Tiled
         public List<TileLayer> Layers { get; } = [];
         public List<ObjectLayer> ObjectLayers { get; } = [];
         public List<TileSet> TileSets { get; } = [];
+        public int Scale { get; set; }
+        public int TileWidthScaled { get; set; }
+        public int TileHeightScaled { get; set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
