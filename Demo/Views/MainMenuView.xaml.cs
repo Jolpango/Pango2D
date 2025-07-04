@@ -10,11 +10,6 @@ namespace Demo.Views
     [ViewPath("Views/MainMenuView.xaml")]
     public partial class MainMenuView : UIView
     {
-        private int counter = 0;
-        public string Title { get; set; } = "Start";
-        public string Counter => $"{counter}";
-        public Point Padding { get; set; } = new Point(10, 20);
-        public Texture2D BackgroundImage { get; set; } = null;
         public void OnClick(object sender)
         {
             Services.Get<SceneManager>().ChangeScene(new WorldScene());
@@ -22,7 +17,6 @@ namespace Demo.Views
         public override void OnLoaded()
         {
             base.OnLoaded();
-            BackgroundImage = Services.Get<ContentManager>().Load<Texture2D>("spinning-dagger");
         }
     }
 }

@@ -52,6 +52,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\UI\" />
     <Folder Include="Content\Sounds\Music\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="CollectPackageReferences">

@@ -1,15 +1,10 @@
-﻿<StackPanel
-	Id="Panel"
-	Gap="10"
-	Orientation="Horizontal"
-	Padding="10, 10"
-	Anchor="TopRight">
-	<Label
-		Text="{Bind:Gold}, format=Gold: {0}"
-		BackgroundColor="rgba(255, 255, 255, 50)"
-		FontSize="12"
-		Opacity="0,5"
-		MinSize="400, 50"
-		TextAlign="Center"
-		></Label>
-</StackPanel>
+﻿<Label
+	Text="{Bind:Gold}, format=Gold: {0}"
+	BackgroundColor="rgba(0, 0, 0, 0)"
+	BackgroundImage="UI/BeigePanel"
+	NineSlice="8:8:8:8:4,0"
+	FontSize="12"
+	Opacity="0,5"
+	MinSize="400, 50"
+	TextAlign="Center"
+></Label>

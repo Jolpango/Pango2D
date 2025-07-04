@@ -36,7 +36,7 @@ namespace Demo.Scenes
                 .Build();
             var prefabFactory = new PrefabFactory(world);
 
-            Entity map = TiledWorldLoader.LoadMap("Content/Tiled/Tilemaps/overworld.tmj", world, prefabFactory.TiledFactory);
+            Entity map = TiledWorldLoader.LoadMap("Content/Tiled/Tilemaps/island.tmj", world, scale: 4, prefabFactory: prefabFactory.TiledFactory);
             Entity camera = new EntityBuilder(world)
                 .AddComponent(new Camera()
                 {
@@ -49,15 +49,12 @@ namespace Demo.Scenes
                 .Build();
             SoundEffectRegistry.Add("bottle", Content.Load<SoundEffect>("Sounds/SoundEffects/bottle"));
             SoundEffectRegistry.Add("swing", Content.Load<SoundEffect>("Sounds/SoundEffects/swing"));
-            UILoader loader = new UILoader(Services.GameWindow, FontRegistry);
+            UILoader loader = new UILoader(Services);
             var entitypos = loader.LoadWithContext("Views/EntityPos.xaml", world.Query<Transform, MainCameraTarget>().FirstOrDefault().Item2);
             var goldview = loader.LoadWithContext("Views/GoldView.xaml", world.Query<PlayerComponent>().FirstOrDefault().Item2);
             var healthView = loader.LoadWithContext("Views/HealthView.xaml", world.Query<PlayerComponent>().FirstOrDefault().Item2);
-            var enemyHealthView = loader.LoadWithContext("Views/HealthView.xaml", world.Query<EnemyComponent>().FirstOrDefault().Item2);
-            enemyHealthView.Padding = new Point(10, 135);
-            UIManager.AddRootElement(goldview);
+            healthView.AddChild(goldview);
             UIManager.AddRootElement(healthView);
-            UIManager.AddRootElement(enemyHealthView);
             return world;
         }
 

@@ -195,8 +195,41 @@
 /processorParam:TextureFormat=Color
 /build:spinning-dagger.png
 
+#begin Tiled/Tilemaps/island.tmj
+/copy:Tiled/Tilemaps/island.tmj
+
 #begin Tiled/Tilemaps/overworld.tmj
 /copy:Tiled/Tilemaps/overworld.tmj
+
+#begin Tiled/Tilesets/Dungeon_Tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiled/Tilesets/Dungeon_Tiles.png
+
+#begin Tiled/Tilesets/Dungeon_Tiles.tsj
+/copy:Tiled/Tilesets/Dungeon_Tiles.tsj
+
+#begin Tiled/Tilesets/Floors_Tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiled/Tilesets/Floors_Tiles.png
+
+#begin Tiled/Tilesets/Floors_Tiles.tsj
+/copy:Tiled/Tilesets/Floors_Tiles.tsj
 
 #begin Tiled/Tilesets/tileset.png
 /importer:TextureImporter
@@ -212,4 +245,109 @@
 
 #begin Tiled/Tilesets/tileset.tsj
 /copy:Tiled/Tilesets/tileset.tsj
+
+#begin Tiled/Tilesets/Wall_Tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiled/Tilesets/Wall_Tiles.png
+
+#begin Tiled/Tilesets/Wall_Tiles.tsj
+/copy:Tiled/Tilesets/Wall_Tiles.tsj
+
+#begin Tiled/Tilesets/Wall_Variations.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiled/Tilesets/Wall_Variations.png
+
+#begin Tiled/Tilesets/Wall_Variations.tsj
+/copy:Tiled/Tilesets/Wall_Variations.tsj
+
+#begin Tiled/Tilesets/Water_tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiled/Tilesets/Water_tiles.png
+
+#begin Tiled/Tilesets/Water_tiles.tsj
+/copy:Tiled/Tilesets/Water_tiles.tsj
+
+#begin UI/BeigePanel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/BeigePanel.png
+
+#begin UI/BluePanel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/BluePanel.png
+
+#begin UI/DarkBluePanel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/DarkBluePanel.png
+
+#begin UI/StoneNine.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/StoneNine.png
+
+#begin UI/WoodPanel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/WoodPanel.png
 

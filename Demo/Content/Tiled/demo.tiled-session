@@ -42,8 +42,8 @@
             "scale": 0.25,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 3046,
-                "y": 2564
+                "x": 4322,
+                "y": 3184
             }
         },
         "Tilesets/TilesetDesert.tsj": {
@@ -84,11 +84,11 @@
         }
     },
     "last.imagePath": "C:/Users/joelf/dev/Pango2D/Demo/Content/Tiled/Tilesets",
-    "map.height": 50,
+    "map.height": 30,
     "map.lastUsedFormat": "json",
-    "map.tileHeight": 64,
-    "map.tileWidth": 64,
-    "map.width": 100,
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 50,
     "openFiles": [
         "Tilesets/tileset.tsj",
         "Tilemaps/overworld.tmj"
@@ -110,7 +110,7 @@
     ],
     "tileset.lastUsedFormat": "json",
     "tileset.tileSize": {
-        "height": 64,
-        "width": 64
+        "height": 16,
+        "width": 16
     }
 }

@@ -1,17 +1,24 @@
 ﻿<StackPanel
 	Id="Panel"
-	Gap="10"
+	Gap="60"
 	Orientation="Vertical"
-	Padding="10, 10"
-	BackgroundImage="{Bind:BackgroundImage}"
+	Padding="10, 50"
 	ImageOptions="Center"
 	Anchor="MiddleCenter"
-	BackgroundColor="rgb(255, 0, 0)">
-	<Label Text="Hello from property" OnClick="OnClick"/>
-	<Label OnClick="OnClick">Hello from inside</Label>
-	<Label OnClick="OnClick" Text="Hello from priority property">Should not see me</Label>
-	<H1 FontSize="72" FontStyle="Bold" FontColor="rgb(255, 255, 255)">Header1</H1>
-	<H2 FontColor="rgb(255, 255, 255)">Header2</H2>
-	<H3 FontColor="rgb(255, 255, 255)">Header3</H3>
-	<Button OnClick="OnClick">START!</Button>
+	MinSize="600, 400"
+	BackgroundImage="UI/WoodPanel"
+	NineSlice="8:8:8:8:4,0"
+	>
+	<H1 FontSize="36" FontStyle="Bold" FontColor="rgb(255, 255, 255)" TextAlign="Center" AlignSelf="Center">Pango2D Engine Demo</H1>
+	<Button
+		OnClick="OnClick"
+		BackgroundColor="rgba(0, 0, 0, 0)"
+		BackgroundImage="UI/BeigePanel"
+		NineSlice="8:8:8:8:4,0"
+		FontStyle="Bold"
+		MinSize="120, 40"
+		FontSize="12"
+		TextAlign="Center"
+		AlignSelf="Center"
+		>Play</Button>
 </StackPanel>
