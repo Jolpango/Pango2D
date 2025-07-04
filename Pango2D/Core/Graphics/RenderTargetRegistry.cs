@@ -42,7 +42,7 @@ namespace Pango2D.Core.Graphics
         public void ClearRenderTargets()
         {
             graphics.SetRenderTarget(renderTargets[RenderTargetId.World]);
-            graphics.Clear(Color.Magenta);
+            graphics.Clear(Color.Black);
 
             graphics.SetRenderTarget(renderTargets[RenderTargetId.Lightmap]);
             graphics.Clear(new Color(50, 50, 50, 255));
