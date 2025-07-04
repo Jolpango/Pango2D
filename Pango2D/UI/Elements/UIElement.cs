@@ -9,6 +9,19 @@ using System.Collections.Generic;
 
 namespace Pango2D.UI.Elements
 {
+    public struct NineSlice
+    {
+        public int Left, Top, Right, Bottom;
+        public float Scale;
+        public NineSlice(int left, int top, int right, int bottom, float scale = 4)
+        {
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+            Scale = scale;
+        }
+    }
     /// <summary>
     /// Represents the options for how an image should be displayed within a UI element.
     /// </summary>
@@ -27,6 +40,14 @@ namespace Pango2D.UI.Elements
         Left,
         Center,
         Right
+    }
+
+    public enum ElementAlignment
+    {
+        None,
+        Start,
+        Center,
+        End
     }
 
     /// <summary>
@@ -62,10 +83,12 @@ namespace Pango2D.UI.Elements
         private Point size;
         private Point minSize = Point.Zero;
         private Point padding = Point.Zero;
+        private ElementAlignment elementAlignment = ElementAlignment.None;
         private AnchorPoint anchor = AnchorPoint.None;
         private string text = string.Empty;
         private string font = "Default";
         private float opacity = 1.0f;
+        private NineSlice? nineSlice = null;
         private List<UIBinding> bindings = new();
 
         public UIElement(GameWindow gameWindow, FontRegistry fontRegistry)
@@ -156,6 +179,19 @@ namespace Pango2D.UI.Elements
             }
         }
 
+        public ElementAlignment AlignSelf
+        {
+            get => elementAlignment;
+            set
+            {
+                if (elementAlignment != value)
+                {
+                    elementAlignment = value;
+                    InvalidateLayout();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets the padding applied to the UI element.
         /// </summary>
@@ -198,6 +234,19 @@ namespace Pango2D.UI.Elements
                 if (opacity != value)
                 {
                     opacity = Math.Clamp(value, 0f, 1f);
+                }
+            }
+        }
+
+        public NineSlice? NineSlice
+        {
+            get => nineSlice;
+            set
+            {
+                if (!nineSlice.Equals(value))
+                {
+                    nineSlice = value;
+                    InvalidateLayout();
                 }
             }
         }
@@ -481,7 +530,13 @@ namespace Pango2D.UI.Elements
             if (BackgroundImage != null)
             {
                 var destinationRectangle = new Rectangle(Position, Size);
-                switch (ImageOptions)
+                if (NineSlice.HasValue)
+                {
+                    DrawNineSlice(spriteBatch, BackgroundImage, destinationRectangle, NineSlice.Value, Color.White);
+                }
+                else
+                {
+                    switch (ImageOptions)
                 {
                     case ImageOptions.Fill:
                         spriteBatch.Draw(BackgroundImage, destinationRectangle, Color.White);
@@ -515,7 +570,52 @@ namespace Pango2D.UI.Elements
                         spriteBatch.Draw(BackgroundImage, Position.ToVector2(), Color.White);
                         break;
                 }
+                }
             }
+        }
+
+        protected void DrawNineSlice(SpriteBatch spriteBatch, Texture2D texture, Rectangle dest, NineSlice borders, Color color)
+        {
+            int texW = texture.Width, texH = texture.Height;
+            float scale = borders.Scale;
+
+            // Scaled border sizes
+            int l = (int)(borders.Left * scale);
+            int t = (int)(borders.Top * scale);
+            int r = (int)(borders.Right * scale);
+            int b = (int)(borders.Bottom * scale);
+
+            // Source rectangles (from the texture)
+            Rectangle[] src =
+            {
+                new(0, 0, borders.Left, borders.Top),                // Top-left
+                new(borders.Left, 0, texW - borders.Left - borders.Right, borders.Top),     // Top
+                new(texW - borders.Right, 0, borders.Right, borders.Top),         // Top-right
+                new(0, borders.Top, borders.Left, texH - borders.Top - borders.Bottom),     // Left
+                new(borders.Left, borders.Top, texW - borders.Left - borders.Right, texH - borders.Top - borders.Bottom), // Center
+                new(texW - borders.Right, borders.Top, borders.Right, texH - borders.Top - borders.Bottom),     // Right
+                new(0, texH - borders.Bottom, borders.Left, borders.Bottom),         // Bottom-left
+                new(borders.Left, texH - borders.Bottom, texW - borders.Left - borders.Right, borders.Bottom),     // Bottom
+                new(texW - borders.Right, texH - borders.Bottom, borders.Right, borders.Bottom),  // Bottom-right
+            };
+
+            // Destination rectangles (on the UI)
+            int dw = dest.Width, dh = dest.Height;
+            Rectangle[] dst =
+            {
+                new(dest.X, dest.Y, l, t),
+                new(dest.X + l, dest.Y, dw - l - r, t),
+                new(dest.X + dw - r, dest.Y, r, t),
+                new(dest.X, dest.Y + t, l, dh - t - b),
+                new(dest.X + l, dest.Y + t, dw - l - r, dh - t - b),
+                new(dest.X + dw - r, dest.Y + t, r, dh - t - b),
+                new(dest.X, dest.Y + dh - b, l, b),
+                new(dest.X + l, dest.Y + dh - b, dw - l - r, b),
+                new(dest.X + dw - r, dest.Y + dh - b, r, b),
+            };
+
+            for (int i = 0; i < 9; i++)
+                spriteBatch.Draw(texture, dst[i], src[i], color);
         }
 
         /// <summary>

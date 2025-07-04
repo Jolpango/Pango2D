@@ -59,6 +59,7 @@ namespace Pango2D.UI.Elements
                 }
             }
             Size = new Point(width + Padding.X * 2, height + Padding.Y * 2);
+            Size = new Point(Math.Max(Size.X, MinSize.X), Math.Max(Size.Y, MinSize.Y));
         }
 
         public override void Arrange(Point offset)
@@ -70,10 +71,46 @@ namespace Pango2D.UI.Elements
                 child.Arrange(currentPosition);
                 if (orientation == Orientation.Horizontal)
                 {
+                    if (child.AlignSelf == ElementAlignment.Center)
+                    {
+                        var pos = child.Position;
+                        pos.Y += (Size.Y - child.Size.Y) / 2;
+                        child.Position = pos;
+                    }
+                    else if (child.AlignSelf == ElementAlignment.End)
+                    {
+                        var pos = child.Position;
+                        pos.Y += Size.Y - child.Size.Y - Padding.Y * 2;
+                        child.Position = pos;
+                    }
+                    else if (child.AlignSelf == ElementAlignment.Start)
+                    {
+                        var pos = child.Position;
+                        pos.Y += 0;
+                        child.Position = pos;
+                    }
                     currentPosition.X += child.Size.X + gap;
                 }
                 else
                 {
+                    if (child.AlignSelf == ElementAlignment.Center)
+                    {
+                        var pos = child.Position;
+                        pos.X += (Size.X - child.Size.X) / 2;
+                        child.Position = pos;
+                    }
+                    else if (child.AlignSelf == ElementAlignment.End)
+                    {
+                        var pos = child.Position;
+                        pos.X += Size.X - child.Size.X - Padding.X * 2;
+                        child.Position = pos;
+                    }
+                    else if (child.AlignSelf == ElementAlignment.Start)
+                    {
+                        var pos = child.Position;
+                        pos.X += 0;
+                        child.Position = pos;
+                    }
                     currentPosition.Y += child.Size.Y + gap;
                 }
             }

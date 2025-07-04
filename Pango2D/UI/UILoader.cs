@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
+using Pango2D.Core.Services;
 using Pango2D.UI.Elements;
 using Pango2D.UI.Views;
 using Pango2D.Utilities;
@@ -15,13 +16,10 @@ namespace Pango2D.UI
     public class UILoader
     {
         private readonly Dictionary<string, Func<XElement, object, UIElement>> builders = [];
-        private readonly FontRegistry fontRegistry;
-        private readonly GameWindow gameWindow;
-
-        public UILoader(GameWindow gameWindow, FontRegistry fontRegistry)
+        private readonly GameServices gameServices;
+        public UILoader(GameServices gameServices)
         {
-            this.fontRegistry = fontRegistry ?? throw new ArgumentNullException(nameof(fontRegistry));
-            this.gameWindow = gameWindow ?? throw new ArgumentNullException(nameof(gameWindow));
+            this.gameServices = gameServices;
             builders.Add("Label", GenericBuilder<UILabel>);
             builders.Add("StackPanel", GenericBuilder<UIStackPanel>);
             builders.Add("P", GenericBuilder<UIParagraph>);
@@ -217,7 +215,11 @@ namespace Pango2D.UI
                 else if (prop.PropertyType.IsEnum)
                     parsed = Enum.Parse(prop.PropertyType, str, ignoreCase: true);
                 else if (prop.PropertyType == typeof(SpriteFont))
-                    parsed = fontRegistry.Get(str) ?? fontRegistry.Get("DefaultFont");
+                    parsed = gameServices.FontRegistry.Get(str) ?? gameServices.FontRegistry.Get("DefaultFont");
+                else if (prop.PropertyType == typeof(Texture2D))
+                    parsed = gameServices.Content.Load<Texture2D>(str);
+                else if (prop.PropertyType == typeof(NineSlice?))
+                    parsed = ParseNineSlice(str);
                 // Add more types as needed
             }
             else if(prop.PropertyType == typeof(string))
@@ -232,6 +234,24 @@ namespace Pango2D.UI
             return bool.Parse(str);
         }
 
+        private static NineSlice? ParseNineSlice(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+                return null;
+            var parts = str.Split(':');
+            if (parts.Length != 5)
+                throw new FormatException("NineSlice format must be 'Left:Top:Right:Bottom:Scale'");
+            if (!int.TryParse(parts[0].Trim(), out int left) ||
+                !int.TryParse(parts[1].Trim(), out int top) ||
+                !int.TryParse(parts[2].Trim(), out int right) ||
+                !int.TryParse(parts[3].Trim(), out int bottom) ||
+                !float.TryParse(parts[4].Trim(), out float scale))
+            {
+                throw new FormatException("NineSlice dimensions must be integers");
+            }
+            return new NineSlice(left, top, right, bottom, scale);
+        }
+
         private static Color ParseColor(string str)
         {
             return StringTranslator.ColorFromRGB(str);
@@ -243,7 +263,7 @@ namespace Pango2D.UI
         }
         private UIElement GenericBuilder<T>(XElement xElement, object context) where T : UIElement
         {
-            var element = (T)Activator.CreateInstance(typeof(T), gameWindow, fontRegistry)!;
+            var element = (T)Activator.CreateInstance(typeof(T), gameServices.GameWindow, gameServices.FontRegistry)!;
             ApplyAttributes(element, xElement, context);
             return element;
         }

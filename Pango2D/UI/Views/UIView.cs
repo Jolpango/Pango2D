@@ -127,7 +127,7 @@ namespace Pango2D.UI.Views
         /// <returns></returns>
         public static T Create<T>(GameServices services) where T : UIView, new()
         {
-            var loader = new UILoader(services.GameWindow, services.FontRegistry);
+            var loader = new UILoader(services);
             var view = loader.LoadWithContext<T>(GetViewPath<T>());
             view.Services = services;
             view.OnLoaded();
