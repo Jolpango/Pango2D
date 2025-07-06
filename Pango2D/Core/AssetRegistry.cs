@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using System;
+using System.Collections.Generic;
 namespace Pango2D.Core
 {
     public class AssetRegistry<T> : Registry<string, T>
@@ -9,6 +10,15 @@ namespace Pango2D.Core
         public AssetRegistry(ContentManager content)
         {
             this.content = content;
+        }
+        public virtual T this[string key]
+        {
+            get
+            {
+                if (!TryGet(key, out var asset))
+                    throw new KeyNotFoundException($"Asset with key '{key}' not found.");
+                return asset;
+            }
         }
 
         public virtual T Load(string key, string path)
