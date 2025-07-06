@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Converters;
 using System.Globalization;
 
-namespace Pango2D.Tiled
+namespace Pango2D.Tiled.DTO.TilesetData
 {
     public partial class TilesetData
     {
@@ -36,6 +36,9 @@ namespace Pango2D.Tiled
         [JsonProperty("tileheight")]
         public int Tileheight { get; set; }
 
+        [JsonProperty("tiles")]
+        public TileData[] Tiles { get; set; }
+
         [JsonProperty("tilewidth")]
         public int Tilewidth { get; set; }
 
@@ -46,26 +49,44 @@ namespace Pango2D.Tiled
         public string Version { get; set; }
     }
 
+    public partial class TileData
+    {
+        [JsonProperty("animation")]
+        public TileAnimationData[] Animation { get; set; }
+
+        [JsonProperty("id")]
+        public int Id { get; set; }
+    }
+
+    public partial class TileAnimationData
+    {
+        [JsonProperty("duration")]
+        public int Duration { get; set; }
+
+        [JsonProperty("tileid")]
+        public int Tileid { get; set; }
+    }
+
     public partial class TilesetData
     {
-        public static TilesetData FromJson(string json) => JsonConvert.DeserializeObject<TilesetData>(json, TilesetDataConverter.Settings);
+        public static TilesetData FromJson(string json) => JsonConvert.DeserializeObject<TilesetData>(json, Converter.Settings);
     }
 
-    public static class SerializeTilesetData
+    public static class Serialize
     {
-        public static string ToJson(this TilesetData self) => JsonConvert.SerializeObject(self, TilesetDataConverter.Settings);
+        public static string ToJson(this TilesetData self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
-    internal static class TilesetDataConverter
+    internal static class Converter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
             Converters =
-                {
-                    new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-                },
+            {
+                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
+            },
         };
     }
 }

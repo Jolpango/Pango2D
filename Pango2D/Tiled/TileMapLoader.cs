@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Tiled.DTO.TiledData;
+using Pango2D.Tiled.DTO.TilesetData;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 namespace Pango2D.Tiled
 {
@@ -36,7 +39,8 @@ namespace Pango2D.Tiled
                     TileCount = tilesetData.Tilecount,
                     Texture = content.Load<Texture2D>(texturePath),
                     Spacing = tilesetData.Spacing,
-                    Margin = tilesetData.Margin
+                    Margin = tilesetData.Margin,
+                    Tiles = tilesetData.Tiles
                 };
                 map.TileSets.Add(tileset);
             }
@@ -45,19 +49,76 @@ namespace Pango2D.Tiled
             {
                 var width = layerData.Width.Value;
                 var height = layerData.Height.Value;
-
-                var tiles = new int[height, width];
+                var tileData = new int[height, width];
+                var tiles = new List<Tile>();
                 for (int y = 0; y < height; y++)
+                {
                     for (int x = 0; x < width; x++)
                     {
                         int flatIndex = y * width + x;
-                        tiles[y, x] = layerData.Data[flatIndex];
+                        tileData[y, x] = layerData.Data[flatIndex];
+                        int tileId = tileData[y, x];
+                        if (tileData[y, x] == 0)
+                            continue;
+                        var tileSet = map.TileSets.Find(ts => ts.FirstGid <= tileId && ts.FirstGid + ts.TileCount > tileId);
+                        int localTileId = tileId - tileSet.FirstGid;
+                        int tilesPerRow = tileSet.Texture.Width / (tileSet.TileWidth + tileSet.Spacing);
+                        int tileX = localTileId % tilesPerRow;
+                        int tileY = localTileId / tilesPerRow;
+
+                        Rectangle sourceRectangle = new(
+                            tileX * (tileSet.TileWidth + tileSet.Spacing) + tileSet.Margin,
+                            tileY * (tileSet.TileHeight + tileSet.Spacing) + tileSet.Margin,
+                            tileSet.TileWidth,
+                            tileSet.TileHeight);
+
+                        int destX = x * map.TileWidthScaled;
+                        int destY = y * map.TileHeightScaled;
+                        Rectangle destRectangle = new(destX, destY, map.TileWidthScaled, map.TileHeightScaled);
+                        Tile tile = new Tile()
+                        {
+                            SourceRectangle = sourceRectangle,
+                            DestinationRectangle = destRectangle,
+                            TileSet = tileSet
+                        };
+
+                        var extraTileData = tileSet.Tiles.FirstOrDefault(t => t.Id == localTileId);
+                        if (extraTileData is not null)
+                        {
+                            if (extraTileData.Animation is not null && extraTileData.Animation.Length > 0)
+                            {
+                                tile.Animation = new TileAnimation();
+                                foreach (var frame in extraTileData.Animation)
+                                {
+                                    int frameX = frame.Tileid % tilesPerRow;
+                                    int frameY = frame.Tileid / tilesPerRow;
+                                    Rectangle frameSource = new(
+                                        frameX * (tileSet.TileWidth + tileSet.Spacing) + tileSet.Margin,
+                                        frameY * (tileSet.TileHeight + tileSet.Spacing) + tileSet.Margin,
+                                        tileSet.TileWidth,
+                                        tileSet.TileHeight);
+                                    tile.IsAnimated = true;
+                                    
+                                    var animationFrame = new TileAnimationFrame()
+                                    {
+                                        SourceRectangle = frameSource,
+                                        Duration = frame.Duration
+                                    };
+                                    tile.Animation.Frames.Add(animationFrame);
+                                }
+                            }
+                        }
+
+                        tiles.Add(tile);
                     }
-                var layer = new TileLayer(layerData.Name, width, height, tiles)
+                }
+                var layer = new TileLayer(layerData.Name, width, height, tileData)
                 {
                     Opacity = layerData.Opacity,
-                    IsVisible = layerData.Visible
+                    IsVisible = layerData.Visible,
+                    Tiles = tiles
                 };
+
                 map.Layers.Add(layer);
             }
 

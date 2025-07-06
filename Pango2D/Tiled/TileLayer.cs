@@ -1,4 +1,6 @@
-﻿namespace Pango2D.Tiled
+﻿using System.Collections.Generic;
+
+namespace Pango2D.Tiled
 {
     public class TileLayer(string name, int width, int height, int[,] tileIds)
     {
@@ -8,5 +10,6 @@
         public bool IsVisible { get; set; } = true;
         public float Opacity { get; set; } = 1.0f;
         public int[,] TileIds { get; } = tileIds;
+        public List<Tile> Tiles { get; set;  } = [];
     }
 }

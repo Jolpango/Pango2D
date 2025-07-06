@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Pango2D.Tiled.DTO.TiledData;
 using System.Collections.Generic;
 
 namespace Pango2D.Tiled

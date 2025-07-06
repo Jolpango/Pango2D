@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Tiled.DTO.TilesetData;
 
 
 namespace Pango2D.Tiled
@@ -13,5 +14,6 @@ namespace Pango2D.Tiled
         public int TileCount { get; set; }
         public int Spacing { get; set; }
         public int Margin { get; set; }
+        public TileData[] Tiles { get; set; }
     }
 }

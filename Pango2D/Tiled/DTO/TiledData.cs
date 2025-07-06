@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Pango2D.Tiled
+namespace Pango2D.Tiled.DTO.TiledData
 {
     public partial class TiledData
     {
