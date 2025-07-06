@@ -2,7 +2,7 @@
 using Pango2D.ECS.Components;
 using Pango2D.Graphics.Sprites;
 
-namespace Pango2D.ECS.Systems.UpdateSystems
+namespace Pango2D.ECS.Systems.UpdateSystems.Animation
 {
     public class AnimationCommandSystem : CommandComponentSystem<AnimationCommand, SpriteAnimator>
     {

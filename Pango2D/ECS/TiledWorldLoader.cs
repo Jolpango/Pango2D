@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Pango2D.ECS.Components;
 using Pango2D.Tiled;
+using Pango2D.Tiled.DTO.TiledData;
 using System;
 
 namespace Pango2D.ECS
@@ -28,7 +29,7 @@ namespace Pango2D.ECS
                             .AddComponent(new Collider
                             {
                                 Bounds = new Rectangle(0, 0, (int)obj.Width, (int)obj.Height),
-                                IsStatic = true
+                                Behavior = ColliderBehavior.Static
                             })
                             .Build();
                     }

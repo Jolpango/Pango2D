@@ -20,6 +20,11 @@ namespace Pango2D.ECS.Systems.RenderSystems
         {
             foreach (var (_, collider, transform) in World.Query<Collider, Transform>())
             {
+                var color = Color.Blue;
+                if (collider.Behavior == ColliderBehavior.Dynamic)
+                    color = Color.Red;
+                else if (collider.Behavior == ColliderBehavior.Trigger)
+                    color = Color.Green;
                 spriteBatch.Draw(TextureCache.White,
                     new Rectangle((int)transform.Position.X + collider.Bounds.X,
                                   (int)transform.Position.Y + collider.Bounds.Y,
@@ -29,7 +34,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
                                   0,
                                   collider.Bounds.Width,
                                   collider.Bounds.Height),
-                    (collider.IsStatic ? Color.Blue : Color.Red) * 0.2f,
+                    color * 0.2f,
                     0f,
                     //new Vector2(collider.Bounds.Width / 2, collider.Bounds.Height / 2),
                     Vector2.Zero,

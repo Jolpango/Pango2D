@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pango2D.ECS.Systems.UpdateSystems
+namespace Pango2D.ECS.Systems.UpdateSystems.Sound
 {
     public class SoundEffectCommandSystem : CommandComponentSystem<SoundEffectCommand>
     {

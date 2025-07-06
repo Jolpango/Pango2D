@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Pango2D.Graphics.Sprites;
 
-namespace Pango2D.ECS.Systems.UpdateSystems
+namespace Pango2D.ECS.Systems.UpdateSystems.Animation
 {
     public class AnimationSystem : PostUpdateComponentSystem<SpriteAnimator, Sprite>
     {

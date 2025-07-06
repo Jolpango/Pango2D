@@ -29,11 +29,23 @@ namespace Pango2D.ECS.Systems.RenderSystems
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            var viewMatrix = World.Query<Camera>().FirstOrDefault().Item2?.GetViewMatrix() ?? Matrix.Identity;
+            var camera = World.Query<Camera>().FirstOrDefault().Item2;
+            var viewMatrix = camera?.GetViewMatrix() ?? Matrix.Identity;
             spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetRegistry[RenderTargetId.Lightmap]);
             renderPassSettings.TransformMatrix = viewMatrix;
             spriteBatch.Begin(renderPassSettings);
-
+            foreach (var (_, ambientLight) in World.Query<Light>((_, light) => light.Type == LightType.Ambient))
+            {
+                spriteBatch.Draw(
+                    TextureCache.White,
+                    new Rectangle(
+                        (int)camera.Position.X - camera.ViewportWidth / 2,
+                        (int)camera.Position.Y - camera.ViewportHeight / 2,
+                        camera.ViewportWidth,
+                        camera.ViewportHeight),
+                    ambientLight.Color
+                );
+            }
             foreach (var lightInstance in lightBufferService.ActiveLights)
             {
                 var texture = lightInstance.Texture ?? TextureCache.RadialLight;

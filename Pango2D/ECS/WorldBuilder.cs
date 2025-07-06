@@ -5,6 +5,9 @@ using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.ECS.Systems.RenderSystems;
 using Pango2D.ECS.Systems.UpdateSystems;
+using Pango2D.ECS.Systems.UpdateSystems.Animation;
+using Pango2D.ECS.Systems.UpdateSystems.LightSystems;
+using Pango2D.ECS.Systems.UpdateSystems.Movement;
 
 namespace Pango2D.ECS
 {
@@ -46,7 +49,8 @@ namespace Pango2D.ECS
             world.AddSystem(new AnimationSystem());
             world.AddSystem(new AnimationCommandSystem());
             world.AddSystem(new SpriteRenderSystem());
-            world.AddSystem(new MovementSystem());
+            world.AddSystem(new ParticleEffectRenderSystem());
+            world.AddSystem(new PhysicsSystem());
             world.AddSystem(new CollisionSystem());
             return this;
         }

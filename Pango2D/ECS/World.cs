@@ -173,11 +173,50 @@ namespace Pango2D.ECS
                     if (store3.Has(entity))
                     {
                         var c3Cast = (T3)store3.Get(entity);
-                        if (store3.Has(entity))
+                        if (store4.Has(entity))
                         {
                             var c4Cast = (T4)store4.Get(entity);
                             if (predicate is null || predicate(entity, c1Cast, c2Cast, c3Cast, c4Cast))
                                 yield return (entity, c1Cast, c2Cast, c3Cast, c4Cast);
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<(Entity, T1, T2, T3, T4, T5)> Query<T1, T2, T3, T4, T5>(Func<Entity, T1, T2, T3, T4, T5, bool> predicate = null)
+            where T1 : IComponent
+            where T2 : IComponent
+            where T3 : IComponent
+            where T4 : IComponent
+            where T5 : IComponent
+        {
+            GetStore<T1>(out var store1);
+            GetStore<T2>(out var store2);
+            GetStore<T3>(out var store3);
+            GetStore<T4>(out var store4);
+            GetStore<T5>(out var store5);
+            foreach (var (entity, c1) in store1.All())
+            {
+                var c1Cast = (T1)c1;
+                if (store2.Has(entity))
+                {
+                    var c2Cast = (T2)store2.Get(entity);
+                    if (store3.Has(entity))
+                    {
+                        var c3Cast = (T3)store3.Get(entity);
+                        if (store4.Has(entity))
+                        {
+                            var c4Cast = (T4)store4.Get(entity);
+                            if (store5.Has(entity))
+                            {
+                                var c5Cast = (T5)store5.Get(entity);
+                                if (c5Cast is not null)
+                                {
+                                    if (predicate is null || predicate(entity, c1Cast, c2Cast, c3Cast, c4Cast, c5Cast))
+                                        yield return (entity, c1Cast, c2Cast, c3Cast, c4Cast, c5Cast);
+                                }
+                            }
                         }
                     }
                 }
