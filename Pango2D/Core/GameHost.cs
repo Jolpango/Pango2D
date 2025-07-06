@@ -37,6 +37,7 @@ namespace Pango2D.Core
             gameServices.Register<IInputProvider>(new InputManager());
             gameServices.Register(new RenderTargetRegistry(game.GraphicsDevice, gameServices.Get<ViewportService>()));
             gameServices.Register(debugService);
+            gameServices.Register(new TextureRegistry(game.Content));
             UpdateViewportServiceWindowBounds();
             game.Window.ClientSizeChanged += Window_ClientSizeChanged;
         }

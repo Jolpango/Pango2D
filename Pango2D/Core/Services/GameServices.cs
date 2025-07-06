@@ -75,6 +75,12 @@ namespace Pango2D.Core.Services
             set => Set(value);
         }
 
+        public TextureRegistry TextureRegistry
+        {
+            get => Get<TextureRegistry>();
+            set => Set(value);
+        }
+
         public DebugService DebugService
         {
             get => Get<DebugService>();

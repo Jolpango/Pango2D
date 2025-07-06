@@ -24,6 +24,7 @@ namespace Pango2D.Core.Scenes
         public GameWindow Window => Services.Get<GameWindow>();
         public IInputProvider InputProvider => Services.Get<IInputProvider>();
         public SpriteBatch SpriteBatch => Services.Get<SpriteBatch>();
+        public TextureRegistry TextureRegistry => Services.Get<TextureRegistry>();
         /// <summary>
         /// Initializes a scene, call base first to ensure services are loaded.
         /// </summary>
