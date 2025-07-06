@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Pango2D.ECS;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Systems.Contracts;
+using Pango2D.Graphics.Particles;
 using System;
 
 namespace Demo
@@ -19,7 +20,12 @@ namespace Demo
             {
                 if(World.TryGetComponent<DamageComponent>(collisionEvent.Other, out var damageComponent))
                 {
-                    if(enemy.Health <= 0)
+                    if(World.TryGetComponent<ParticleEffect>(entity, out var particleEffect) &&
+                        World.TryGetComponent<Transform>(entity, out var transform))
+                    {
+                        particleEffect.Emit(transform.Position + new Vector2(40, 40));
+                    }
+                    if (enemy.Health <= 0)
                         continue;
                     enemy.Health -= damageComponent.Damage;
                     World.AddComponent(entity, new SoundEffectCommand()

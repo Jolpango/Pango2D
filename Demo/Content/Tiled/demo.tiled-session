@@ -83,6 +83,7 @@
             "scaleInEditor": 1
         }
     },
+    "frame.defaultDuration": 200,
     "last.imagePath": "C:/Users/joelf/dev/Pango2D/Demo/Content/Tiled/Tilesets",
     "map.height": 30,
     "map.lastUsedFormat": "json",

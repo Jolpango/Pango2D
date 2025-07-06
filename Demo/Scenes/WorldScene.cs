@@ -1,5 +1,4 @@
-﻿using Demo.Content;
-using Demo.Views;
+﻿using Demo.Views;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Pango2D.Core.Audio;
@@ -9,6 +8,7 @@ using Pango2D.ECS;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Systems.RenderSystems;
 using Pango2D.ECS.Systems.UpdateSystems;
+using Pango2D.ECS.Systems.UpdateSystems.Sound;
 using Pango2D.UI;
 using Pango2D.UI.Views;
 using System.Linq;
@@ -17,9 +17,18 @@ namespace Demo.Scenes
 {
     public class WorldScene : HybridScene
     {
+        public override void LoadContent()
+        {
+            TextureRegistry.Load("Soldier", "Soldier");
+            TextureRegistry.Load("Orc", "Orc");
+            SoundEffectRegistry.Load("bottle", "Sounds/SoundEffects/bottle");
+            SoundEffectRegistry.Load("swing", "Sounds/SoundEffects/swing");
 
+            base.LoadContent();
+        }
         protected override World ConfigureScene(UIManager uiManager)
         {
+            
             var view = UIView.Create<WorldView>(Services);
             UIManager.AddView(view);
             var world = new WorldBuilder(Services)
@@ -46,9 +55,12 @@ namespace Demo.Scenes
                     ViewportWidth = Services.ViewportService.VirtualWidth,
                     ViewportHeight = Services.ViewportService.VirtualHeight
                 })
+                .AddComponent(new Light()
+                {
+                    Color = Color.White * 0.4f,
+                    Type = LightType.Ambient,
+                })
                 .Build();
-            SoundEffectRegistry.Add("bottle", Content.Load<SoundEffect>("Sounds/SoundEffects/bottle"));
-            SoundEffectRegistry.Add("swing", Content.Load<SoundEffect>("Sounds/SoundEffects/swing"));
             UILoader loader = new UILoader(Services);
             var entitypos = loader.LoadWithContext("Views/EntityPos.xaml", world.Query<Transform, MainCameraTarget>().FirstOrDefault().Item2);
             var goldview = loader.LoadWithContext("Views/GoldView.xaml", world.Query<PlayerComponent>().FirstOrDefault().Item2);

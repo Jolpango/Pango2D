@@ -3,7 +3,7 @@
 	BackgroundColor="rgba(0, 0, 0, 0)"
 	BackgroundImage="UI/BeigePanel"
 	NineSlice="8:8:8:8:4,0"
-	FontSize="12"
+	FontSize="24"
 	Opacity="0,5"
 	MinSize="400, 50"
 	TextAlign="Center"

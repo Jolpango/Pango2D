@@ -28,6 +28,9 @@
 /processorParam:TextureFormat=Color
 /build:coin.png
 
+#begin Effects/Blood.pef
+/copy:Effects/Blood.pef
+
 #begin Fonts/Default/Bold/Default-Bold-12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

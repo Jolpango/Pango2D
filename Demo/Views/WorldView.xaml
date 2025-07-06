@@ -9,8 +9,19 @@
 		FontColor="rgb(255, 255, 255)"
 		MinSize="150, 50"
 		TextAlign="Center"
+		FontSize="16"
 		BackgroundColor="rgba(0, 0, 0, 0)"
 		BackgroundImage="UI/BluePanel"
 		NineSlice="8:8:8:8:4,0"
 		></P>
+	<P FontColor="rgb(255, 255, 255)"
+		MinSize="150, 50"
+		TextAlign="Center"
+		FontSize="16"
+		BackgroundColor="rgba(0, 0, 0, 0)"
+		BackgroundImage="UI/BluePanel"
+	    Padding="20, 0"
+		NineSlice="8:8:8:8:4,0">
+		WASD to move, shift to run, space to attack.
+	</P>
 </StackPanel>

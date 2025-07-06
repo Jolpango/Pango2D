@@ -13,13 +13,13 @@ namespace Demo
 {
     public class DamageComponent : IComponent
     {
-        public int Damage { get; set; } = 10; // Default damage value
+        public int Damage { get; set; } = 10;
     }   
-    public class PlayerInputSystem(IInputProvider input) : PreUpdateComponentSystem<PlayerComponent, Velocity, Sprite, Transform>
+    public class PlayerInputSystem(IInputProvider input) : PreUpdateComponentSystem<PlayerComponent, Acceleration, Sprite, Transform, Velocity>
     {
         private readonly IInputProvider input = input;
         private bool isAttacking = false;
-        protected override void PreUpdate(GameTime gameTime, Entity entity, PlayerComponent player, Velocity velocity, Sprite sprite, Transform transform)
+        protected override void PreUpdate(GameTime gameTime, Entity entity, PlayerComponent player, Acceleration acceleration, Sprite sprite, Transform transform, Velocity velocity)
         {
             Vector2 direction = Vector2.Zero;
             if (input.IsKeyDown(Keys.W) || input.IsKeyDown(Keys.Up))
@@ -32,8 +32,13 @@ namespace Demo
                 direction.X += 1;
 
             direction = direction.LengthSquared() > 0 ? Vector2.Normalize(direction) : Vector2.Zero;
-            Vector2 previousDirection = velocity.Value.LengthSquared() > 0 ? Vector2.Normalize(velocity.Value) : Vector2.Zero;
-            velocity.Value = direction * (isAttacking ? 200f : 500f); // Speed can be adjusted as needed
+            Vector2 previousDirection = acceleration.Value.LengthSquared() > 0 ? Vector2.Normalize(acceleration.Value) : Vector2.Zero;
+            acceleration.Value = direction * (isAttacking ? 500f : 1500f);
+
+            if(input.IsKeyDown(Keys.LeftShift) && !isAttacking)
+            {
+                acceleration.Value *= 2f;
+            }
 
             string animationName = null;
             if (!isAttacking)
@@ -65,7 +70,36 @@ namespace Demo
                         Loop = false
                     });
                 }
-                if (input.IsKeyPressed(Keys.Space))
+                if (input.IsKeyPressed(Keys.Space) && input.IsKeyDown(Keys.LeftShift))
+                {
+                    isAttacking = true;
+                    acceleration.Value = direction * 25000;
+                    World.AddComponent(entity, new SoundEffectCommand() { SoundEffectName = "swing", Pitch = Random.Shared.NextSingle() });
+
+                    World.AddComponent(entity, new AnimationCommand()
+                    {
+                        AnimationName = "Attack02",
+                        ForceRestart = true,
+                        Loop = false,
+                        OnFrameChanged = (index) =>
+                        {
+                            if (index != 3) return;
+                            var hitboxPosition = sprite.Effects == SpriteEffects.FlipHorizontally
+                                ? transform.Position + new Vector2(-100, 0)
+                                : transform.Position + new Vector2(50, 0);
+                            var hitbox = new EntityBuilder(World)
+                             .AddComponent(new Transform() { Position = hitboxPosition, Scale = Vector2.One * 4 })
+                             .AddComponent(new DamageComponent() { Damage = 40 })
+                             .AddComponent(new Collider() { Bounds = new Rectangle(0, 0, 150, 100), Behavior = ColliderBehavior.Transient })
+                             .Build();
+                        },
+                        OnEnd = () =>
+                        {
+                            isAttacking = false;
+                        }
+                    });
+                }
+                else if (input.IsKeyPressed(Keys.Space))
                 {
                     isAttacking = true;
                     World.AddComponent(entity, new SoundEffectCommand() { SoundEffectName = "swing", Pitch = Random.Shared.NextSingle() });
@@ -84,7 +118,7 @@ namespace Demo
                             var hitbox = new EntityBuilder(World)
                              .AddComponent(new Transform() { Position = hitboxPosition, Scale = Vector2.One * 4 })
                              .AddComponent(new DamageComponent())
-                             .AddComponent(new Collider() { Bounds = new Rectangle(0, 0, 150, 100), IsTrigger = true, IsTransient = true })
+                             .AddComponent(new Collider() { Bounds = new Rectangle(0, 0, 150, 100), Behavior = ColliderBehavior.Transient })
                              .Build();
                         },
                         OnEnd = () =>

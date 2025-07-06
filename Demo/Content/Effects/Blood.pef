@@ -1,0 +1,27 @@
+{
+  "Emitters": [
+    {
+      "Name": "New Emitter",
+      "Texture": "",
+      "MaxParticles": 100,
+      "EmissionRate": 10,
+      "Lifetime": 1,
+      "IsActive": true,
+      "Position": {
+        "X": 0,
+        "Y": 0
+      },
+      "Dispersion": {
+        "Type": "RandomDispersion",
+        "Data": {
+          "MinSpeed": 100,
+          "MaxSpeed": 200,
+          "MinAngle": 0,
+          "MaxAngle": 6.283185
+        }
+      },
+      "Modifiers": []
+    }
+  ],
+  "IsActive": true
+}

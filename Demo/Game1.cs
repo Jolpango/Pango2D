@@ -23,7 +23,7 @@ namespace Demo
             };
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
-            IsFixedTimeStep = false;
+            //IsFixedTimeStep = false;
             AsepriteLoader.RootDirectory = Content.RootDirectory;
             IsMouseVisible = true;
             graphics.GraphicsProfile =  GraphicsProfile.HiDef;

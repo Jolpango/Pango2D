@@ -9,7 +9,7 @@
 	BackgroundImage="UI/WoodPanel"
 	NineSlice="8:8:8:8:4,0"
 	>
-	<H1 FontSize="36" FontStyle="Bold" FontColor="rgb(255, 255, 255)" TextAlign="Center" AlignSelf="Center">Pango2D Engine Demo</H1>
+	<H1 FontSize="48" FontStyle="Bold" FontColor="rgb(255, 255, 255)" TextAlign="Center" AlignSelf="Center">Pango2D Engine Demo</H1>
 	<Button
 		OnClick="OnClick"
 		BackgroundColor="rgba(0, 0, 0, 0)"
@@ -17,7 +17,7 @@
 		NineSlice="8:8:8:8:4,0"
 		FontStyle="Bold"
 		MinSize="120, 40"
-		FontSize="12"
+		FontSize="24"
 		TextAlign="Center"
 		AlignSelf="Center"
 		>Play</Button>

@@ -29,7 +29,7 @@ namespace Demo
                     enemy.HealthBarWidth,
                     enemy.HealthBarHeight
                 );
-                var currentHealthPercentage = (float)enemy.Health / enemy.MaxHealth;
+                var currentHealthPercentage = MathF.Max((float)enemy.Health / enemy.MaxHealth, 0);
                 var healthDestination = new Rectangle(
                     (int)(transform.Position.X),
                     (int)(transform.Position.Y),
