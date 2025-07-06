@@ -1,4 +1,6 @@
-﻿using Pango2D.ECS.Components.Contracts;
+﻿using Microsoft.Xna.Framework;
+using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.Contracts;
 using System;
 
 namespace Pango2D.ECS
@@ -15,6 +17,16 @@ namespace Pango2D.ECS
         public EntityBuilder AddComponent<T>(T component) where T : IComponent
         {
             world.AddComponent(entity, component);
+            return this;
+        }
+        public EntityBuilder AddRigidBody(
+            Vector2 velocity = default,
+            Vector2 acceleration = default,
+            float mass = 1f)
+        {
+            world.AddComponent(entity, new Velocity(velocity));
+            world.AddComponent(entity, new Acceleration(acceleration));
+            world.AddComponent(entity, new Mass(mass));
             return this;
         }
         public Entity Build()

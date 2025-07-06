@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Pango2D.ECS.Components.Contracts;
-using System;
 
 namespace Pango2D.ECS.Components
 {

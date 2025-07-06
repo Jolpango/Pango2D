@@ -7,5 +7,6 @@ namespace Pango2D.ECS.Components
     {
         public Entity Other { get; init; }
         public Vector2 Normal { get; init; }
+        public float PenetrationDepth { get; set; } = 0f;
     }
 }
