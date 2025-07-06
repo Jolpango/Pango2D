@@ -48,10 +48,14 @@
             ModifierTabs = new TabControl();
             NewModifierDropDown = new ComboBox();
             DispersionMethodDropDown = new ComboBox();
+            label6 = new Label();
+            LifeTimeInput = new NumericUpDown();
+            EmittingInput = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)MaxParticlesControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EmissionRateControl).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OffsetX).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OffsetY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)LifeTimeInput).BeginInit();
             SuspendLayout();
             // 
             // TextBoxName
@@ -237,10 +241,43 @@
             DispersionMethodDropDown.TabIndex = 19;
             DispersionMethodDropDown.SelectedIndexChanged += DispersionMethodDropDown_SelectedIndexChanged;
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(304, 34);
+            label6.Name = "label6";
+            label6.Size = new Size(50, 15);
+            label6.TabIndex = 20;
+            label6.Text = "Lifetime";
+            // 
+            // LifeTimeInput
+            // 
+            LifeTimeInput.DecimalPlaces = 2;
+            LifeTimeInput.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            LifeTimeInput.Location = new Point(360, 32);
+            LifeTimeInput.Name = "LifeTimeInput";
+            LifeTimeInput.Size = new Size(70, 23);
+            LifeTimeInput.TabIndex = 21;
+            LifeTimeInput.ValueChanged += LifeTimeInput_ValueChanged;
+            // 
+            // EmittingInput
+            // 
+            EmittingInput.AutoSize = true;
+            EmittingInput.Location = new Point(277, 62);
+            EmittingInput.Name = "EmittingInput";
+            EmittingInput.Size = new Size(71, 19);
+            EmittingInput.TabIndex = 22;
+            EmittingInput.Text = "Emitting";
+            EmittingInput.UseVisualStyleBackColor = true;
+            EmittingInput.CheckedChanged += EmittingInput_CheckedChanged;
+            // 
             // EmitterSettingsControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(EmittingInput);
+            Controls.Add(LifeTimeInput);
+            Controls.Add(label6);
             Controls.Add(DispersionMethodDropDown);
             Controls.Add(NewModifierDropDown);
             Controls.Add(ModifierTabs);
@@ -267,6 +304,7 @@
             ((System.ComponentModel.ISupportInitialize)EmissionRateControl).EndInit();
             ((System.ComponentModel.ISupportInitialize)OffsetX).EndInit();
             ((System.ComponentModel.ISupportInitialize)OffsetY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)LifeTimeInput).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -293,5 +331,8 @@
         private TabControl ModifierTabs;
         private ComboBox NewModifierDropDown;
         private ComboBox DispersionMethodDropDown;
+        private Label label6;
+        private NumericUpDown LifeTimeInput;
+        private CheckBox EmittingInput;
     }
 }

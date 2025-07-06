@@ -23,9 +23,9 @@ namespace Editor.Controls
             OnKeyframesChanged?.Invoke();
         }
 
-        public List<OpacityModifier.OpacityKeyframe> GetOpacityKeyframes()
+        public List<FloatKeyframe> GetOpacityKeyframes()
         {
-            var keyframes = new List<OpacityModifier.OpacityKeyframe>();
+            var keyframes = new List<FloatKeyframe>();
             foreach (DataGridViewRow row in KeyFrameGridView.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -34,14 +34,14 @@ namespace Editor.Controls
                     continue;
                 var time = float.TryParse(row.Cells["Time"].Value.ToString(), out var t) ? t : 0f;
                 var opacity = float.TryParse(row.Cells["Value"].Value.ToString(), out var o) ? o : 0f;
-                keyframes.Add(new OpacityModifier.OpacityKeyframe(time, opacity));
+                keyframes.Add(new FloatKeyframe(time, opacity));
             }
             return keyframes;
         }
 
-        public List<ScaleModifier.ScaleKeyframe> GetScaleKeyframes()
+        public List<FloatKeyframe> GetScaleKeyframes()
         {
-            var keyframes = new List<ScaleModifier.ScaleKeyframe>();
+            var keyframes = new List<FloatKeyframe>();
             foreach (DataGridViewRow row in KeyFrameGridView.Rows)
             {
                 if (row.IsNewRow) continue;
@@ -50,7 +50,7 @@ namespace Editor.Controls
                     continue;
                 var time = float.TryParse(row.Cells["Time"].Value.ToString(), out var t) ? t : 0f;
                 var scale = float.TryParse(row.Cells["Value"].Value.ToString(), out var o) ? o : 0f;
-                keyframes.Add(new ScaleModifier.ScaleKeyframe(time, scale));
+                keyframes.Add(new FloatKeyframe(time, scale));
             }
             return keyframes;
         }

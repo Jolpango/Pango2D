@@ -26,6 +26,7 @@ namespace Editor
                 MaxParticles = 100,
                 Lifetime = 1f,
                 IsActive = true,
+                IsEmitting = true,
                 Dispersion = new RandomDispersion(100, 200),
                 Texture = TextureCache.White4
             };
@@ -40,6 +41,9 @@ namespace Editor
             NewModifierDropDown.Items.Add("Opacity");
             NewModifierDropDown.Items.Add("Scale");
             NewModifierDropDown.SelectedIndex = 0; // Default to Color Modifier
+
+            LifeTimeInput.Value = (decimal)ParticleEmitter.Lifetime;
+            EmittingInput.Checked = ParticleEmitter.IsEmitting;
         }
 
         private void EmitterSettingsControl_Load(object sender, EventArgs e)
@@ -101,6 +105,7 @@ namespace Editor
             {
                 using var stream = TextureFileDialog.OpenFile();
                 var texture = Texture2D.FromStream(MonoGameEditor?.GraphicsDevice, stream);
+                texture.Name = Path.GetFileNameWithoutExtension(TextureFileDialog.FileName);
                 ParticleEmitter.Texture = texture;
                 TextureNameLabel.Text = Path.GetFileName(TextureFileDialog.FileName);
             }
@@ -151,6 +156,16 @@ namespace Editor
         private void DispersionMethodDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
             SetupDispersionPanel();
+        }
+
+        private void LifeTimeInput_ValueChanged(object sender, EventArgs e)
+        {
+            ParticleEmitter.Lifetime = (float)LifeTimeInput.Value;
+        }
+
+        private void EmittingInput_CheckedChanged(object sender, EventArgs e)
+        {
+            ParticleEmitter.IsEmitting = EmittingInput.Checked;
         }
     }
 }

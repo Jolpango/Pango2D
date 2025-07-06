@@ -4,18 +4,17 @@ using Pango2D.Graphics.Particles.Interpolations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Pango2D.Graphics.Particles.Modifiers
 {
     public class ScaleModifier : IParticleModifier
     {
-        public record ScaleKeyframe(float Time, float Scale);
-
-        public readonly List<ScaleKeyframe> Keyframes = [];
-
+        [JsonIgnore]
         public IInterpelator Interpelator { get; set; } = new LinearInterpelator();
-
-        public ScaleModifier(IEnumerable<ScaleKeyframe> keyframes)
+        public List<FloatKeyframe> Keyframes { get; set; } = [];
+        public ScaleModifier() { }
+        public ScaleModifier(IEnumerable<FloatKeyframe> keyframes)
         {
             Keyframes = keyframes.OrderBy(k => k.Time).ToList();
         }
@@ -26,8 +25,8 @@ namespace Pango2D.Graphics.Particles.Modifiers
 
             float t = particle.Lifetime / particle.MaxLifetime;
 
-            ScaleKeyframe prev = Keyframes[0];
-            ScaleKeyframe next = Keyframes[^1];
+            FloatKeyframe prev = Keyframes[0];
+            FloatKeyframe next = Keyframes[^1];
 
             for (int i = 1; i < Keyframes.Count; i++)
             {

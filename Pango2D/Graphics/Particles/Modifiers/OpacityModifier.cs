@@ -1,21 +1,20 @@
-﻿using Microsoft.Xna.Framework;
-using Pango2D.Graphics.Particles.Contracts;
+﻿using Pango2D.Graphics.Particles.Contracts;
 using Pango2D.Graphics.Particles.Interpolations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Pango2D.Graphics.Particles.Modifiers
 {
+    public record FloatKeyframe(float Time, float Scale);
     public class OpacityModifier : IParticleModifier
     {
-        public record OpacityKeyframe(float Time, float Scale);
-
-        public readonly List<OpacityKeyframe> KeyFrames = [];
-
+        [JsonIgnore]
         public IInterpelator Interpelator { get; set; } = new LinearInterpelator();
-
-        public OpacityModifier(IEnumerable<OpacityKeyframe> keyframes)
+        public List<FloatKeyframe> KeyFrames { get; set; } = [];
+        public OpacityModifier() { }
+        public OpacityModifier(IEnumerable<FloatKeyframe> keyframes)
         {
             KeyFrames = keyframes.OrderBy(k => k.Time).ToList();
         }
@@ -26,8 +25,8 @@ namespace Pango2D.Graphics.Particles.Modifiers
 
             float t = particle.Lifetime / particle.MaxLifetime;
 
-            OpacityKeyframe prev = KeyFrames[0];
-            OpacityKeyframe next = KeyFrames[^1];
+            FloatKeyframe prev = KeyFrames[0];
+            FloatKeyframe next = KeyFrames[^1];
 
             for (int i = 1; i < KeyFrames.Count; i++)
             {

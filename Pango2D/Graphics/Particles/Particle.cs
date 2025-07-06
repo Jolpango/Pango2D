@@ -41,7 +41,7 @@ namespace Pango2D.Graphics.Particles
                     Origin,
                     Scale,
                     SpriteEffects.None,
-                    0f
+                    0.7f
                 );
             }
         }

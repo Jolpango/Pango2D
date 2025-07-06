@@ -1,16 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core;
+using Pango2D.Core.Graphics;
+using Pango2D.ECS.Components.Contracts;
 using Pango2D.Graphics.Particles.Contracts;
 using Pango2D.Graphics.Particles.Dispersion;
 using Pango2D.Graphics.Particles.Interpolations;
 using Pango2D.Graphics.Particles.Modifiers;
-using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Pango2D.Graphics.Particles
 {
-    public class ParticleEffect
+    public class ParticleEffect : IComponent
     {
         public List<ParticleEmitter> Emitters { get; set; } = [];
         public bool IsActive { get; set; } = true;
@@ -25,7 +28,7 @@ namespace Pango2D.Graphics.Particles
                 emitter.Update(gameTime);
             }
         }
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (!IsActive) return;
             foreach (var emitter in Emitters)
@@ -38,6 +41,7 @@ namespace Pango2D.Graphics.Particles
         private class ParticleEmitterDto
         {
             public string Name { get; set; }
+            public string Texture { get; set; }
             public int MaxParticles { get; set; }
             public float EmissionRate { get; set; }
             public float Lifetime { get; set; }
@@ -85,7 +89,7 @@ namespace Pango2D.Graphics.Particles
             public JsonElement Data { get; set; }
         }
 
-        public static ParticleEffect FromJson(string json)
+        public static ParticleEffect FromJson(string json, AssetRegistry<Texture2D> assetRegistry)
         {
             var dto = JsonSerializer.Deserialize<ParticleEffectDto>(json);
             if (dto == null) return new ParticleEffect();
@@ -98,6 +102,9 @@ namespace Pango2D.Graphics.Particles
 
             foreach (var emitterDto in dto.Emitters)
             {
+                var texture = !string.IsNullOrEmpty(emitterDto.Texture)
+                    ? assetRegistry.Get(emitterDto.Texture)
+                    : TextureCache.White4;
                 var emitter = new ParticleEmitter
                 {
                     Name = emitterDto.Name,
@@ -107,7 +114,8 @@ namespace Pango2D.Graphics.Particles
                     IsActive = emitterDto.IsActive,
                     Position = emitterDto.Position.ToVector2(),
                     Dispersion = DeserializeDispersion(emitterDto.Dispersion),
-                    Modifiers = DeserializeModifiers(emitterDto.Modifiers)
+                    Modifiers = DeserializeModifiers(emitterDto.Modifiers),
+                    Texture = texture
                 };
                 effect.Emitters.Add(emitter);
             }
@@ -132,6 +140,7 @@ namespace Pango2D.Graphics.Particles
                     EmissionRate = emitter.EmissionRate,
                     Lifetime = emitter.Lifetime,
                     IsActive = emitter.IsActive,
+                    Texture = emitter.Texture?.Name ?? string.Empty,
                     Position = Vector2Dto.FromVector2(emitter.Position),
                     Dispersion = SerializeDispersion(emitter.Dispersion),
                     Modifiers = SerializeModifiers(emitter.Modifiers)

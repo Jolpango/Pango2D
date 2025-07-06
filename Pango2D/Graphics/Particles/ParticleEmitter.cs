@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components.Contracts;
 using Pango2D.Graphics.Particles.Contracts;
 using Pango2D.Graphics.Particles.Interpolations;
@@ -21,6 +22,7 @@ namespace Pango2D.Graphics.Particles
         public List<IParticleModifier> Modifiers { get; set; } = [];
         public List<Particle> Particles { get; private set; } = [];
         public Texture2D Texture { get; set; }
+        public bool IsEmitting { get; set; }
 
         public ParticleEmitter()
         {
@@ -36,10 +38,13 @@ namespace Pango2D.Graphics.Particles
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             emissionAccumulator += EmissionRate * deltaSeconds;
 
-            while (emissionAccumulator >= 1f)
+            if (IsEmitting)
             {
-                SpawnParticle(Position);
-                emissionAccumulator -= 1f;
+                while (emissionAccumulator >= 1f)
+                {
+                    SpawnParticle(Position);
+                    emissionAccumulator -= 1f;
+                }
             }
 
             foreach (var particle in Particles.Where(p => p.IsActive))
@@ -68,7 +73,7 @@ namespace Pango2D.Graphics.Particles
         {
             for (int i = 0; i < EmissionRate; i++)
             {
-                SpawnParticleAbsolute(Position);
+                SpawnParticleAbsolute(position);
             }
         }
         public void Emit(int count, Vector2 position)
@@ -101,7 +106,7 @@ namespace Pango2D.Graphics.Particles
             particle.Lifetime = 0f;
             particle.MaxLifetime = Lifetime;
             particle.IsActive = true;
-            particle.Texture = Texture;
+            particle.Texture = Texture ?? TextureCache.White4;
         }
 
         private void SpawnParticleAbsolute(Vector2 position)
@@ -118,7 +123,7 @@ namespace Pango2D.Graphics.Particles
             particle.Lifetime = 0f;
             particle.MaxLifetime = Lifetime;
             particle.IsActive = true;
-            particle.Texture = Texture;
+            particle.Texture = Texture ?? TextureCache.White4;
         }
     }
 }
