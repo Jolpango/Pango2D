@@ -1,14 +1,15 @@
 ﻿using Demo.Views;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Pango2D.Core.Audio;
 using Pango2D.Core.Graphics;
 using Pango2D.Core.Scenes;
 using Pango2D.ECS;
 using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.CameraComponents;
 using Pango2D.ECS.Systems.RenderSystems;
-using Pango2D.ECS.Systems.UpdateSystems;
-using Pango2D.ECS.Systems.UpdateSystems.Sound;
+using Pango2D.ECS.Systems.UpdateSystems.CameraSystems;
+using Pango2D.ECS.Systems.UpdateSystems.MovementSystems;
+using Pango2D.ECS.Systems.UpdateSystems.SoundSystems;
 using Pango2D.UI;
 using Pango2D.UI.Views;
 using System.Linq;
@@ -37,7 +38,8 @@ namespace Demo.Scenes
                 .AddSystem(new TileMapRenderer())
                 .AddSystem(new SoundEffectCommandSystem(SoundEffectRegistry))
                 .AddSystem(new MainCameraSystem())
-                .AddSystem(new PlayerInputSystem(InputProvider))
+                .AddSystem(new CameraShakeSystem())
+                .AddSystem(new PlayerInputSystem(InputProvider, Services.GamePadManager))
                 .AddSystem(new LootPickupSystem())
                 .AddSystem(new MeleeDamageSystem())
                 .AddSystem(new HealthBarRenderer())
@@ -50,7 +52,6 @@ namespace Demo.Scenes
                 .AddComponent(new Camera()
                 {
                     Offset = new Vector2(32, 32),
-                    MaxSpeed = 1500f,
                     Zoom = 1f,
                     ViewportWidth = Services.ViewportService.VirtualWidth,
                     ViewportHeight = Services.ViewportService.VirtualHeight
@@ -60,6 +61,8 @@ namespace Demo.Scenes
                     Color = Color.White * 0.4f,
                     Type = LightType.Ambient,
                 })
+                .AddComponent(new CameraAcceleration())
+                .AddComponent(new CameraShake())
                 .Build();
             UILoader loader = new UILoader(Services);
             var entitypos = loader.LoadWithContext("Views/EntityPos.xaml", world.Query<Transform, MainCameraTarget>().FirstOrDefault().Item2);
@@ -73,7 +76,6 @@ namespace Demo.Scenes
         public override void Draw(GameTime gameTime)
         {
             var spriteBatch = Services.SpriteBatch;
-            Services.Get<RenderTargetRegistry>().ClearRenderTargets();
             World?.Draw(gameTime, spriteBatch);
             UIManager?.Draw(spriteBatch, UIRenderPassSettings);
         }

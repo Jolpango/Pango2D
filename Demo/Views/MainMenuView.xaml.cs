@@ -1,7 +1,4 @@
 ﻿using Demo.Scenes;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Scenes;
 using Pango2D.UI.Views;
 

@@ -17,6 +17,6 @@ namespace Pango2D.ECS.Services
     );
     public class LightBufferService
     {
-        public List<LightInstance> ActiveLights { get; } = new List<LightInstance>();
+        public List<LightInstance> ActiveLights { get; } = [];
     }
 }

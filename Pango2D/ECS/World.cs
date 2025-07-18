@@ -332,7 +332,7 @@ namespace Pango2D.ECS
                 system.Update(gameTime);
             foreach (var system in postUpdateSystems)
                 system.PostUpdate(gameTime);
-            // Process entity destruction
+
             foreach (var entity in destroyBuffer)
             {
                 entities.Remove(entity);

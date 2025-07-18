@@ -12,6 +12,7 @@ namespace Pango2D.Core.Input
         private KeyboardState previousKeyboardState;
         private KeyboardState currentKeyboardState;
 
+
         public InputManager()
         {
             previousMouseState = Mouse.GetState();

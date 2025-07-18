@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Pango2D.ECS.Components;
 using Pango2D.ECS.Components.Contracts;
+using Pango2D.ECS.Components.Physics;
 using System;
 
 namespace Pango2D.ECS

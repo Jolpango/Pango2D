@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.ECS.Components;
 using Pango2D.ECS.Components.Contracts;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace Pango2D.Graphics.Sprites
 {
@@ -26,7 +25,7 @@ namespace Pango2D.Graphics.Sprites
         }
         public void Draw(SpriteBatch spriteBatch, Transform transform)
         {
-            spriteBatch.Draw(Texture, transform.Position + Origin, SourceRectangle, Color * Alpha, transform.Rotation, Origin, transform.Scale, Effects, LayerDepth);
+            spriteBatch.Draw(Texture, new Vector2((int)transform.Position.X + (int)Origin.X, (int)transform.Position.Y + (int)Origin.Y), SourceRectangle, Color * Alpha, transform.Rotation, Origin, transform.Scale, Effects, LayerDepth);
         }
     }
 }

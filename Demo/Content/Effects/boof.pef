@@ -1,0 +1,47 @@
+{
+  "Emitters": [
+    {
+      "Name": "boof",
+      "Texture": "",
+      "MaxParticles": 100,
+      "EmissionRate": 10,
+      "Lifetime": 1,
+      "IsActive": true,
+      "Position": {
+        "X": 0,
+        "Y": 0
+      },
+      "Dispersion": {
+        "Type": "RandomDispersion",
+        "Data": {
+          "MinSpeed": 20,
+          "MaxSpeed": 30,
+          "MinAngle": 0,
+          "MaxAngle": 6.283185
+        }
+      },
+      "Modifiers": [
+        {
+          "Type": "OpacityModifier",
+          "Data": {
+            "KeyFrames": [
+              {
+                "Time": 0,
+                "Scale": 1
+              },
+              {
+                "Time": 1,
+                "Scale": 0
+              }
+            ]
+          },
+          "Interpelator": {
+            "Type": "LinearInterpelator",
+            "Data": {}
+          }
+        }
+      ]
+    }
+  ],
+  "IsActive": true
+}

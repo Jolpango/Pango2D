@@ -46,7 +46,6 @@ namespace Pango2D.ECS.Systems.RenderSystems
             foreach (var (_, transform, sprite) in World.Query<Transform, Sprite>())
             {
                 float bottomY = transform.Position.Y + sprite.SourceRectangle.Height;
-                // Clamp t between 0 and 1 to avoid out-of-bounds values
                 float t = MathHelper.Clamp((bottomY - minY) / (maxY - minY), 0f, 1f);
                 sprite.LayerDepth = MathHelper.Lerp(LayerDepths.EntityBase, LayerDepths.EntityMax, t);
                 sprite.Draw(spriteBatch, transform);

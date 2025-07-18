@@ -7,7 +7,8 @@ using Pango2D.ECS.Systems.RenderSystems;
 using Pango2D.ECS.Systems.UpdateSystems;
 using Pango2D.ECS.Systems.UpdateSystems.Animation;
 using Pango2D.ECS.Systems.UpdateSystems.LightSystems;
-using Pango2D.ECS.Systems.UpdateSystems.Movement;
+using Pango2D.ECS.Systems.UpdateSystems.MovementSystems;
+using Pango2D.ECS.Systems.UpdateSystems.SoundSystems;
 
 namespace Pango2D.ECS
 {
@@ -52,6 +53,7 @@ namespace Pango2D.ECS
             world.AddSystem(new ParticleEffectRenderSystem());
             world.AddSystem(new PhysicsSystem());
             world.AddSystem(new CollisionSystem());
+            world.AddSystem(new SoundEffectCommandSystem(world.Services.SoundEffectRegistry));
             return this;
         }
 

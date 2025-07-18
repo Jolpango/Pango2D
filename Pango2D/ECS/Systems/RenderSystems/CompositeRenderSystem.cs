@@ -2,10 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
 using Pango2D.Core.Services;
-using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.Extensions;
-using System;
 
 namespace Pango2D.ECS.Systems.RenderSystems
 {
@@ -87,7 +85,6 @@ namespace Pango2D.ECS.Systems.RenderSystems
 #endif
             spriteBatch.End();
 
-            // Draw the final composition to the backbuffer
             spriteBatch.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin(backBufferPas);
             spriteBatch.Draw(renderTargetRegistry[RenderTargetId.Composition], viewportService.DestinationRectangle, Color.White);

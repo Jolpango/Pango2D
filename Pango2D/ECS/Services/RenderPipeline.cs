@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
-using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.CameraComponents;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.Extensions;
 using System;

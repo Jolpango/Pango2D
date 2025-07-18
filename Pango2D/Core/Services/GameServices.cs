@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Audio;
 using Pango2D.Core.Graphics;
+using Pango2D.Core.Input;
 using Pango2D.Core.Input.Contracts;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,12 @@ namespace Pango2D.Core.Services
         public IInputProvider InputProvider
         {
             get => Get<IInputProvider>();
+            set => Set(value);
+        }
+
+        public GamePadManager GamePadManager
+        {
+            get => Get<GamePadManager>();
             set => Set(value);
         }
 

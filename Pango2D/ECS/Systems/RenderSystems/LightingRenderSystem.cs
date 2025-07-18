@@ -1,8 +1,8 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.Core.Graphics;
 using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.CameraComponents;
 using Pango2D.ECS.Services;
 using Pango2D.ECS.Systems.Contracts;
 using Pango2D.Extensions;
@@ -46,18 +46,18 @@ namespace Pango2D.ECS.Systems.RenderSystems
                     ambientLight.Color
                 );
             }
-            foreach (var lightInstance in lightBufferService.ActiveLights)
+            foreach (var (_, light, transform) in World.Query<Light, Transform>((_, light, _) => light.Type == LightType.Point))
             {
-                var texture = lightInstance.Texture ?? TextureCache.RadialLight;
+                var texture = light.Texture ?? TextureCache.RadialLight;
                 Vector2 scale = new(
-                    (lightInstance.Radius * 2f) / texture.Width,
-                    (lightInstance.Radius * 2f) / texture.Height
+                    (light.Radius * 2f) / texture.Width,
+                    (light.Radius * 2f) / texture.Height
                 );
                 spriteBatch.Draw(
                     texture,
-                    lightInstance.WorldPosition,
+                    light.Offset + transform.Position,
                     null,
-                    lightInstance.Color * lightInstance.Intensity,
+                    light.Color * light.Intensity,
                     0f,
                     new(texture.Width / 2f, texture.Height / 2f),
                     scale,

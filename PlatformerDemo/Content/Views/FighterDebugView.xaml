@@ -1,0 +1,15 @@
+<StackPanel
+	Anchor="TopLeft"
+	Direction="Vertical"
+	Padding="20, 20"
+	BackgroundColor="rgb(255, 255, 255)"
+	Opacity="0,5"
+	Gap="10"
+	>
+	<H2 Text="{Bind:Name}"></H2>
+	<H2 Text="{Bind:ContactType}, format=Contact: {0}"></H2>
+	<H2 Text="{Bind:ActionState}, format=Action: {0}"></H2>
+	<H2 Text="{Bind:MovementState}, format=Movement: {0}"></H2>
+	<H2 Text="{Bind:JumpForce}, format=JumpForce: {0}"></H2>
+	<H2 Text="{Bind:JumpsLeft}, format=JumpsLeft: {0}"></H2>
+</StackPanel>

@@ -1,9 +1,11 @@
 ﻿using Demo.Content;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Pango2D.ECS;
 using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.CameraComponents;
+using Pango2D.ECS.Components.Commands;
+using Pango2D.ECS.Components.Physics;
 using Pango2D.Graphics.Particles;
 using Pango2D.Graphics.Sprites;
 using Pango2D.Tiled.DTO.TiledData;

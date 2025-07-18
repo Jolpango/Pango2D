@@ -1,0 +1,41 @@
+{ "columns":16,
+ "image":"TX Tileset Ground.png",
+ "imageheight":512,
+ "imagewidth":512,
+ "margin":0,
+ "name":"TX Tileset Ground",
+ "spacing":0,
+ "tilecount":256,
+ "tiledversion":"1.11.2",
+ "tileheight":32,
+ "tiles":[
+        {
+         "id":17,
+         "objectgroup":
+            {
+             "draworder":"index",
+             "id":3,
+             "name":"",
+             "objects":[
+                    {
+                     "height":32.0639573617588,
+                     "id":2,
+                     "name":"",
+                     "rotation":0,
+                     "type":"",
+                     "visible":true,
+                     "width":32.0639573617588,
+                     "x":0,
+                     "y":0
+                    }],
+             "opacity":1,
+             "type":"objectgroup",
+             "visible":true,
+             "x":0,
+             "y":0
+            }
+        }],
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.10"
+}

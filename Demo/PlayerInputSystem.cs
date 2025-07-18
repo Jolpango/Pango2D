@@ -1,10 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Pango2D.Core.Input;
 using Pango2D.Core.Input.Contracts;
 using Pango2D.ECS;
 using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.Commands;
 using Pango2D.ECS.Components.Contracts;
+using Pango2D.ECS.Components.Physics;
 using Pango2D.ECS.Systems;
 using Pango2D.Graphics.Sprites;
 using System;
@@ -15,30 +18,17 @@ namespace Demo
     {
         public int Damage { get; set; } = 10;
     }   
-    public class PlayerInputSystem(IInputProvider input) : PreUpdateComponentSystem<PlayerComponent, Acceleration, Sprite, Transform, Velocity>
+    public class PlayerInputSystem(IInputProvider input, GamePadManager gamepad) : PreUpdateComponentSystem<PlayerComponent, Acceleration, Sprite, Transform, Velocity>
     {
         private readonly IInputProvider input = input;
+        private readonly GamePadManager gamepad = gamepad;
         private bool isAttacking = false;
         protected override void PreUpdate(GameTime gameTime, Entity entity, PlayerComponent player, Acceleration acceleration, Sprite sprite, Transform transform, Velocity velocity)
         {
-            Vector2 direction = Vector2.Zero;
-            if (input.IsKeyDown(Keys.W) || input.IsKeyDown(Keys.Up))
-                direction.Y -= 1;
-            if (input.IsKeyDown(Keys.S) || input.IsKeyDown(Keys.Down))
-                direction.Y += 1;
-            if (input.IsKeyDown(Keys.A) || input.IsKeyDown(Keys.Left))
-                direction.X -= 1;
-            if (input.IsKeyDown(Keys.D) || input.IsKeyDown(Keys.Right))
-                direction.X += 1;
+            Vector2 direction = gamepad.GetLeftThumbstick(PlayerIndex.One);
 
-            direction = direction.LengthSquared() > 0 ? Vector2.Normalize(direction) : Vector2.Zero;
             Vector2 previousDirection = acceleration.Value.LengthSquared() > 0 ? Vector2.Normalize(acceleration.Value) : Vector2.Zero;
-            acceleration.Value = direction * (isAttacking ? 500f : 1500f);
-
-            if(input.IsKeyDown(Keys.LeftShift) && !isAttacking)
-            {
-                acceleration.Value *= 2f;
-            }
+            acceleration.Value += direction * (isAttacking ? 500f : 3000f);
 
             string animationName = null;
             if (!isAttacking)
@@ -70,10 +60,14 @@ namespace Demo
                         Loop = false
                     });
                 }
-                if (input.IsKeyPressed(Keys.Space) && input.IsKeyDown(Keys.LeftShift))
+                if(gamepad.IsButtonPressed(PlayerIndex.One, Buttons.A))
+                {
+                    acceleration.Value += -Vector2.UnitY * 100000;
+                }
+                if (gamepad.IsButtonPressed(PlayerIndex.One, Buttons.Y))
                 {
                     isAttacking = true;
-                    acceleration.Value = direction * 25000;
+                    acceleration.Value += direction * 25000;
                     World.AddComponent(entity, new SoundEffectCommand() { SoundEffectName = "swing", Pitch = Random.Shared.NextSingle() });
 
                     World.AddComponent(entity, new AnimationCommand()
@@ -99,13 +93,13 @@ namespace Demo
                         }
                     });
                 }
-                else if (input.IsKeyPressed(Keys.Space))
+                else if (gamepad.IsButtonPressed(PlayerIndex.One, Buttons.X))
                 {
                     isAttacking = true;
                     World.AddComponent(entity, new SoundEffectCommand() { SoundEffectName = "swing", Pitch = Random.Shared.NextSingle() });
                     var hitboxPosition = sprite.Effects == SpriteEffects.FlipHorizontally
-                        ? transform.Position + new Vector2(-100, 0) // Adjust hitbox position for left-facing sprite
-                        : transform.Position + new Vector2(50, 0); // Adjust hitbox position for right-facing sprite
+                        ? transform.Position + new Vector2(-100, 0)
+                        : transform.Position + new Vector2(50, 0);
 
                     World.AddComponent(entity, new AnimationCommand()
                     {
@@ -114,7 +108,7 @@ namespace Demo
                         Loop = false,
                         OnFrameChanged = (index) =>
                         {
-                            if (index != 2) return; // Only create hitbox on the 4th frame
+                            if (index != 2) return;
                             var hitbox = new EntityBuilder(World)
                              .AddComponent(new Transform() { Position = hitboxPosition, Scale = Vector2.One * 4 })
                              .AddComponent(new DamageComponent())

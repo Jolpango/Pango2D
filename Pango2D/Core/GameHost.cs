@@ -35,6 +35,7 @@ namespace Pango2D.Core
             gameServices.Register(new FontRegistry(game.Content, "Fonts/Default"));
             gameServices.Register(new SoundEffectRegistry(game.Content));
             gameServices.Register<IInputProvider>(new InputManager());
+            gameServices.Register(new GamePadManager());
             gameServices.Register(new RenderTargetRegistry(game.GraphicsDevice, gameServices.Get<ViewportService>()));
             gameServices.Register(debugService);
             gameServices.Register(new TextureRegistry(game.Content));
@@ -58,12 +59,14 @@ namespace Pango2D.Core
         public virtual void Update(GameTime gameTime)
         {
             debugService.Update(gameTime);
-            gameServices.Get<IInputProvider>()?.Update();
+            gameServices.InputProvider?.Update();
+            gameServices.GamePadManager?.Update();
             sceneManager.Update(gameTime);
         }
 
         public virtual void Draw(GameTime gameTime)
         {
+            gameServices.RenderTargetRegistry.ClearRenderTargets();
             sceneManager.Draw(gameTime);
         }
 

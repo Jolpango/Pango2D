@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Pango2D.ECS;
 using Pango2D.ECS.Components;
+using Pango2D.ECS.Components.Commands;
 using Pango2D.ECS.Systems;
 using System.Linq;
 

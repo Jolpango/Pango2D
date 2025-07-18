@@ -1,0 +1,167 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin Fonts/Default/Bold/Default-Bold-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-12.spritefont;Fonts/Default/Bold/Default-Bold-12
+
+#begin Fonts/Default/Bold/Default-Bold-16.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-16.spritefont;Fonts/Default/Bold/Default-Bold-16
+
+#begin Fonts/Default/Bold/Default-Bold-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-24.spritefont;Fonts/Default/Bold/Default-Bold-24
+
+#begin Fonts/Default/Bold/Default-Bold-36.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-36.spritefont;Fonts/Default/Bold/Default-Bold-36
+
+#begin Fonts/Default/Bold/Default-Bold-48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-48.spritefont;Fonts/Default/Bold/Default-Bold-48
+
+#begin Fonts/Default/Bold/Default-Bold-72.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-72.spritefont;Fonts/Default/Bold/Default-Bold-72
+
+#begin Fonts/Default/Bold/Default-Bold-8.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Bold/Default-Bold-8.spritefont;Fonts/Default/Bold/Default-Bold-8
+
+#begin Fonts/Default/Regular/Default-Regular-12.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-12.spritefont;Fonts/Default/Regular/Default-Regular-12
+
+#begin Fonts/Default/Regular/Default-Regular-16.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-16.spritefont;Fonts/Default/Regular/Default-Regular-16
+
+#begin Fonts/Default/Regular/Default-Regular-24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-24.spritefont;Fonts/Default/Regular/Default-Regular-24
+
+#begin Fonts/Default/Regular/Default-Regular-36.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-36.spritefont;Fonts/Default/Regular/Default-Regular-36
+
+#begin Fonts/Default/Regular/Default-Regular-48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-48.spritefont;Fonts/Default/Regular/Default-Regular-48
+
+#begin Fonts/Default/Regular/Default-Regular-72.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-72.spritefont;Fonts/Default/Regular/Default-Regular-72
+
+#begin Fonts/Default/Regular/Default-Regular-8.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Default/Regular/Default-Regular-8.spritefont;Fonts/Default/Regular/Default-Regular-8
+
+#begin Sounds/SoundEffects/swing.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SoundEffects/swing.wav
+
+#begin Sprites/char_blue_1.json
+/copy:Sprites/char_blue_1.json
+
+#begin Sprites/char_blue_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/char_blue_1.png
+
+#begin Tiled/Tilemaps/islands.tmj
+/copy:Tiled/Tilemaps/islands.tmj
+
+#begin Tiled/Tilesets/TX Tileset Ground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiled/Tilesets/TX Tileset Ground.png
+
+#begin Tiled/Tilesets/TX Tileset Ground.tsj
+/copy:Tiled/Tilesets/TX Tileset Ground.tsj
+
+#begin Tiled/Tilesets/TX Village Props.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Tiled/Tilesets/TX Village Props.png
+
+#begin Views/FighterDebugView.xaml
+/copy:Views/FighterDebugView.xaml
+
