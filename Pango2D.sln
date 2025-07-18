@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pango2D", "src\Pango2D\Pang
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "samples\Demo\Demo.csproj", "{6571E399-1A0D-4AF9-994C-544BEE3E7AE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "Editor\Editor.csproj", "{B03505D4-1C43-4863-A6D1-21F42D926251}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "src\Editor\Editor.csproj", "{B03505D4-1C43-4863-A6D1-21F42D926251}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlatformerDemo", "samples\PlatformerDemo\PlatformerDemo.csproj", "{EA776F79-5466-4E08-93C6-2C00B90A3310}"
 EndProject

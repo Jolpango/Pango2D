@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Pango2D\Pango2D.csproj" />
+    <ProjectReference Include="..\Pango2D\Pango2D.csproj" />
   </ItemGroup>
 
 </Project>
