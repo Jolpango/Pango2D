@@ -27,13 +27,13 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pango2D\Pango2D.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Content\Sounds\Music\" />
     <Folder Include="Content\Tiled\Tilesets\" />
     <Folder Include="Content\Tiled\Tilemaps\" />
     <Folder Include="Content\Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Pango2D\Pango2D.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Content\Views\FighterDebugView.xaml">

@@ -8,31 +8,27 @@ using Pango2D.Core.Services;
 
 namespace Demo
 {
-    public class Game1 : Game
+    public class TopDownGame : Game
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private GameHost gameHost;
-        public Game1()
+        public TopDownGame()
         {
-            graphics = new(this)
+            graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 1280,
                 PreferredBackBufferHeight = 720,
-                SynchronizeWithVerticalRetrace = false
             };
-            Window.AllowUserResizing = true;
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
-            //IsFixedTimeStep = false;
-            AsepriteLoader.RootDirectory = Content.RootDirectory;
+            AsepriteLoader.RootDirectory = "Content";
             IsMouseVisible = true;
-            graphics.GraphicsProfile =  GraphicsProfile.HiDef;
         }
 
         protected override void Initialize()
         {
             TextureCache.Initialize(GraphicsDevice);
-            graphics.GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
             graphics.ApplyChanges();
             base.Initialize();
         }
@@ -76,7 +72,6 @@ namespace Demo
             });
             gameHost.Initialize();
             gameHost.LoadInitialScene(new MainMenu());
-
         }
 
         protected override void Update(GameTime gameTime)

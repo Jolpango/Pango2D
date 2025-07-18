@@ -56,6 +56,7 @@ namespace Pango2D.Core.Graphics
             graphics.SetRenderTarget(renderTargets[RenderTargetId.Debug]);
             graphics.Clear(Color.Transparent);
 #endif
+            graphics.SetRenderTarget(null); // Reset to the back buffer
         }
 
         public RenderTarget2D this [RenderTargetId id]
