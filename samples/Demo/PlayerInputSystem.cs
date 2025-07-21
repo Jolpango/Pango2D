@@ -28,6 +28,23 @@ namespace Demo
             Vector2 direction = gamepad.GetLeftThumbstick(PlayerIndex.One);
 
             Vector2 previousDirection = acceleration.Value.LengthSquared() > 0 ? Vector2.Normalize(acceleration.Value) : Vector2.Zero;
+
+            if(input.IsKeyDown(Keys.Left) || gamepad.IsButtonDown(PlayerIndex.One, Buttons.DPadLeft))
+            {
+                direction.X -= 1;
+            }
+            if (input.IsKeyDown(Keys.Right) || gamepad.IsButtonDown(PlayerIndex.One, Buttons.DPadRight))
+            {
+                direction.X += 1;
+            }
+            if (input.IsKeyDown(Keys.Up) || gamepad.IsButtonDown(PlayerIndex.One, Buttons.DPadUp))
+            {
+                direction.Y -= 1;
+            }
+            if (input.IsKeyDown(Keys.Down) || gamepad.IsButtonDown(PlayerIndex.One, Buttons.DPadDown))
+            {
+                direction.Y += 1;
+            }
             acceleration.Value += direction * (isAttacking ? 500f : 3000f);
 
             string animationName = null;
@@ -64,7 +81,7 @@ namespace Demo
                 {
                     acceleration.Value += -Vector2.UnitY * 100000;
                 }
-                if (gamepad.IsButtonPressed(PlayerIndex.One, Buttons.Y))
+                if (input.IsKeyPressed(Keys.Space))
                 {
                     isAttacking = true;
                     acceleration.Value += direction * 25000;

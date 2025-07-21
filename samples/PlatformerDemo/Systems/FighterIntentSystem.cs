@@ -73,6 +73,7 @@ namespace PlatformerDemo.Systems
             direction.X += gamePad.IsButtonDown(controls.PlayerIndex, Buttons.DPadRight) ? 1 : 0;
             direction.Y += gamePad.IsButtonDown(controls.PlayerIndex, Buttons.DPadUp) ? -1 : 0;
             direction.Y += gamePad.IsButtonDown(controls.PlayerIndex, Buttons.DPadDown) ? 1 : 0;
+
             if (direction.LengthSquared() > 0)
             {
                 if(direction.Length() > 1)

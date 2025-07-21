@@ -39,28 +39,32 @@
             // 
             // ParticleDraw
             // 
-            ParticleDraw.Location = new Point(-2, -79);
+            ParticleDraw.GraphicsProfile = Microsoft.Xna.Framework.Graphics.GraphicsProfile.HiDef;
+            ParticleDraw.Location = new Point(-4, -169);
+            ParticleDraw.Margin = new Padding(6, 6, 6, 6);
             ParticleDraw.MouseHoverUpdatesOnly = false;
             ParticleDraw.Name = "ParticleDraw";
             ParticleDraw.ParticleEffect = null;
-            ParticleDraw.Size = new Size(710, 1007);
+            ParticleDraw.Size = new Size(1319, 2148);
             ParticleDraw.TabIndex = 0;
             ParticleDraw.Text = "particleDraw1";
             ParticleDraw.Click += ParticleDraw_Click;
             // 
             // EmitterTabs
             // 
-            EmitterTabs.Location = new Point(714, 3);
+            EmitterTabs.Location = new Point(1326, 6);
+            EmitterTabs.Margin = new Padding(6, 6, 6, 6);
             EmitterTabs.Name = "EmitterTabs";
             EmitterTabs.SelectedIndex = 0;
-            EmitterTabs.Size = new Size(538, 645);
+            EmitterTabs.Size = new Size(999, 1376);
             EmitterTabs.TabIndex = 2;
             // 
             // AddEmitter
             // 
-            AddEmitter.Location = new Point(953, 651);
+            AddEmitter.Location = new Point(1770, 1389);
+            AddEmitter.Margin = new Padding(6, 6, 6, 6);
             AddEmitter.Name = "AddEmitter";
-            AddEmitter.Size = new Size(209, 28);
+            AddEmitter.Size = new Size(388, 60);
             AddEmitter.TabIndex = 3;
             AddEmitter.Text = "Add new emitter";
             AddEmitter.UseVisualStyleBackColor = true;
@@ -68,9 +72,10 @@
             // 
             // SaveButton
             // 
-            SaveButton.Location = new Point(1168, 651);
+            SaveButton.Location = new Point(2169, 1389);
+            SaveButton.Margin = new Padding(6, 6, 6, 6);
             SaveButton.Name = "SaveButton";
-            SaveButton.Size = new Size(84, 28);
+            SaveButton.Size = new Size(156, 60);
             SaveButton.TabIndex = 4;
             SaveButton.Text = "Save effect";
             SaveButton.UseVisualStyleBackColor = true;
@@ -79,9 +84,10 @@
             // BColorDropDown
             // 
             BColorDropDown.FormattingEnabled = true;
-            BColorDropDown.Location = new Point(584, 3);
+            BColorDropDown.Location = new Point(1085, 6);
+            BColorDropDown.Margin = new Padding(6, 6, 6, 6);
             BColorDropDown.Name = "BColorDropDown";
-            BColorDropDown.Size = new Size(121, 23);
+            BColorDropDown.Size = new Size(221, 40);
             BColorDropDown.TabIndex = 5;
             BColorDropDown.SelectedIndexChanged += BColorDropDown_SelectedIndexChanged;
             // 
@@ -91,23 +97,25 @@
             // 
             // ParticleEffectNameTextBox
             // 
-            ParticleEffectNameTextBox.Location = new Point(714, 654);
+            ParticleEffectNameTextBox.Location = new Point(1326, 1395);
+            ParticleEffectNameTextBox.Margin = new Padding(6, 6, 6, 6);
             ParticleEffectNameTextBox.Name = "ParticleEffectNameTextBox";
-            ParticleEffectNameTextBox.Size = new Size(135, 23);
+            ParticleEffectNameTextBox.Size = new Size(247, 39);
             ParticleEffectNameTextBox.TabIndex = 6;
             ParticleEffectNameTextBox.TextChanged += ParticleEffectNameTextBox_TextChanged;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1264, 681);
+            ClientSize = new Size(2347, 1453);
             Controls.Add(ParticleEffectNameTextBox);
             Controls.Add(BColorDropDown);
             Controls.Add(SaveButton);
             Controls.Add(AddEmitter);
             Controls.Add(EmitterTabs);
             Controls.Add(ParticleDraw);
+            Margin = new Padding(6, 6, 6, 6);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;

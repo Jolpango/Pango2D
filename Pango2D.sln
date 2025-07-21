@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Editor", "src\Editor\Editor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlatformerDemo", "samples\PlatformerDemo\PlatformerDemo.csproj", "{EA776F79-5466-4E08-93C6-2C00B90A3310}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffectEditor", "src\EffectEditor\EffectEditor.csproj", "{88E70D49-61E0-4142-8CB9-D88130905398}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{EA776F79-5466-4E08-93C6-2C00B90A3310}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA776F79-5466-4E08-93C6-2C00B90A3310}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA776F79-5466-4E08-93C6-2C00B90A3310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88E70D49-61E0-4142-8CB9-D88130905398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E70D49-61E0-4142-8CB9-D88130905398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E70D49-61E0-4142-8CB9-D88130905398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E70D49-61E0-4142-8CB9-D88130905398}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -216,6 +216,8 @@ namespace Pango2D.Graphics.Particles
             {
                 "ScaleModifier" => dto.Data.Deserialize<ScaleModifier>(),
                 "OpacityModifier" => dto.Data.Deserialize<OpacityModifier>(),
+                "ColorModifier" => dto.Data.Deserialize<ColorModifier>(),
+                "AngularVelocityModifier" => dto.Data.Deserialize<AngularVelocityModifier>(),
                 _ => null
             };
 
