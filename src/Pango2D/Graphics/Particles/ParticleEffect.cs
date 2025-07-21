@@ -25,7 +25,7 @@ namespace Pango2D.Graphics.Particles
             if (!IsActive) return;
             foreach (var emitter in Emitters)
             {
-                emitter.Update(gameTime);
+                emitter.Update(gameTime, Position);
             }
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -33,7 +33,7 @@ namespace Pango2D.Graphics.Particles
             if (!IsActive) return;
             foreach (var emitter in Emitters)
             {
-                emitter.Draw(spriteBatch, Position);
+                emitter.Draw(spriteBatch);
             }
         }
 

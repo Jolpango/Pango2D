@@ -28,13 +28,13 @@ namespace Pango2D.Graphics.Particles
         public float MaxLifetime { get; set; }
         public bool IsActive { get; set; }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (IsActive)
             {
                 spriteBatch.Draw(
                     Texture,
-                    Position + Origin + offset,
+                    Position + Origin,
                     null,
                     Color * Opacity,
                     Rotation,

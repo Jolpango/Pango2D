@@ -5,8 +5,11 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.ImGuiNet;
 using Pango2D.Core.Graphics;
 using Pango2D.Graphics.Particles;
+using Pango2D.Graphics.Particles.Contracts;
 using Pango2D.Graphics.Particles.Dispersion;
+using Pango2D.Graphics.Particles.Modifiers;
 using System;
+using System.Collections.Generic;
 
 namespace EffectEditor
 {
@@ -16,19 +19,22 @@ namespace EffectEditor
         private SpriteBatch _spriteBatch;
         public ImGuiRenderer GuiRenderer;
         private ParticleEffect particleEffect;
-
+        private bool effectAtMousePosition = false;
         System.Numerics.Vector4 _colorV4;
+
+        private Dictionary<int, int> emitterModifierSelections = new();
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferWidth = 1920,
-                PreferredBackBufferHeight = 1080
+                PreferredBackBufferWidth = 1280,
+                PreferredBackBufferHeight = 720
             };
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _colorV4 = Color.CornflowerBlue.ToVector4().ToNumerics();
+            _colorV4 = new Color(237, 100, 100).ToVector4().ToNumerics();
 
         }
 
@@ -43,14 +49,24 @@ namespace EffectEditor
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             GuiRenderer.RebuildFontAtlas();
             TextureCache.Initialize(GraphicsDevice);
-            particleEffect = new();
-            particleEffect.Position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
+            particleEffect = new()
+            {
+                Position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2)
+            };
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (effectAtMousePosition)
+            {
+                particleEffect.Position = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            }
+            else
+            {
+                particleEffect.Position = new Vector2(GraphicsDevice.Viewport.Width / 2 - 200, GraphicsDevice.Viewport.Height / 2);
+            }
             particleEffect.Update(gameTime);
             base.Update(gameTime);
         }
@@ -70,29 +86,27 @@ namespace EffectEditor
             GuiRenderer.BeginLayout(gameTime);
             DrawBackgroundControl();
             DrawParticleEffectControl();
+            DrawParticleEmitterControls();
             GuiRenderer.EndLayout();
         }
 
         private void DrawBackgroundControl()
         {
-            var viewport = ImGui.GetMainViewport();
-            var windowSize = new System.Numerics.Vector2(250, 80); // Adjust as needed
-            var pos = new System.Numerics.Vector2(
-                viewport.WorkPos.X + viewport.WorkSize.X - windowSize.X - 10, // 10px margin
-                viewport.WorkPos.Y + 10 // 10px from top
-            );
-            ImGui.SetNextWindowPos(pos, ImGuiCond.Always);
-            ImGui.SetNextWindowSize(windowSize, ImGuiCond.Always);
-
-            ImGui.Begin("Background", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove);
+            ImGui.Begin("Background");
             ImGui.ColorEdit4("Color", ref _colorV4);
             ImGui.End();
         }
 
         private void DrawParticleEffectControl()
         {
-            ImGui.BeginMenuBar();
-            ImGui.BeginChild("ParticleEffectControl");
+            ImGui.Begin("Effect");
+            ImGui.Checkbox("Effect at Mouse Position", ref effectAtMousePosition);
+            ImGui.End();
+        }
+
+        private void DrawParticleEmitterControls()
+        {
+            ImGui.Begin("Emitters");
             if (ImGui.Button("Add Emitter"))
             {
                 particleEffect.Emitters.Add(new ParticleEmitter
@@ -107,39 +121,143 @@ namespace EffectEditor
                     Dispersion = new RandomDispersion(100, 200)
                 });
             }
-            foreach (var emitter in particleEffect.Emitters)
+
+            if (ImGui.BeginTabBar("EmittersTabBar"))
             {
-                string name = emitter.Name;
-                bool isActive = emitter.IsActive;
-                bool isEmitting = emitter.IsEmitting;
-                int maxParticles = emitter.MaxParticles;
-                float emissionRate = emitter.EmissionRate;
-                float lifetime = emitter.Lifetime;
-
-                ImGui.PushID(emitter.Name);
-                ImGui.InputText("Name", ref name, 100);
-                ImGui.Text($"Emitter: {emitter.Name}");
-                ImGui.Checkbox("Active", ref isActive);
-                ImGui.Checkbox("Emitting", ref isEmitting);
-                ImGui.SliderInt("Max Particles", ref maxParticles, 1, 10000);
-                ImGui.SliderFloat("Emission Rate", ref emissionRate, 0.1f, 100f);
-                ImGui.SliderFloat("Lifetime", ref lifetime, 0.1f, 10f);
-                emitter.Name = name;
-                emitter.IsActive = isActive;
-                emitter.IsEmitting = isEmitting;
-                emitter.MaxParticles = maxParticles;
-                emitter.EmissionRate = emissionRate;
-                emitter.Lifetime = lifetime;
-
-                if (ImGui.Button("Remove"))
+                for (int i = 0; i < particleEffect.Emitters.Count; i++)
                 {
-                    particleEffect.Emitters.Remove(emitter);
-                    break; // Exit loop to avoid modifying collection while iterating
+                    ParticleEmitter emitter = particleEffect.Emitters[i];
+                    string tabName = $"{emitter.Name}##{i}";
+                    if (ImGui.BeginTabItem(tabName))
+                    {
+                        bool flowControl = DrawEmitterControl(i, emitter);
+                        ImGui.EndTabItem();
+                        if (!flowControl)
+                            break;
+                    }
                 }
-                ImGui.PopID();
-
+                ImGui.EndTabBar();
             }
-            ImGui.EndMenuBar();
+            ImGui.End();
         }
+
+        private bool DrawEmitterControl(int i, ParticleEmitter emitter)
+        {
+            ImGui.BeginChild(i.ToString());
+            string name = emitter.Name;
+            bool isActive = emitter.IsActive;
+            bool isEmitting = emitter.IsEmitting;
+            int maxParticles = emitter.MaxParticles;
+            float emissionRate = emitter.EmissionRate;
+            float lifetime = emitter.Lifetime;
+            ImGui.InputText("Name", ref name, 100);
+            ImGui.Text($"Emitter: {emitter.Name}");
+            ImGui.Checkbox("Active", ref isActive);
+            ImGui.Checkbox("Emitting", ref isEmitting);
+            ImGui.SliderInt("Max Particles", ref maxParticles, 1, 10000);
+            ImGui.SliderFloat("Emission Rate", ref emissionRate, 0.1f, 100f);
+            ImGui.SliderFloat("Lifetime", ref lifetime, 0.1f, 10f);
+            emitter.Name = name;
+            emitter.IsActive = isActive;
+            emitter.IsEmitting = isEmitting;
+            emitter.MaxParticles = maxParticles;
+            emitter.EmissionRate = emissionRate;
+            emitter.Lifetime = lifetime;
+
+            if (ImGui.Button("Remove"))
+            {
+                particleEffect.Emitters.Remove(emitter);
+                return false;
+            }
+            string[] modifierTypes = { "Scale", "Opacity", "Color", "AngularVelocity" };
+            if (!emitterModifierSelections.ContainsKey(i))
+                emitterModifierSelections[i] = 0;
+
+            int selectedModifierIndex = emitterModifierSelections[i];
+            ImGui.Combo("Modifier Type", ref selectedModifierIndex, modifierTypes, modifierTypes.Length);
+            emitterModifierSelections[i] = selectedModifierIndex;
+            if (ImGui.Button("Add modifier"))
+            {
+                switch (modifierTypes[selectedModifierIndex])
+                {
+                    case "Scale":
+                        emitter.Modifiers.Add(new ScaleModifier());
+                        break;
+                    case "Opacity":
+                        emitter.Modifiers.Add(new OpacityModifier());
+                        break;
+                    case "Color":
+                        emitter.Modifiers.Add(new ColorModifier());
+                        break;
+                    case "AngularVelocity":
+                        emitter.Modifiers.Add(new AngularVelocityModifier());
+                        break;
+                }
+            }
+            ImGui.BeginTabBar("Modifiers");
+            for (int m = 0; m < emitter.Modifiers.Count; m++)
+            {
+                IParticleModifier modifier = emitter.Modifiers[m];
+                string tabName = modifier.GetType().Name + "##" + m;
+                if (ImGui.BeginTabItem(tabName))
+                {
+                    DrawModifierControl(modifier);
+                    if (ImGui.Button("Remove"))
+                    {
+                        emitter.Modifiers.RemoveAt(m);
+                        ImGui.EndTabItem();
+                        break;
+                    }
+                    ImGui.EndTabItem();
+                }
+            }
+            ImGui.EndTabBar();
+
+            ImGui.EndChild();
+            return true;
+        }
+
+        public void DrawModifierControl(IParticleModifier modifier)
+        {
+            switch (modifier)
+            {
+                case ScaleModifier scaleModifier:
+                    DrawScaleModifierControl(scaleModifier);
+                    break;
+                case ColorModifier colorModifier:
+                    DrawColorModifierControl(colorModifier);
+                    break;
+                case AngularVelocityModifier angularVelocityModifier:
+                    DrawAngularVelocityModifierControl(angularVelocityModifier);
+                    break;
+                case OpacityModifier opacityModifier:
+                    DrawOpacityModifierControl(opacityModifier);
+                    break;
+                default:
+                    ImGui.Text("Unknown Modifier Type");
+                    break;
+            }
+        }
+        private static void DrawOpacityModifierControl(OpacityModifier modifier)
+        {
+            var keyFrames = modifier.KeyFrames;
+            GUIControls.DrawFloatKeyframeCurve("Opacity Curve", keyFrames, 0f, 1f);
+        }
+        private static void DrawScaleModifierControl(ScaleModifier modifier)
+        {
+            var keyFrames = modifier.Keyframes;
+            GUIControls.DrawFloatKeyframeCurve("Scale Curve", keyFrames, 0f, 10f);
+        }
+        private void DrawColorModifierControl(ColorModifier modifier)
+        {
+            var keyFrames = modifier.KeyFrames;
+
+        }
+        private void DrawAngularVelocityModifierControl(AngularVelocityModifier modifier)
+        {
+            var keyFrames = modifier.KeyFrames;
+            GUIControls.DrawFloatKeyframeCurve("Angular Velocity Curve", keyFrames, -10f, 10f);
+        }
+
     }
 }

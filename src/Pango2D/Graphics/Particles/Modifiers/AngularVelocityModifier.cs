@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Pango2D.Graphics.Particles.Modifiers
 {
-    internal class AngularVelocityModifier : IParticleModifier
+    public class AngularVelocityModifier : IParticleModifier
     {
         [JsonIgnore]
         public IInterpelator Interpelator { get; set; } = new LinearInterpelator();
@@ -32,7 +32,7 @@ namespace Pango2D.Graphics.Particles.Modifiers
             }
 
             float localT = (t - prev.Time) / (next.Time - prev.Time);
-            particle.AngularVelocity = Interpelator.Interpolate(prev.Scale, next.Scale, Math.Clamp(localT, 0f, 1f));
+            particle.AngularVelocity = Interpelator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
         }
     }
 }

@@ -7,7 +7,12 @@ using System.Text.Json.Serialization;
 
 namespace Pango2D.Graphics.Particles.Modifiers
 {
-    public record FloatKeyframe(float Time, float Scale);
+    public struct FloatKeyframe(float time, float scale)
+    {
+        public float Time = time;
+        public float Value = scale;
+    }
+    
     public class OpacityModifier : IParticleModifier
     {
         [JsonIgnore]
@@ -39,7 +44,7 @@ namespace Pango2D.Graphics.Particles.Modifiers
             }
 
             float localT = (t - prev.Time) / (next.Time - prev.Time);
-            particle.Opacity = Interpelator.Interpolate(prev.Scale, next.Scale, Math.Clamp(localT, 0f, 1f));
+            particle.Opacity = Interpelator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
         }
     }
 }

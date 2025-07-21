@@ -32,7 +32,7 @@ namespace Pango2D.Graphics.Particles
             }
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Vector2 position)
         {
             if (!IsActive) return;
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -42,7 +42,7 @@ namespace Pango2D.Graphics.Particles
             {
                 while (emissionAccumulator >= 1f)
                 {
-                    SpawnParticle(Position);
+                    SpawnParticle(Position + position);
                     emissionAccumulator -= 1f;
                 }
             }
@@ -55,6 +55,7 @@ namespace Pango2D.Graphics.Particles
                 particle.Position += particle.Velocity * deltaSeconds;
                 particle.Velocity += particle.Acceleration * deltaSeconds;
                 particle.Rotation += particle.AngularVelocity * deltaSeconds;
+                particle.Rotation = MathHelper.Clamp(particle.Rotation, 0f, MathHelper.TwoPi);
                 particle.Lifetime += deltaSeconds;
 
                 if (particle.Lifetime >= particle.MaxLifetime)
@@ -84,11 +85,11 @@ namespace Pango2D.Graphics.Particles
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 offset) {
+        public void Draw(SpriteBatch spriteBatch) {
             if (!IsActive) return;
             foreach (var particle in Particles.Where(p => p.IsActive))
             {
-                particle.Draw(spriteBatch, offset);
+                particle.Draw(spriteBatch);
             }
         }
 
@@ -97,7 +98,7 @@ namespace Pango2D.Graphics.Particles
             var particle = Particles.FirstOrDefault(p => !p.IsActive);
             if (particle == null) return;
 
-            particle.Position = position;
+            particle.Position = position + Position;
             Dispersion.Apply(particle, this);
             particle.Rotation = 0f;
             particle.AngularVelocity = 0f;
@@ -114,7 +115,7 @@ namespace Pango2D.Graphics.Particles
             var particle = Particles.FirstOrDefault(p => !p.IsActive);
             if (particle == null) return;
 
-            particle.Position = position;
+            particle.Position = position + Position;
             Dispersion.Apply(particle, this);
             particle.Rotation = 0f;
             particle.AngularVelocity = 0f;

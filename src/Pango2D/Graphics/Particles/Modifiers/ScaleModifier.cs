@@ -39,7 +39,7 @@ namespace Pango2D.Graphics.Particles.Modifiers
             }
 
             float localT = (t - prev.Time) / (next.Time - prev.Time);
-            particle.Scale = Interpelator.Interpolate(prev.Scale, next.Scale, Math.Clamp(localT, 0f, 1f));
+            particle.Scale = Interpelator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
         }
     }
 }
