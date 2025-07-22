@@ -7,7 +7,13 @@ using System.Text.Json.Serialization;
 
 namespace Pango2D.Graphics.Particles.Modifiers
 {
-    public record ColorKeyframe(float Time, Color Color);
+    public struct ColorKeyframe(float time, Color color)
+    {
+        [JsonInclude]
+        public Color Color = color;
+        [JsonInclude]
+        public float Time = time;
+    }
     public class ColorModifier : IParticleModifier
     {
         [JsonIgnore]
