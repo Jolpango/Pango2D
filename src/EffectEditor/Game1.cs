@@ -21,6 +21,7 @@ namespace EffectEditor
         private ParticleEffect particleEffect;
         private bool effectAtMousePosition = false;
         System.Numerics.Vector4 _colorV4;
+        MouseState prev;
 
         private Dictionary<int, int> emitterModifierSelections = new();
 
@@ -33,6 +34,7 @@ namespace EffectEditor
             };
             Window.AllowUserResizing = true;
             Content.RootDirectory = "Content";
+            IsFixedTimeStep = true;
             IsMouseVisible = true;
             _colorV4 = new Color(237, 100, 100).ToVector4().ToNumerics();
 
@@ -53,12 +55,17 @@ namespace EffectEditor
             {
                 Position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2)
             };
+            prev = Mouse.GetState();
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if(Mouse.GetState().LeftButton == ButtonState.Pressed && prev.LeftButton == ButtonState.Released)
+            {
+                particleEffect.Emit(particleEffect.Position, 20);
+            }
             if (effectAtMousePosition)
             {
                 particleEffect.Position = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
@@ -67,6 +74,7 @@ namespace EffectEditor
             {
                 particleEffect.Position = new Vector2(GraphicsDevice.Viewport.Width / 2 - 200, GraphicsDevice.Viewport.Height / 2);
             }
+            prev = Mouse.GetState();
             particleEffect.Update(gameTime);
             base.Update(gameTime);
         }
@@ -100,6 +108,7 @@ namespace EffectEditor
         private void DrawParticleEffectControl()
         {
             ImGui.Begin("Effect");
+            GUIControls.LoadAndSaveControl(ref particleEffect);
             ImGui.Checkbox("Effect at Mouse Position", ref effectAtMousePosition);
             ImGui.End();
         }
@@ -144,6 +153,12 @@ namespace EffectEditor
         private bool DrawEmitterControl(int i, ParticleEmitter emitter)
         {
             ImGui.BeginChild(i.ToString());
+            if (ImGui.Button("Remove"))
+            {
+                particleEffect.Emitters.Remove(emitter);
+                return false;
+            }
+
             string name = emitter.Name;
             bool isActive = emitter.IsActive;
             bool isEmitting = emitter.IsEmitting;
@@ -151,11 +166,10 @@ namespace EffectEditor
             float emissionRate = emitter.EmissionRate;
             float lifetime = emitter.Lifetime;
             ImGui.InputText("Name", ref name, 100);
-            ImGui.Text($"Emitter: {emitter.Name}");
             ImGui.Checkbox("Active", ref isActive);
             ImGui.Checkbox("Emitting", ref isEmitting);
             ImGui.SliderInt("Max Particles", ref maxParticles, 1, 10000);
-            ImGui.SliderFloat("Emission Rate", ref emissionRate, 0.1f, 100f);
+            ImGui.SliderFloat("Emission Rate", ref emissionRate, 0.1f, 1000f);
             ImGui.SliderFloat("Lifetime", ref lifetime, 0.1f, 10f);
             emitter.Name = name;
             emitter.IsActive = isActive;
@@ -164,11 +178,8 @@ namespace EffectEditor
             emitter.EmissionRate = emissionRate;
             emitter.Lifetime = lifetime;
 
-            if (ImGui.Button("Remove"))
-            {
-                particleEffect.Emitters.Remove(emitter);
-                return false;
-            }
+            GUIControls.DrawDispersionControl(emitter.Dispersion);
+
             string[] modifierTypes = { "Scale", "Opacity", "Color", "AngularVelocity" };
             if (!emitterModifierSelections.ContainsKey(i))
                 emitterModifierSelections[i] = 0;
@@ -251,6 +262,7 @@ namespace EffectEditor
         private void DrawColorModifierControl(ColorModifier modifier)
         {
             var keyFrames = modifier.KeyFrames;
+            GUIControls.DrawColorKeyFrames(keyFrames);
 
         }
         private void DrawAngularVelocityModifierControl(AngularVelocityModifier modifier)
