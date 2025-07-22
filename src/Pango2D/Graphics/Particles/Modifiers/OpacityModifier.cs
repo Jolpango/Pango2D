@@ -9,7 +9,9 @@ namespace Pango2D.Graphics.Particles.Modifiers
 {
     public struct FloatKeyframe(float time, float scale)
     {
+        [JsonInclude]
         public float Time = time;
+        [JsonInclude]
         public float Value = scale;
     }
     
