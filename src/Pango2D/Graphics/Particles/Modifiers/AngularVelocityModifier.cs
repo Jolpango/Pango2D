@@ -9,7 +9,7 @@ namespace Pango2D.Graphics.Particles.Modifiers
     public class AngularVelocityModifier : IParticleModifier
     {
         [JsonIgnore]
-        public IInterpelator Interpelator { get; set; } = new LinearInterpelator();
+        public IInterpolator Interpolator { get; set; } = new LinearInterpolator();
         public List<FloatKeyframe> KeyFrames { get; set; } = [];
 
         public void Apply(Particle particle, float deltaTime)
@@ -31,8 +31,8 @@ namespace Pango2D.Graphics.Particles.Modifiers
                 }
             }
 
-            float localT = (t - prev.Time) / (next.Time - prev.Time);
-            particle.AngularVelocity = Interpelator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
+            float localT = (next.Time - prev.Time) != 0f ? (t - prev.Time) / (next.Time - prev.Time) : 0f;
+            particle.AngularVelocity = Interpolator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
         }
     }
 }

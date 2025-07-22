@@ -11,7 +11,7 @@ namespace Pango2D.Graphics.Particles.Modifiers
     public class ColorModifier : IParticleModifier
     {
         [JsonIgnore]
-        public IInterpelator Interpelator { get; set; } = new LinearInterpelator();
+        public IInterpolator Interpolator { get; set; } = new LinearInterpolator();
         public List<ColorKeyframe> KeyFrames { get; set; } = [];
         public void Apply(Particle particle, float deltaTime)
         {
@@ -32,11 +32,11 @@ namespace Pango2D.Graphics.Particles.Modifiers
                 }
             }
 
-            float localT = (t - prev.Time) / (next.Time - prev.Time);
-            float r = Interpelator.Interpolate(prev.Color.R, next.Color.R, Math.Clamp(localT, 0f, 1f));
-            float g = Interpelator.Interpolate(prev.Color.G, next.Color.G, Math.Clamp(localT, 0f, 1f));
-            float b = Interpelator.Interpolate(prev.Color.B, next.Color.B, Math.Clamp(localT, 0f, 1f));
-            float a = Interpelator.Interpolate(prev.Color.A, next.Color.A, Math.Clamp(localT, 0f, 1f));
+            float localT = (next.Time - prev.Time) != 0f ? (t - prev.Time) / (next.Time - prev.Time) : 0f;
+            float r = Interpolator.Interpolate(prev.Color.R, next.Color.R, Math.Clamp(localT, 0f, 1f));
+            float g = Interpolator.Interpolate(prev.Color.G, next.Color.G, Math.Clamp(localT, 0f, 1f));
+            float b = Interpolator.Interpolate(prev.Color.B, next.Color.B, Math.Clamp(localT, 0f, 1f));
+            float a = Interpolator.Interpolate(prev.Color.A, next.Color.A, Math.Clamp(localT, 0f, 1f));
             particle.Color = new Color((int)r, (int)g, (int)b, (int)a);
         }
     }

@@ -30,10 +30,10 @@ namespace Editor.Controls
             switch (InterpolationComboBox.SelectedItem.ToString())
             {
                 case "Linear":
-                    ParticleModifier.Interpelator = new LinearInterpelator();
+                    ParticleModifier.Interpolator = new LinearInterpolator();
                     break;
                 case "EaseIn":
-                    ParticleModifier.Interpelator = new EaseInInterpelator();
+                    ParticleModifier.Interpolator = new EaseInInterpolator();
                     break;
                 default:
                     throw new NotSupportedException("Unsupported interpolation type selected.");

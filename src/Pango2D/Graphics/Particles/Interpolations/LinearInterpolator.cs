@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Pango2D.Graphics.Particles.Interpolations
 {
-    public class LinearInterpelator : IInterpelator
+    public class LinearInterpolator : IInterpolator
     {
         public float Interpolate(float start, float end, float t) => MathHelper.Lerp(start, end, t);
     }

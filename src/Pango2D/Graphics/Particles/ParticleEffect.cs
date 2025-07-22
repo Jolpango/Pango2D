@@ -61,7 +61,7 @@ namespace Pango2D.Graphics.Particles
         {
             public string Type { get; set; }
             public JsonElement Data { get; set; }
-            public InterpelatorDto Interpelator { get; set; }
+            public InterpolatorDto Interpolator { get; set; }
         }
 
         private class Vector2Dto
@@ -83,7 +83,7 @@ namespace Pango2D.Graphics.Particles
             public List<ParticleEmitterDto> Emitters { get; set; }
             public bool IsActive { get; set; }
         }
-        private class InterpelatorDto
+        private class InterpolatorDto
         {
             public string Type { get; set; }
             public JsonElement Data { get; set; }
@@ -179,8 +179,8 @@ namespace Pango2D.Graphics.Particles
             if (modifier == null) return null;
             var type = modifier.GetType().Name;
             var data = JsonSerializer.SerializeToElement(modifier, modifier.GetType());
-            var interpelator = SerializeInterpelator(modifier.Interpelator);
-            return new ParticleModifierDto { Type = type, Data = data, Interpelator = interpelator };
+            var interpolator = SerializeInterpolator(modifier.Interpolator);
+            return new ParticleModifierDto { Type = type, Data = data, Interpolator = interpolator };
         }
 
         private static IParticleDispersion DeserializeDispersion(DispersionDto dto)
@@ -221,29 +221,29 @@ namespace Pango2D.Graphics.Particles
                 _ => null
             };
 
-            if (modifier != null && dto.Interpelator != null)
+            if (modifier != null && dto.Interpolator != null)
             {
-                modifier.Interpelator = DeserializeInterpelator(dto.Interpelator);
+                modifier.Interpolator = DeserializeInterpolator(dto.Interpolator);
             }
 
             return modifier;
         }
 
-        private static InterpelatorDto SerializeInterpelator(IInterpelator interpelator)
+        private static InterpolatorDto SerializeInterpolator(IInterpolator interpolator)
         {
-            if (interpelator == null) return null;
-            var type = interpelator.GetType().Name;
-            var data = JsonSerializer.SerializeToElement(interpelator, interpelator.GetType());
-            return new InterpelatorDto { Type = type, Data = data };
+            if (interpolator == null) return null;
+            var type = interpolator.GetType().Name;
+            var data = JsonSerializer.SerializeToElement(interpolator, interpolator.GetType());
+            return new InterpolatorDto { Type = type, Data = data };
         }
 
-        private static IInterpelator DeserializeInterpelator(InterpelatorDto dto)
+        private static IInterpolator DeserializeInterpolator(InterpolatorDto dto)
         {
             if (dto == null) return null;
             return dto.Type switch
             {
-                "LinearInterpelator" => dto.Data.Deserialize<LinearInterpelator>(),
-                "EaseInInterpelator" => dto.Data.Deserialize<EaseInInterpelator>(),
+                "LinearInterpolator" => dto.Data.Deserialize<LinearInterpolator>(),
+                "EaseInInterpolator" => dto.Data.Deserialize<EaseInInterpolator>(),
                 // Add more as needed
                 _ => null
             };

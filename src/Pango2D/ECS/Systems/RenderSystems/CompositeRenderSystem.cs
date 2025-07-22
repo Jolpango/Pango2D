@@ -53,7 +53,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
             TransformMatrix = Matrix.Identity
         };
 
-        private RenderPassSettings backBufferPas = new()
+        private RenderPassSettings backBufferPass = new()
         {
             SortMode = SpriteSortMode.Immediate,
             BlendState = BlendState.AlphaBlend,
@@ -86,7 +86,7 @@ namespace Pango2D.ECS.Systems.RenderSystems
             spriteBatch.End();
 
             spriteBatch.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin(backBufferPas);
+            spriteBatch.Begin(backBufferPass);
             spriteBatch.Draw(renderTargetRegistry[RenderTargetId.Composition], viewportService.DestinationRectangle, Color.White);
             spriteBatch.End();
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 namespace Pango2D.Extensions
 {
-    public static class PointExtenstions
+    public static class PointExtensions
     {
         public static Point Multiply(this Point point, int scalar)
         {

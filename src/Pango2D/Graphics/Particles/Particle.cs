@@ -34,7 +34,7 @@ namespace Pango2D.Graphics.Particles
             {
                 spriteBatch.Draw(
                     Texture,
-                    Position + Origin,
+                    Position,
                     null,
                     Color * Opacity,
                     Rotation,

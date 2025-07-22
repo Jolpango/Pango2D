@@ -11,7 +11,7 @@ namespace Pango2D.Graphics.Particles.Modifiers
     public class ScaleModifier : IParticleModifier
     {
         [JsonIgnore]
-        public IInterpelator Interpelator { get; set; } = new LinearInterpelator();
+        public IInterpolator Interpolator { get; set; } = new LinearInterpolator();
         public List<FloatKeyframe> Keyframes { get; set; } = [];
         public ScaleModifier() { }
         public ScaleModifier(IEnumerable<FloatKeyframe> keyframes)
@@ -38,8 +38,8 @@ namespace Pango2D.Graphics.Particles.Modifiers
                 }
             }
 
-            float localT = (t - prev.Time) / (next.Time - prev.Time);
-            particle.Scale = Interpelator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
+            float localT = (next.Time - prev.Time) != 0f ? (t - prev.Time) / (next.Time - prev.Time) : 0f;
+            particle.Scale = Interpolator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
         }
     }
 }

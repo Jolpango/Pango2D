@@ -16,7 +16,7 @@ namespace Pango2D.Graphics.Particles.Modifiers
     public class OpacityModifier : IParticleModifier
     {
         [JsonIgnore]
-        public IInterpelator Interpelator { get; set; } = new LinearInterpelator();
+        public IInterpolator Interpolator { get; set; } = new LinearInterpolator();
         public List<FloatKeyframe> KeyFrames { get; set; } = [];
         public OpacityModifier() { }
         public OpacityModifier(IEnumerable<FloatKeyframe> keyframes)
@@ -43,8 +43,8 @@ namespace Pango2D.Graphics.Particles.Modifiers
                 }
             }
 
-            float localT = (t - prev.Time) / (next.Time - prev.Time);
-            particle.Opacity = Interpelator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
+            float localT = (next.Time - prev.Time) != 0f ? (t - prev.Time) / (next.Time - prev.Time) : 0f;
+            particle.Opacity = Interpolator.Interpolate(prev.Value, next.Value, Math.Clamp(localT, 0f, 1f));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace Pango2D.Graphics.Particles.Contracts
 {
-    public interface IInterpelator
+    public interface IInterpolator
     {
         public float Interpolate(float start, float end, float t);
     }
