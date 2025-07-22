@@ -46,6 +46,7 @@ namespace Pango2D.Graphics.Particles
             public float EmissionRate { get; set; }
             public float Lifetime { get; set; }
             public bool IsActive { get; set; }
+            public bool IsEmitting { get; set; }
             public Vector2Dto Position { get; set; }
             public DispersionDto Dispersion { get; set; }
             public List<ParticleModifierDto> Modifiers { get; set; } = [];
@@ -112,6 +113,7 @@ namespace Pango2D.Graphics.Particles
                     EmissionRate = emitterDto.EmissionRate,
                     Lifetime = emitterDto.Lifetime,
                     IsActive = emitterDto.IsActive,
+                    IsEmitting = emitterDto.IsEmitting,
                     Position = emitterDto.Position.ToVector2(),
                     Dispersion = DeserializeDispersion(emitterDto.Dispersion),
                     Modifiers = DeserializeModifiers(emitterDto.Modifiers),
@@ -140,6 +142,7 @@ namespace Pango2D.Graphics.Particles
                     EmissionRate = emitter.EmissionRate,
                     Lifetime = emitter.Lifetime,
                     IsActive = emitter.IsActive,
+                    IsEmitting = emitter.IsEmitting,
                     Texture = emitter.Texture?.Name ?? string.Empty,
                     Position = Vector2Dto.FromVector2(emitter.Position),
                     Dispersion = SerializeDispersion(emitter.Dispersion),
